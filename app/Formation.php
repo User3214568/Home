@@ -16,4 +16,7 @@ class Formation extends Model
     public function etudiants(){
         return $this->hasMany(Etudiant::class);
     }
+    public function scopeName($query,$name){
+        return $query->where('name' , $name);
+    }
 }

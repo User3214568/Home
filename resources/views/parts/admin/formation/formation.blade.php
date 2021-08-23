@@ -5,7 +5,7 @@
             <p>Attention ! On a pas pu enregistrer la Formation.</p>
         </div>
     @endif
-    <form class="row container p-5 needs-validation" method="post" action="/formation" novalidate>
+    <form class="row container p-5 needs-validation" method="post" action="{{route('formation.store')}}" novalidate>
         @csrf
 
         <p><h5>Information de la Formation</h5><hr class="dropdown-divider"></p>

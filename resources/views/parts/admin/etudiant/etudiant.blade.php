@@ -1,5 +1,5 @@
 <?php
-    $route = "/etudiant";
+    $route = "etudiant.create";
     if(isset($etudiant)){
         $route = route("etudiant.update",$etudiant);
     }

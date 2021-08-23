@@ -5,7 +5,7 @@
             <p>Attention ! On a pas pu enregistrer le module.</p>
         </div>
     @endif
-    <form class="row container p-5 needs-validation" method="post" action="/module" novalidate>
+    <form class="row container p-5 needs-validation" method="post" action="{{route('module.store')}}" novalidate>
         @csrf
         <div class="form-outline">
             <input type="text" id="input_name" name="name" class="form-control" required />

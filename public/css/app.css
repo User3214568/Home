@@ -1,5 +1,8 @@
 /* Set the border color */
 
+body{
+    overflow-x:hidden;
+}
 .custom-toggler.navbar-toggler {
     border-color: white;
 }
@@ -43,5 +46,9 @@
 }
 .chips{
     background-color: rgb(210,210,210,0.9);
+
+}
+.my-nowrap{
+    white-space: nowrap;
 
 }

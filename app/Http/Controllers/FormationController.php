@@ -32,10 +32,11 @@ class FormationController extends Controller
                 $create_sem = $id = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
                 $create_sem->modules()->sync($modules);
             }
-                return redirect('/formation/create');
+            return redirect('formation.create');
         }
         else{
 
         }
     }
+
 }
