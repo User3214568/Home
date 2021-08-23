@@ -34,3 +34,14 @@
 .my-chip{
     background-color: rgb(210,210,210,0.9) ;
 }
+
+.search{
+    display : none ;
+    max-height : 130px;
+    overflow-y: scroll;
+
+}
+.chips{
+    background-color: rgb(210,210,210,0.9);
+
+}

@@ -9,8 +9,9 @@ class Formation extends Model
 
     protected $fillable = ['name','description'];
 
-    public function modules(){
-        return $this->belongsToMany(Module::class);
+
+    public function semestres(){
+        return $this->hasMany(Semestre::class);
     }
     public function etudiants(){
         return $this->hasMany(Etudiant::class);

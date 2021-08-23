@@ -8,7 +8,7 @@ class Module extends Model
 {
     protected $fillable = ['name','description','index'];
 
-    public function formations(){
-        return $this->belongsToMany(Formation::class);
+    public function semestres(){
+        return $this->belongsToMany(Semestre::class);
     }
 }

@@ -20,6 +20,16 @@
             @include('parts.admin.formation.formation')
         @break
 
+        @case('etudiant.create')
+        @include('parts.admin.etudiant.etudiant')
+        @break
+
+        @case('etudiant.update')
+            @include('parts.admin.etudiant.etudiant')
+        @break
+        @case('etudiant.index')
+            @include('parts.admin.etudiant.list')
+        @break
 
 
         @default
