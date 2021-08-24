@@ -8,11 +8,15 @@ function syncHiddenInput(){
 
 function editSemestre(e){
     $('#search-result input:checkbox').each(function() {
-        if(semestres[e.name].includes($(this).attr('id'))) {
+        semestres[e.name] = semestres[e.name].map(function(item){
+            return Number(item)
+        })
+        if(semestres[e.name].includes(Number($(this).attr('id')))) {
             console.log($(this))
             $(this).prop("checked",true)
+            console.log($(this).prop("checked"))
         }
-        console.log(semestres[e.name] ,'****', $(this).attr('id'))
+        console.log(semestres[e.name] ,'****',Number($(this).attr('id')), semestres[e.name].includes(Number($(this).attr('id'))))
     });
     edit = true;
 }
@@ -56,17 +60,17 @@ $(document).ready(function(){
         if(edit) $("#sem"+($(".semestre").length)).remove();
         var sem = $("<div>");
         $("#selected").append(sem)
-        var innerHTML = "<div class='card w-100 mt-2 semestre' id='sem"+($(".semestre").length + 1 )+"'><div class='card-body'> <h5 class='card-title'>Semestre "+($(".semestre").length + 1)+"</h5><hr class='dropdown-divider'><div class='card-text'> Liste des Modules selecionnées"
+        var innerHTML = "<div class='card w-100 mt-2 semestre' id='sem"+($(".semestre").length + 1 )+"'><div class='card-body'> <h5 class='card-title'>Semestre "+($(".semestre").length + 1)+"</h5><hr class='dropdown-divider'>"
         innerHTML+="<div>"
         $('#search-result input:checked').each(function() {
             selected.push($(this).attr('id'));
             innerHTML += "<span class='p-2'>"+$(this).attr('value')+"<span>";
-            $(this).prop("checked",false)
+           $(this).prop("checked",false)
         });
         if(selected.length>0){
 
             $("#modules").addClass("flex-column")
-            innerHTML +='</div><hr class="dropdown-divider"></div><button type="button" class="btn btn-success btn-floating ms-1 mt-2 " data-toggle="modal" data-target="#popup" onclick="editSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-marker"></i></button><button type="button" class="btn btn-danger btn-floating ms-1 mt-2 " onclick="deleteSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-trash-alt"></i></button></div></div>'
+            innerHTML +='</div><hr class="dropdown-divider"><button type="button" class="btn btn-success btn-floating ms-1 mt-2 " data-toggle="modal" data-target="#popup" onclick="editSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-marker"></i></button><button type="button" class="btn btn-danger btn-floating ms-1 mt-2 " onclick="deleteSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-trash-alt"></i></button></div></div>'
             $("#selected").append(innerHTML)
             semestres[($(".semestre").length )] = selected;
             $("#semestre-numero").val('')

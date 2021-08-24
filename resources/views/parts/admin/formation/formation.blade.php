@@ -1,5 +1,5 @@
 <div class="col-md-9">
-    <p><h2>Ajouter Une Nouvelle Formation</h2></p>
+    <p><h2>{{isset($formation)?'Editer La Formation '.$formation->name:'Ajouter Une Nouvelle Formation'}}</h2></p>
     @if($errors->any())
         <div class="note note-danger">
             <p>Attention ! On a pas pu enregistrer la Formation.</p>
@@ -10,12 +10,12 @@
 
         <p><h5>Information de la Formation</h5><hr class="dropdown-divider"></p>
         <div class="form-outline">
-            <input type="text" id="input_name" name="name" class="form-control" required />
+            <input type="text" id="input_name" name="name" class="form-control" value="{{ isset($formation)?$formation->name:'' }}" required />
             <label class="form-label"  for="input_name">Nom de la Formation</label>
             <div class="invalid-feedback mt-1">Veuillez saisir le nom de la formation.</div>
         </div>
         <div class="form-outline mt-4">
-            <textarea class="form-control" id="input_desc" name="description" rows="4" required></textarea>
+            <textarea class="form-control" id="input_desc" name="description" rows="4" value="{{isset($formation)?$formation->description:''}}" required></textarea>
             <label class="form-label" for="input_desc">Description de la Formation</label>
             <div class="invalid-feedback mt-1">Veuillez saisir la description de la formation.</div>
         </div>
@@ -32,3 +32,9 @@
         <input type="text" value="" name="semestres" hidden id="semestres-data" />
     </form>
 </div>
+@if(isset($formation))
+    <script>
+        var semestres = {!! json_encode($formation->semestres->ids) !!};
+
+    </script>
+@endif

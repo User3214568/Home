@@ -32,11 +32,28 @@ class FormationController extends Controller
                 $create_sem = $id = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
                 $create_sem->modules()->sync($modules);
             }
-            return redirect('formation.create');
+            return redirect(route('formation.create'));
         }
         else{
 
         }
     }
+    public function edit($id){
+        $content = 'formation.update';
+        $formation = Formation::with('semestres')->find($id);
+        if( $formation->semestres != null){
+            $formation->semestres->ids = [];
+            foreach($formation->semestres as $semestre){
+                $modules_id = [];
+                foreach($semestre->modules as $module){
+                    array_push($modules_id,$module->id);
+                }
+                $formation->semestres->ids[$semestre->numero] = $modules_id;
+            }
+        }
 
+        $modules = Module::get();
+        $semestres = Semestre::with('modules')->get();
+        return view('admin',compact(['content','semestres','modules','formation']));
+    }
 }
