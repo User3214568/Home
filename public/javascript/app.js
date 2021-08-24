@@ -56,11 +56,13 @@ $(document).ready(function(){
     })
     $("#saveModules").click(function(){
         var selected = [];
+        var clonedSem = $(".semestre").clone();
+        console.log(clonedSem)
         $("#semestre-empty").empty();
         if(edit) $("#sem"+($(".semestre").length)).remove();
         var sem = $("<div>");
         $("#selected").append(sem)
-        var innerHTML = "<div class='card w-100 mt-2 semestre' id='sem"+($(".semestre").length + 1 )+"'><div class='card-body'> <h5 class='card-title'>Semestre "+($(".semestre").length + 1)+"</h5><hr class='dropdown-divider'>"
+        var innerHTML = "<div class='card w-100 mt-2 semestre' id='sem"+($(".semestre").length + 1 )+"'><div class='card-body'> <h5 class='card-title'>Semestre "+($(".semestre").length + 1)+"</h5><hr class='dropdown-divider'><div class='card-text'> Liste des Modules selecionnées"
         innerHTML+="<div>"
         $('#search-result input:checked').each(function() {
             selected.push($(this).attr('id'));
@@ -70,7 +72,7 @@ $(document).ready(function(){
         if(selected.length>0){
 
             $("#modules").addClass("flex-column")
-            innerHTML +='</div><hr class="dropdown-divider"><button type="button" class="btn btn-success btn-floating ms-1 mt-2 " data-toggle="modal" data-target="#popup" onclick="editSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-marker"></i></button><button type="button" class="btn btn-danger btn-floating ms-1 mt-2 " onclick="deleteSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-trash-alt"></i></button></div></div>'
+            innerHTML +='</div><hr class="dropdown-divider"></div><button type="button" class="btn btn-success btn-floating ms-1 mt-2 " data-toggle="modal" data-target="#popup" onclick="editSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-marker"></i></button><button type="button" class="btn btn-danger btn-floating ms-1 mt-2 " onclick="deleteSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-trash-alt"></i></button></div></div>'
             $("#selected").append(innerHTML)
             semestres[($(".semestre").length )] = selected;
             $("#semestre-numero").val('')

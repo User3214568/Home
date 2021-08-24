@@ -56,4 +56,32 @@ class FormationController extends Controller
         $semestres = Semestre::with('modules')->get();
         return view('admin',compact(['content','semestres','modules','formation']));
     }
+    public function update($id , Request $request){
+        $isvalid = $request->validate([
+            'name'=>'required|unique:modules|max:255',
+            'description'=>'required'
+        ]);
+        if($isvalid){
+            $semestres = json_decode($request->semestres,true);
+            $formation = Formation::with('semestres')->find($id);
+            $formation->update($request->only(['name','description']));
+            # deleting old semestres and make new ones
+
+            foreach($formation->semestres as $semestre){
+                $semestre->delete();
+            }
+            foreach($semestres as $semestre => $modules){
+                if($semestre !=null){
+                    $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
+                    $create_sem->modules()->sync($modules);
+
+                }
+            }
+
+            return redirect(route('formation.create'));
+        }
+        else{
+
+        }
+    }
 }

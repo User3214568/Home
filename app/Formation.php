@@ -11,7 +11,7 @@ class Formation extends Model
 
 
     public function semestres(){
-        return $this->hasMany(Semestre::class);
+        return $this->hasMany(Semestre::class)->orderBy('numero');
     }
     public function etudiants(){
         return $this->hasMany(Etudiant::class);

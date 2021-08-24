@@ -5,9 +5,9 @@
             <p>Attention ! On a pas pu enregistrer la Formation.</p>
         </div>
     @endif
-    <form class="row container p-5 needs-validation" method="post" action="{{route('formation.store')}}" novalidate>
+    <form class="row container p-5 needs-validation" method="post" action="{{isset($formation)?route('formation.update',$formation):route('formation.store')}}" novalidate>
         @csrf
-
+        @method('put')
         <p><h5>Information de la Formation</h5><hr class="dropdown-divider"></p>
         <div class="form-outline">
             <input type="text" id="input_name" name="name" class="form-control" value="{{ isset($formation)?$formation->name:'' }}" required />
@@ -15,7 +15,7 @@
             <div class="invalid-feedback mt-1">Veuillez saisir le nom de la formation.</div>
         </div>
         <div class="form-outline mt-4">
-            <textarea class="form-control" id="input_desc" name="description" rows="4" value="{{isset($formation)?$formation->description:''}}" required></textarea>
+            <textarea class="form-control" id="input_desc" name="description" rows="4" required>{{isset($formation)?$formation->description:''}}</textarea>
             <label class="form-label" for="input_desc">Description de la Formation</label>
             <div class="invalid-feedback mt-1">Veuillez saisir la description de la formation.</div>
         </div>
