@@ -36,7 +36,7 @@ class UserController extends Controller
         return redirect(route('user.create'));
     }
     public function update($id , Request $request){
-        User::find($id)->update($request->only(['first_name','last_name','cin','email','password','phone']),['password'=> Hash::make($request->password)]);
+        User::find($id)->update(array_merge($request->only(['first_name','last_name','cin','email','phone']),['password'=> Hash::make($request->password)]));
         return $this->edit($id);
     }
     public function login(Request $request){

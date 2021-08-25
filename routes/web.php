@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login','UserController@login');
-Route::get('/logout','UserController@logout');
+Route::post('/login','UserController@login')->name('login');
+
 Route::resource('/','MainController');
 Route::get('/login','MainController@login');
-Route::get('/restore-password','MainController@restorePassword');
-Route::get('/admin','MainController@admin')->middleware('auth')->name('admin');
+
+
 Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/user','UserController');
     Route::resource('/admin/formation','FormationController');
@@ -26,7 +26,8 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/etudiant','EtudiantController');
     Route::post('/admin/upload','UploadController@import')->name('upload');
     Route::get('/admin/export','UploadController@export')->name('export');
-
+    Route::get('/admin','MainController@admin')->name('admin');
+    Route::get('/logout','UserController@logout');
 });
 
 

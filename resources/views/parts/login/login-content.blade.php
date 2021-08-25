@@ -1,7 +1,17 @@
+
 <form class="container mt-5 p-1" method="post" action="/login">
     {{ csrf_field() }}
+
     <div class="row justify-content-center">
         <div class="col-lg-6">
+            <div class="row">
+                @if(isset($login_failed))
+                    <div class="note note-danger">Connection Echoué : Votre nom d'utilisateur (email)
+                        ou votre mot de passe sont incorrectes
+                    </div>
+                @endif
+
+            </div>
             <div class="row">
                 <div class="col d-flex justify-content-center"><h2>{{$login_title}}</h2></div>
             </div>
