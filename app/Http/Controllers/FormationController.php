@@ -92,7 +92,7 @@ class FormationController extends Controller
     }
     public function destroy($id){
         $formation = Formation::with('semestres')->find($id);
-        dd($formation);die();
+
         if(isset($formation)){
             foreach($formation->semestres as $sem){
                 Semestre::destroy($sem->id);
