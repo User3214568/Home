@@ -8,7 +8,7 @@ class MainController extends Controller
 {
     public function index(){
 
-        return view('index',compact('connected'));
+        return view('index');
     }
     public function login(){
         return view('login');
