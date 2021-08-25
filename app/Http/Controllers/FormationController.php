@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 class FormationController extends Controller
 {
     public function index(){
-        return view('');
+        $content = 'formation.index';
+        $formations = Formation::get();
+        return view('admin',compact(['formations','content']));
     }
 
     public function create(){
@@ -18,6 +20,7 @@ class FormationController extends Controller
         $modules = Module::get();
         $semestres = Semestre::with('modules')->get();
         return view('admin',compact(['content','semestres','modules']));
+
     }
     public function store(Request $request){
 
@@ -33,9 +36,10 @@ class FormationController extends Controller
                 $create_sem->modules()->sync($modules);
             }
             return redirect(route('formation.create'));
+            return $this->index();
         }
         else{
-
+            return route('etudiant.create');
         }
     }
     public function edit($id){
@@ -79,12 +83,15 @@ class FormationController extends Controller
 
                     }
                 }
-
+                return $this->index();
             }
-            return redirect(route('formation.create'));
-        }
-        else{
 
         }
+        return $this->create();
+
+    }
+    public function destroy($id){
+        Formation::destroy($id);
+        return $this->index();
     }
 }

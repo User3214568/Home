@@ -1,5 +1,5 @@
-<div class="col-md-9">
-    <p><h2>{{!isset($etudiant)?'Ajouter un Nouveau Etudiant':'Modifier un Etudiant'}}</h2></p>
+
+    <p><h2>{{(!isset($etudiant) && !isset($user) && !isset($module))?"Ajouter un Nouveau $target":"Modifier $target"}}</h2></p>
     @if($errors->any())
         <div class="note note-danger">
             <p>Attention ! On a pas pu enregistrer l'{{$target}}.</p>
@@ -12,7 +12,9 @@
     @endif
     <form class="row container p-3 needs-validation" method="post" action="{{$route}}" novalidate>
         @csrf
-        @method('put')
+        @if(isset($etudiant) || isset($user) || isset($module))
+            @method('put')
+        @endisset
         @foreach( $fields as $field)
                     @if(($field['type'] == 'selection'))
                     <div class="row mt-4">
@@ -24,21 +26,25 @@
                         </select>
                     @elseif (($field['type'] == 'date'))
                         <div class="row form-outline mt-4 ">
-                        <input type="{{$field['type']}}" value="{{isset($etudiant)?$etudiant->born_date:date("Y-m-d")}}" id="input_{{$field['name']}}" name="{{$field['name']}}" class="form-control" required />
-                        <label class="form-label"  for="input_{{$field['name']}}">{{$field['label']}}</label>
-                        <div class="invalid-feedback mt-1">Veuillez saisir {{$field['label']}} de l'Etudiant.</div>
+                            <input type="{{$field['type']}}" value="{{isset($etudiant)?$etudiant->born_date:date("Y-m-d")}}" id="input_{{$field['name']}}" name="{{$field['name']}}" class="form-control" required />
+                            <label class="form-label"  for="input_{{$field['name']}}">{{$field['label']}}</label>
+                            <div class="invalid-feedback mt-5">Veuillez saisir {{$field['label']}} .</div>
+                    @elseif(($field['type'] == 'textarea'))
+                            <div class="row mt-4 form-outline">
+                                <textarea  type="{{$field['type']}}" id="input_{{$field['name']}}" name="{{$field['name']}}" class="form-control" rows="8"  required>{{$field['value']}}</textarea>
+                                <label class="form-label" for="input_{{$field['name']}}">{{$field['label']}}</label>
+                                <div class="invalid-feedback mt-5">Veuillez saisir {{$field['label']}} .</div>
                     @else
                         <div class="row form-outline mt-4 ">
                         <input type="{{$field['type']}}" id="input_{{$field['name']}}" value="{{$field['value']}}" name="{{$field['name']}}" class="form-control" required />
                         <label class="form-label"  for="input_{{$field['name']}}">{{$field['label']}}</label>
-                        <div class="invalid-feedback mt-1">Veuillez saisir {{$field['label']}} de l'Etudiant.</div>
+                        <div class="invalid-feedback mt-5">Veuillez saisir {{$field['label']}} .</div>
                     @endif
                 </div>
 
         @endforeach
         <div class="mt-4 d-flex justify-content-end">
-            <button class="btn btn-success"><h6>{{!isset($etudiant)?'Crée L\'Etudiant':'Modifier L\'Etudiant'}}</h6></button>
+            <button class="btn btn-success"><h6>{{(!isset($etudiant) && !isset($user) && !isset($module))?"Crée L' $target":"Modifier L' $target"}}</h6></button>
         </div>
     </form>
-</div>
 

@@ -33,7 +33,7 @@ class EtudiantController extends Controller
             Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
         }
         if(!isset($request->ajax))
-        return redirect('etudiant/create');
+        return $this->index();
 
     }
     public function edit($id){
@@ -44,10 +44,14 @@ class EtudiantController extends Controller
     }
     public function update($id , Request $request){
         Etudiant::find($id)->update($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
-        return $this->edit($id);
+        return $this->index();
     }
     public function show($id){
         echo "what : ".($id);
         return Etudiant::find($id);
+    }
+    public function destroy($id){
+        Etudiant::destroy($id);
+        return $this->index();
     }
 }

@@ -1,15 +1,20 @@
 <div class="row m-2">
     @include('parts.admin.dashboard.sidebar')
-    @if(!isset($content))
+    <div class="col-md-9" id="admin-content">
 
-    @else
-    @switch($content)
+        @if(!isset($content))
+
+        @else
+        @switch($content)
         @case('formation.create')
-            @include('parts.admin.formation.formation')
+        @include('parts.admin.formation.formation')
         @break
 
         @case('formation.update')
-            @include('parts.admin.formation.formation')
+        @include('parts.admin.formation.formation')
+        @break
+        @case('formation.index')
+        @include('parts.admin.formation.index')
         @break
 
         @case('module.create')
@@ -17,7 +22,11 @@
         @break
 
         @case('module.update')
-            @include('parts.admin.formation.formation')
+        @include('parts.admin.module.module')
+        @break
+
+        @case('module.index')
+        @include('parts.admin.module.index')
         @break
 
         @case('etudiant.create')
@@ -25,15 +34,24 @@
         @break
 
         @case('etudiant.update')
-            @include('parts.admin.etudiant.etudiant')
+        @include('parts.admin.etudiant.etudiant')
         @break
         @case('etudiant.index')
-            @include('parts.admin.etudiant.list')
+        @include('parts.admin.etudiant.list')
         @break
 
+        @case('user.create')
+        @include('parts.admin.user.user')
+        @break
+
+        @case('user.update')
+        @include('parts.admin.user.user')
+        @break
 
         @default
 
-    @endswitch
-    @endif
+        @endswitch
+        @endif
+
+    </div>
 </div>

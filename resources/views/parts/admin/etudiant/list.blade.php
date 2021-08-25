@@ -1,5 +1,4 @@
 <script src="/javascript/upload-export.js"></script>
-<div class="col-md-9">
 
     <p><h2>
         @if(!isset($import))
@@ -109,17 +108,17 @@
                                   class="form-check-input etudiant-check"
                                   type="checkbox"
                                   value=""
-                                  id="check_{{$etudiant->id}}"
+                                  id="check_{{$etudiant->cin}}"
                                   checked
                                 />
-                                <label class="form-check-label" for="check_{{$etudiant->id}}"></label>
+                                <label class="form-check-label" for="check_{{$etudiant->cin}}"></label>
                             </div>
                         </td>
                         <td scope="row" name="cne">{{$etudiant->cne}}</td>
                         <td scope="row" name="first_name">{{$etudiant->first_name}}</td>
                         <td scope="row" name="last_name">{{$etudiant->last_name}}</td>
                         <td scope="row" name="cin">{{$etudiant->cin}}</td>
-                        <td scope="row" name="formation_name" formation="{{$etudiant->formation->id}}">{{$etudiant->formation->name}}</td>
+                        <td scope="row" name="formation_name" formation="{{isset($etudiant->formation)?$etudiant->formation->id:''}}">{{isset($etudiant->formation)?$etudiant->formation->name:'Undéfinie'}}</td>
                         <td scope="row" name="email">{{$etudiant->email}}</td>
                         <td scope="row" name="born_date">{{$etudiant->born_date}}</td>
 
@@ -154,5 +153,5 @@
             </div>
           @endif
     </div>
-</div>
+
 

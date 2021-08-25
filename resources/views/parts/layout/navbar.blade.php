@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark p-3 sticky-top ">
+<nav class="navbar navbar-expand-md navbar-light bg-light p-3 sticky-top ">
     <a href="#" class="navbar-brand">Gestionnaire de Formation</a>
     <button
       class="navbar-toggler"

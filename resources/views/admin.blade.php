@@ -7,11 +7,16 @@
 <?php
 
     $items = [
-        ['title'=>'Acceuil', 'icon'=>'', 'expanded'=>false ],
-        ['title'=>'Formation', 'icon'=>'fas fa-code-branch', 'expanded'=>true ,  'sub_items' => ['Crée une nouvelle formation','Modifier des Formations','Suppression des Formations']],
-        ['title'=>'Module', 'icon'=>'fas fa-th', 'expanded'=>true ,  'sub_items' => ['Crée un nouveau Module','Modifier des Modules', 'Suppression des Modules']],
-        ['title'=>'Etudiant', 'icon'=>'fas fa-user-graduate', 'expanded'=>true ,  'sub_items' => ['Crée un nouveau Etudiant','Modifier des Etudiants', 'Suppression des Etudiants']],
-        ['title'=>'Utilisateur', 'icon'=>'fas fa-user-lock', 'expanded'=>true ,  'sub_items' => ['Crée un nouveau Utilisateur','Modifier des Utilisateurs', 'Suppression des Utilisateur']]
+
+        ['title'=>'Acceuil','link'=>'', 'icon'=>'fas fa-home', 'expanded'=>false ],
+
+        ['title'=>'Formation','link'=>route('formation.index'), 'icon'=>'fas fa-code-branch', 'expanded'=>false],
+
+        ['title'=>'Module','link'=>route('module.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
+
+        ['title'=>'Etudiant','link'=>route('etudiant.index'), 'icon'=>'fas fa-user-graduate', 'expanded'=>false ],
+
+        ['title'=>'Utilisateur','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false]
 
     ];
 ?>

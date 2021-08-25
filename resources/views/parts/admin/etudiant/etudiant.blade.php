@@ -1,8 +1,9 @@
 <?php
-    $route = "etudiant.create";
+    $route = route("etudiant.store");
     if(isset($etudiant)){
         $route = route("etudiant.update",$etudiant);
     }
+
 
     $fields = [
         ['type'=>'text', 'name'=>'first_name' ,'value' => isset($etudiant)?$etudiant->first_name:'' , 'label'=>'Nom'],
@@ -15,6 +16,6 @@
 ];
     $target = "Etudiant";
     ?>
-@include('parts.admin.etudiant.formulaire')
+@include('parts.admin.common.formulaire')
 
 
