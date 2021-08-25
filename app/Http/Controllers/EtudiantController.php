@@ -21,8 +21,8 @@ class EtudiantController extends Controller
     }
     public function store( Request $request){
         $is_valid = $request->validate([
-            'first_name'=>'required |max:50',
-            'last_name'=>'required |max:50',
+            'first_name'=>'required|max:50',
+            'last_name'=>'required|max:50',
             'cin'=>'required|unique:Etudiants|max:15',
             'cne'=>'required|unique:Etudiants|max:15',
             'email'=>'required|max:30',
