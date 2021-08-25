@@ -25,6 +25,7 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/module','ModuleController');
     Route::resource('/admin/etudiant','EtudiantController');
     Route::post('/admin/upload','UploadController@import')->name('upload');
+    Route::get('/admin/export','UploadController@export')->name('export');
 
 });
 

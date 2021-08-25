@@ -9,6 +9,7 @@ function syncHiddenInput(){
 function editSemestre(e){
     target = e.name;
     $('#search-result input:checkbox').each(function() {
+        console.log(semestres[e.name])
         semestres[e.name] = semestres[e.name].map(function(item){
             return Number(item)
         })
@@ -25,13 +26,20 @@ function deleteSemestre(e){
     if(e.name == s_number){
         $('#sem'+e.name).remove();
         delete semestres[e.name];
-        if(s_number-1 ==0) $("#semestre-empty").text('Aucune semestre n\'est selectionnée pour le moment')
+        if(s_number-1 ==0) {
+            $("#semestre-empty").attr('hidden',false);
+        }
         syncHiddenInput();
     }
 }
 
 $(document).ready(function(){
-
+    $("#popup").on('hide.bs.modal', function(){
+        edit  = false;
+        $('#search-result input:checked').each(function() {
+            $(this).prop('checked',false);
+        })
+      });
     $("#etudiants-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         setTimeout(function(){
@@ -55,7 +63,6 @@ $(document).ready(function(){
     })
     $("#saveModules").click(function(e){
         var selected = [];
-        $("#semestre-empty").empty();
         if(!edit){
             var innerHTML = "<div class='row card mt-2 semestre' id='sem"+($(".semestre").length + 1 )+"'><div class='card-body'> <h5 class='card-title'>Semestre "+($(".semestre").length + 1)+"</h5><hr class='dropdown-divider'><div class='card-text'>"
             innerHTML+="<div id='spans'>"
@@ -66,15 +73,14 @@ $(document).ready(function(){
                 $(this).prop("checked",false)
             });
             innerHTML +=spans;
-            console.log(selected)
-            if(edit) $("#sem"+($(".semestre").length-1)).find("#spans").text(spans)
-            console.log($("#sem"+($(".semestre").length)))
-            if(selected.length>0 && !edit){
+
+            if(selected.length>0){
                 {
+                    $("#semestre-empty").attr('hidden',true);
                     $("#modules").addClass("flex-column")
                     innerHTML +='</div><hr class="dropdown-divider"></div><button type="button" class="btn btn-success btn-floating ms-1 mt-2 " data-toggle="modal" data-target="#popup" onclick="editSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-marker"></i></button><button type="button" class="btn btn-danger btn-floating ms-1 mt-2 " onclick="deleteSemestre(this)" name='+($(".semestre").length + 1)+'><i class="fas fa-trash-alt"></i></button></div></div>'
                     $("#selected").append(innerHTML)
-                    semestres[($(".semestre").length )-1] = selected;
+                    semestres[($(".semestre").length )] = selected;
                 }
             }
             else{
@@ -99,6 +105,7 @@ $(document).ready(function(){
     })
 
 function cancel(){
+    console.log('canceled');
     $('#search-result input:checkbox').each(function() {
         console.log('here')
         $(this).attr('checked', false);

@@ -70,14 +70,17 @@ class FormationController extends Controller
             foreach($formation->semestres as $semestre){
                 $semestre->delete();
             }
-            foreach($semestres as $semestre => $modules){
-                if($semestre !=null){
-                    $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
-                    $create_sem->modules()->sync($modules);
+            if(isset($semestres)){
 
+                foreach($semestres as $semestre => $modules){
+                    if($semestre !=null){
+                        $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
+                        $create_sem->modules()->sync($modules);
+
+                    }
                 }
-            }
 
+            }
             return redirect(route('formation.create'));
         }
         else{

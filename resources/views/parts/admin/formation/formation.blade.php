@@ -27,7 +27,7 @@
             @include('parts.admin.formation.semestre')
         </div>
         <div class="mt-4 d-flex justify-content-end">
-            <button class="btn btn-success"><h6>Crée La Formation</h6></button>
+            <button class="btn btn-success"><h6>{{isset($formation)?'Modifier La Formation':'Crée La Formation'}}</h6></button>
         </div>
         <input type="text" value="" name="semestres" hidden id="semestres-data" />
     </form>

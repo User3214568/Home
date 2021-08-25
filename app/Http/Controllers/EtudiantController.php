@@ -46,4 +46,8 @@ class EtudiantController extends Controller
         Etudiant::find($id)->update($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
         return $this->edit($id);
     }
+    public function show($id){
+        echo "what : ".($id);
+        return Etudiant::find($id);
+    }
 }

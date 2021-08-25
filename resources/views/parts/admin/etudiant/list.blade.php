@@ -16,10 +16,10 @@
             <i class="fas fa-cloud-upload-alt fa-lg"></i>
             Importer depuis Excel
         </button>
-        <button id="btn-export" type="button" class="btn btn-info btn-rounded">
+        <a id="btn-export" type="button" class="btn btn-info btn-rounded" href="{{route('export')}}">
             <i class="fas fa-file-export fa-lg"></i>
             Exporter des Etudiants
-        </button>
+        </a>
         <a href="{{route('etudiant.create')}}" id="btn-add" type="button" class="btn btn-info btn-rounded">
             <i class="fas fa-plus fa-lg"></i>
             Ajouter un Etudiant

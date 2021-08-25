@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="close-popup" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="button" id="close-popup" class="btn btn-secondary" data-dismiss="modal" >Fermer</button>
           <button type="button" class="btn btn-primary" id="saveModules" data-dismiss="modal">Enregistrer les modifications</button>
         </div>
       </div>
