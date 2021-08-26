@@ -45,7 +45,12 @@ class UserController extends Controller
     }
     public function login(Request $request){
         $result = Auth::attempt($request->only(['email','password']));
-        return redirect('/admin');
+        if($result){
+            return redirect('/admin');
+        }
+        else{
+            return view('login',['alreadyFailed'=>true]);
+        }
 
     }
     public function logout(){

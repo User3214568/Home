@@ -1,8 +1,13 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light p-3 sticky-top ">
 
-    <a href="#" class=" navbar-brand">
+    <a href="#" class="d-flex">
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
-        Gestionnaire de Formation</a>
+        <div class="d-flex justify-content-start flex-column ms-2">
+            <span class="navbar-brand" >Gestionnaire de Formation</span>
+            <span class="text-reset">Gestion Pédagogique et Financiaire</span>
+
+        </div>
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -20,10 +25,10 @@
                 <a href="{{route('home')}}" class="nav-link">Page d'Acceuil</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Nos Fonctionnalitées</a>
+                <a href="#func" class="nav-link">Nos Fonctionnalitées</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">A propos de Nous</a>
+                <a href="#about" class="nav-link">A propos de Nous</a>
             </li>
 
             @if(!Auth::check())

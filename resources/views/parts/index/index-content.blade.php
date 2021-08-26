@@ -17,7 +17,19 @@
             <img src="/images/index.png" class="img-fit" alt="">
         </div>
     </div>
-
-
+    <hr class="dropdown-dvider">
+    <div class="row mt-4" id="func">
+        <p><h5>Nos Fonctionnalitées</h5></p>
+        <div class=" text-reset p-4">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum temporibus saepe veniam nesciunt assumenda nobis et obcaecati porro alias tempore, molestias neque nulla quo ullam officia amet minima suscipit repellendus.
+        </div>
+    </div>
+    <hr class="dropdown-dvider">
+    <div class="row mt-4" id="about">
+        <p><h5>A propos de Nous</h5></p>
+        <div class=" text-reset p-4">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum temporibus saepe veniam nesciunt assumenda nobis et obcaecati porro alias tempore, molestias neque nulla quo ullam officia amet minima suscipit repellendus.
+        </div>
+    </div>
 </div>
 

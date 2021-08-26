@@ -40,6 +40,12 @@ $(document).ready(function(){
             $(this).prop('checked',false);
         })
       });
+    $("#test-login").click(function(){
+        $("#email").val('rachid@gmail.com');
+        $("#email").focus();
+        $("#pass").val('hashed');
+        $("#pass").focus();
+    })
     $("#etudiants-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         setTimeout(function(){

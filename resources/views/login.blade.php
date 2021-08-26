@@ -3,4 +3,5 @@
     $is_login = true;
     $login_footer_btn = "Connexion";
 ?>
+</div>
 @include('parts.login.login')

@@ -5,7 +5,7 @@
     <div class="row justify-content-around">
         <div class="col-lg-6">
             <div class="row">
-                @if(isset($login_failed))
+                @if(isset($alreadyFailed))
                     <div class="note note-danger">Connection Echoué : Votre nom d'utilisateur (email)
                         ou votre mot de passe sont incorrectes
                     </div>
@@ -29,8 +29,8 @@
                 <div class="col">
                     <div class="form-outline">
                         <i class="fas fa-user-alt trailing"></i>
-                        <input type="text" id="form1" name="email" class="form-control" />
-                        <label class="form-label p-1" for="form1">Saisissez votre addresse e-mail</label>
+                        <input type="text" id="email" name="email" class="form-control" />
+                        <label class="form-label p-1" for="email">Saisissez votre addresse e-mail</label>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
                 <div class="col">
                     <div class="form-outline mt-3">
                         <i class="fas fa-key trailing"></i>
-                        <input type="password" id="form1" name="password" class="form-control" />
-                        <label class="form-label p-1" for="form1">Saisissez votre mot de passe</label>
+                        <input type="password" id="pass" name="password" class="form-control" />
+                        <label class="form-label p-1" for="pass">Saisissez votre mot de passe</label>
                     </div>
                 </div>
             </div>
@@ -53,6 +53,7 @@
 
             <div class="row mt-4">
                 <div class="col d-flex justify-content-center"><button class="btn btn-primary btn-wrap"><h6>{{$login_footer_btn}}</h6></button></div>
+                <div class="mt-2 d-flex justify-content-center"><button type="button" class="btn btn-primary btn-wrap" id="test-login"><h6>TESTER LE SITE</h6></button></div>
             </div>
         </div>
         <div class="col-2 border-start"></div>

@@ -5,9 +5,7 @@
       class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
     >
       <!-- Left -->
-      <div class="me-5 d-none d-lg-block">
-        <span>Get connected with us on social networks:</span>
-      </div>
+
       <!-- Left -->
 
       <!-- Right -->
@@ -44,11 +42,10 @@
           <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
             <!-- Content -->
             <h6 class="text-uppercase fw-bold mb-4">
-              <i class="fas fa-gem me-3"></i>Company name
+              <i class="fas fa-gem me-3"></i>Gestionnaire de Formation
             </h6>
             <p>
-              Here you can use rows and columns to organize your footer content. Lorem ipsum
-              dolor sit amet, consectetur adipisicing elit.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi minus repellat obcaecati quidem excepturi odio voluptatem aspernatur fugiat, iure dolorem distinctio reiciendis cumque laboriosam vero officiis pariatur nihil cum? Voluptatem.
             </p>
           </div>
           <!-- Grid column -->
@@ -56,21 +53,7 @@
           <!-- Grid column -->
           <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
             <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">
-              Products
-            </h6>
-            <p>
-              <a href="#!" class="text-reset">Angular</a>
-            </p>
-            <p>
-              <a href="#!" class="text-reset">React</a>
-            </p>
-            <p>
-              <a href="#!" class="text-reset">Vue</a>
-            </p>
-            <p>
-              <a href="#!" class="text-reset">Laravel</a>
-            </p>
+
           </div>
           <!-- Grid column -->
 
@@ -78,16 +61,16 @@
           <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
             <!-- Links -->
             <h6 class="text-uppercase fw-bold mb-4">
-              Useful links
+              Liens Utils
             </h6>
             <p>
-              <a href="#!" class="text-reset">Pricing</a>
+              <a href="#!" class="text-reset">Fomations</a>
             </p>
             <p>
-              <a href="#!" class="text-reset">Settings</a>
+              <a href="#!" class="text-reset">Modules</a>
             </p>
             <p>
-              <a href="#!" class="text-reset">Orders</a>
+              <a href="#!" class="text-reset">Etudiants</a>
             </p>
             <p>
               <a href="#!" class="text-reset">Help</a>
@@ -101,13 +84,13 @@
             <h6 class="text-uppercase fw-bold mb-4">
               Contact
             </h6>
-            <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+            <p><i class="fas fa-home me-3"></i>ENSA, Khouribga, Maroc</p>
             <p>
               <i class="fas fa-envelope me-3"></i>
-              info@example.com
+              gest.formations@gmail.com
             </p>
-            <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+            <p><i class="fas fa-phone me-3"></i> + 212 6 00 00 00 00</p>
+            <p><i class="fas fa-print me-3"></i> + 212 6 00 00 00 00</p>
           </div>
           <!-- Grid column -->
         </div>
@@ -119,7 +102,7 @@
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
       © 2021 Copyright:
-      <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+      <a class="text-reset fw-bold">stagepfa.com</a>
     </div>
     <!-- Copyright -->
   </footer>
