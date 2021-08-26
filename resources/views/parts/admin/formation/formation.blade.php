@@ -3,6 +3,11 @@
     @if($errors->any())
         <div class="note note-danger">
             <p>Attention ! On a pas pu enregistrer la Formation.</p>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
     <form class="row container p-5 needs-validation" method="post" action="{{isset($formation)?route('formation.update',$formation):route('formation.store')}}" novalidate>
@@ -38,5 +43,6 @@
     @if(isset($formation))
     <script>
         var semestres = {!! json_encode($formation->semestres->ids) !!};
+
     </script>
     @endif

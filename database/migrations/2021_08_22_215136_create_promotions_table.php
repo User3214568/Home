@@ -18,9 +18,11 @@ class CreatePromotionsTable extends Migration
             $table->string('nom')->nullable();
             $table->integer('numero');
             $table->timestamps();
+            $table->foreignId('formation_id')->constrained();
         });
-        Schema::table('etudiants',function (Blueprint $table){
 
+        Schema::table('etudiants',function (Blueprint $table){
+            $table->foreignId('promotion_id')->constrained();
         });
     }
 

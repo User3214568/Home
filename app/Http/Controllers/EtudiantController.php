@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Etudiant;
 use App\Formation;
+use App\Promotion;
 use Illuminate\Http\Request;
 
 class EtudiantController extends Controller
@@ -28,13 +29,17 @@ class EtudiantController extends Controller
             'email'=>'required|max:30',
             'formation_id'=>'required',
             'born_date'=>'required'
+
         ]);
 
         if($is_valid){
-
-            Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
-
+            $promo = Promotion::premier($request->formation_id)->get()[0];
+            $etudiant = Etudiant::create(array_merge($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']),['promotion_id'=>$promo->id]));
+            foreach($promo->semestres as $semestre){
+                $etudiant->modules()->attach($semestre->modules);
+            }
         }
+
         if(!isset($request->ajax)) return $this->index();
 
     }
@@ -45,7 +50,25 @@ class EtudiantController extends Controller
         return view('admin',compact(['etudiant','content','formations']));
     }
     public function update($id , Request $request){
-        Etudiant::find($id)->update($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
+        $is_valid = $request->validate([
+            'first_name'=>'required|max:50',
+            'last_name'=>'required|max:50',
+            'cin'=>'required|max:15',
+            'cne'=>'required|max:15',
+            'email'=>'required|max:30',
+            'formation_id'=>'required',
+            'born_date'=>'required'
+
+        ]);
+        if($is_valid){
+
+            $promo = Promotion::premier($request->formation_id)->get()[0];
+            $etudiant = Etudiant::find($id);
+            $etudiant->update($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
+            foreach($promo->semestres as $semestre){
+                $etudiant->modules()->sync($semestre->modules);
+            }
+        }
         return $this->index();
     }
     public function show($id){

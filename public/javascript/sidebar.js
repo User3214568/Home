@@ -8,6 +8,11 @@ $(document).ready(function(){
     $("#sidebartoggler").click(function(){
         $("span").each(function(){
             if($(this).attr('name') == 'side-item-label'){
+               $(this).attr('hidden',sideSlim.isToggled);
+            }
+        })
+        $("i").each(function(){
+            if($(this).attr('name') == 'side-item-label'){
                 $(this).attr('hidden',sideSlim.isToggled);
             }
         })

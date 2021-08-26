@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Formation;
 use App\Module;
+use App\Promotion;
 use App\Semestre;
 use Illuminate\Http\Request;
 
@@ -31,10 +32,16 @@ class FormationController extends Controller
         if($isvalid){
             $semestres = json_decode($request->semestres,true);
             $formation = Formation::create($request->only(['name','description']));
+            $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$formation->id]);
             foreach($semestres as $semestre => $modules){
-                $create_sem = $id = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
-                $create_sem->modules()->sync($modules);
+                $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                $create_sem->modules()->attach($modules);
+
+                if($semestre%2 == 0){
+                    $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$formation->id]);
+                }
             }
+
             return redirect(route('formation.create'));
             return $this->index();
         }
@@ -62,13 +69,14 @@ class FormationController extends Controller
     }
     public function update($id , Request $request){
         $isvalid = $request->validate([
-            'name'=>'required|unique:formations|max:255',
+            'name'=>'required|max:255',
             'description'=>'required'
         ]);
         if($isvalid){
             $semestres = json_decode($request->semestres,true);
             $formation = Formation::with('semestres')->find($id);
             $formation->update($request->only(['name','description']));
+            $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$id]);
             # deleting old semestres and make new ones
 
             foreach($formation->semestres as $semestre){
@@ -79,10 +87,17 @@ class FormationController extends Controller
                 foreach($semestres as $semestre => $modules){
                     if($semestre !=null){
                         $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
-                        $create_sem->modules()->sync($modules);
+                        $create_sem->modules()->attach($modules);
+                        $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                        if(($semestre%2 == 0)){
+                            $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$id]);
+                        }
 
                     }
+
+
                 }
+
                 return $this->index();
             }
 

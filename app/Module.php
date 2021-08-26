@@ -11,4 +11,7 @@ class Module extends Model
     public function semestres(){
         return $this->belongsToMany(Semestre::class);
     }
+    public function etudiants(){
+        return $this->belongsToMany(Etudiant::class);
+    }
 }

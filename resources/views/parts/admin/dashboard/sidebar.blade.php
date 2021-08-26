@@ -13,25 +13,21 @@
     @if($item['expanded'])
         <a href="#" class="row text-reset p-2 sidebar-item "   data-mdb-toggle="collapse" data-mdb-target="{{ "#".$item['title'] }}" aria-expanded="false">
             <div class="col-10">
-                <i class="{{ $item['icon']}}"></i>
-                <span class="ms-2">{{ $item['title'] }}</span>
+                <i class="{{ $item['icon']}}" ></i>
+                <span class="ms-2" name="side-item-label">{{ $item['title'] }}</span>
             </div>
-            @if($item['expanded'])
-            <i class="col-2 fas fa-angle-right align-self-center" onclick="sidebarArrowToggle(this)"></i>
-            @endif
+            <i class="col-2 fas fa-angle-right align-self-center" name="side-item-label" onclick="sidebarArrowToggle(this)"></i>
         </a>
         <div class="collapse ms-5" id="{{ $item['title'] }}">
             @foreach ($item['sub_items'] as $sub_item)
             <div class="sub-item p-1">
                 <a href="{{$sub_item['link']}}" class="row text-reset">
                     <i class="col-1 {{$sub_item['icon']}}"></i>
-                    <span class="col-10">{{$sub_item['title']}}</span>
+                    <span class="col-10 " name="side-item-label">{{$sub_item['title']}}</span>
                 </a>
             </div>
             @endforeach
-
         </div>
-
     @else
         <a href="{{isset($item['link'])?$item['link']:''}}" class="row text-reset p-2 sidebar-item"  >
             <div class="col ">

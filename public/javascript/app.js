@@ -34,6 +34,7 @@ function deleteSemestre(e){
 }
 
 $(document).ready(function(){
+    syncHiddenInput();
     $("#popup").on('hide.bs.modal', function(){
         edit  = false;
         $('#search-result input:checked').each(function() {
