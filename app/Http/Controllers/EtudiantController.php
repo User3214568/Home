@@ -24,16 +24,17 @@ class EtudiantController extends Controller
         $is_valid = $request->validate([
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            'cin'=>'required|unique:etudiants|max:15',
-            'cne'=>'required|unique:etudiants|max:15',
+            'cin'=>'required|unique:etudiants,cin|max:15',
+            'cne'=>'required|unique:etudiants,cne|max:15',
             'email'=>'required|max:30',
             'formation_id'=>'required',
             'born_date'=>'required'
         ]);
+
         if($is_valid){
+            return redirect(route('etudiant.create'));
         }
-        if(!isset($request->ajax))
-        return $this->index();
+        if(!isset($request->ajax)) return $this->index();
 
     }
     public function edit($id){
