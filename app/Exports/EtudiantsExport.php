@@ -78,7 +78,7 @@ class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,With
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
         $drawing->setDescription('This is my logo');
-        $drawing->setPath('https://i.ibb.co/6PwNcMT/header.png');
+        $drawing->setPath(storage_path('templates/header.png'));
         $drawing->setHeight(140);
         $drawing->setCoordinates('A2');
         return [$drawing];
@@ -93,12 +93,14 @@ class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,With
     }
     public function styles(Worksheet $sheet)
     {
-        $sheet->getCell('B11')->setValue('Formation');
-        $sheet->getCell('C11')->setValue(Formation::find($this->formation)->name);
+        if(isset($this->formation)){
 
-        $sheet->getCell('B13')->setValue('Niveau');
-        $sheet->getCell('C13')->setValue('Pas Encore');
-        $styles = [];
+            $sheet->getCell('B11')->setValue('Formation');
+            $sheet->getCell('C11')->setValue(Formation::find($this->formation)->name);
+            $sheet->getCell('B13')->setValue('Niveau');
+            $sheet->getCell('C13')->setValue('Pas Encore');
+        }
+            $styles = [];
         $header = ['B','C','D','E','F','G','H'];
         for($i = 10 ; $i < 150 ; $i++){
 
@@ -114,7 +116,7 @@ class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,With
                     ];
                 }
             }
-            if($i == 11 || $i ==13){
+            if(isset($this->formation) && ($i == 11 || $i ==13)){
                 $styles["B".$i]['fill'] =[
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                     'color' => ['rgb' => 'ff4800']
