@@ -48,6 +48,10 @@
         @include('parts.admin.user.user')
         @break
 
+        @case('user.index')
+        @include('parts.admin.user.index')
+        @break
+
         @default
 
         @endswitch

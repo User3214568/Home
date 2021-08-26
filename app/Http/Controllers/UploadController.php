@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Etudiant;
 use App\Exports\EtudiantsExport;
+use App\Exports\ExportFormations;
 use App\Formation;
 use App\Imports\BulkImport;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ class UploadController extends Controller
     }
     public function export(){
         return Excel::download(new EtudiantsExport , 'etudiant.xlsx');
+    }
+    public function exportAllFormations(){
+        return Excel::download(new ExportFormations(),'etudiants.xlsx');
     }
 
 }

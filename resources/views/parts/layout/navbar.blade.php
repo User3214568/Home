@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav ms-auto d-flex align-items-center">
             <li class="nav-item">
-                <a href="#" class="nav-link">Page d'Acceuil</a>
+                <a href="{{route('home')}}" class="nav-link">Page d'Acceuil</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">Nos Fonctionnalitées</a>
@@ -25,8 +25,9 @@
 
             @if(!Auth::check())
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="/login">
-                        Connecter vous ?
+                    <a class="border-start btn btn-link text-reset d-flex align-items-center" href="/login">
+                      <i class="fas fa-user-circle fa-3x m-2"></i>
+                      Accéder à mon compte
                     </a>
                 </li>
             @else
@@ -59,12 +60,12 @@
 
                         <h5 class=""><strong>{{Auth::user()->first_name}} {{" "}} {{Auth::user()->last_name}}</strong></h5>
                         <p class="text-muted">{{Auth::user()->email}}</p>
-                        <li><a class="dropdown-item" href="#">Mon Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Table de Bord</a></li>
+                        <li><a class="dropdown-item" href="{{route('user.edit',Auth::user()->cin)}}">Mon Profile</a></li>
+                        <li><a class="dropdown-item" href="{{route('admin')}}">Table de Bord</a></li>
                         <li>
                         <hr class="dropdown-divider" />
                         </li>
-                        <li><a class="dropdown-item" href="/logout">Se Déconnecter</a></li>
+                        <li><a class="dropdown-item" href="{{route('logout')}}">Se Déconnecter</a></li>
                     </ul>
                   </li>
               </div>

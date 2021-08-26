@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
+    public function index(){
+        $content = 'user.index';
+        $users = User::get();
+        return view('admin',compact(['content','users']));
+    }
     public function create(){
         $content = 'user.create';
         return view('admin',compact(['content']));
@@ -40,7 +44,6 @@ class UserController extends Controller
         return $this->edit($id);
     }
     public function login(Request $request){
-
         $result = Auth::attempt($request->only(['email','password']));
         return redirect('/admin');
 

@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class ModuleController extends Controller
 {
     public function index(){
-
+        $content = 'module.index';
+        $modules = Module::get();
+        return view('admin',compact(['modules','content']));
     }
     public function edit($id){
         $content = 'module.update';
@@ -45,5 +47,9 @@ class ModuleController extends Controller
 
         }
         return $this->create();
+    }
+    public function destroy($id){
+        Module::destroy($id);
+        return $this->index();
     }
 }

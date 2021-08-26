@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\URL;
 | contains the "web" middleware group. Now create something great!
 |
 */
-URL::forceScheme('https');
+//URL::forceScheme('https');
 Route::post('/login','UserController@login')->name('login');
 
-Route::resource('/','MainController');
+Route::get('/','MainController@index')->name('home');
 Route::get('/login','MainController@login');
-
+Route::get('/restore-password','MainController@restorePassword');
 
 Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/user','UserController');
@@ -27,8 +27,9 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/etudiant','EtudiantController');
     Route::post('/admin/upload','UploadController@import')->name('upload');
     Route::get('/admin/export','UploadController@export')->name('export');
+    Route::get('/admin/export-all-formations','UploadController@exportAllFormations')->name('exportallformations');
     Route::get('/admin','MainController@admin')->name('admin');
-    Route::get('/logout','UserController@logout');
+    Route::get('/logout','UserController@logout')->name('logout');
 });
 
 

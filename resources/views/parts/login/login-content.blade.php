@@ -2,7 +2,7 @@
 <form class="container mt-5 p-1" method="post" action="/login">
     {{ csrf_field() }}
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-around">
         <div class="col-lg-6">
             <div class="row">
                 @if(isset($login_failed))
@@ -51,9 +51,14 @@
             </div>
             @endif
 
-            <div class="row mt-5">
+            <div class="row mt-4">
                 <div class="col d-flex justify-content-center"><button class="btn btn-primary btn-wrap"><h6>{{$login_footer_btn}}</h6></button></div>
             </div>
         </div>
+        <div class="col-2 border-start"></div>
+        <div class=" col-md-4 justify-content-center align-items-center">
+            <img class="col-10" src="/images/auth.png" alt="" >
+        </div>
     </div>
+
 </form>

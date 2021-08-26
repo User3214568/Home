@@ -15,9 +15,9 @@
             <i class="fas fa-cloud-upload-alt fa-lg"></i>
             Importer depuis Excel
         </button>
-        <a id="btn-export" type="button" class="btn btn-info btn-rounded" href="{{route('export')}}">
+        <a id="btn-export" type="button" class="btn btn-info btn-rounded" href="{{route('exportallformations')}}">
             <i class="fas fa-file-export fa-lg"></i>
-            Exporter des Etudiants
+            Exporter Tous Les Etudiants
         </a>
         <a href="{{route('etudiant.create')}}" id="btn-add" type="button" class="btn btn-info btn-rounded">
             <i class="fas fa-plus fa-lg"></i>
@@ -65,10 +65,15 @@
 
 
     </div>
-    <div class="mt-4"><h5>List des Etudiants</h5></div>
+    <div class="row mt-4 justify-content-between">
+        <div class="col-4"><h5>List des Etudiants</h5></div>
+        <a title=" Exporter La Formation"  type="button" class="col-2 btn btn-info btn-floating" href="{{route('export')}}">
+            <i class="fas fa-file-export fa-lg"></i>
+        </a>
+    </div>
     <div class="dropdown-divider"></div>
-    <div class="row p-4 table-responsive nowrap">
-        <table class="table align-middle table-hover" id="etudiants-table">
+    <div class="row p-4 table-responsive">
+        <table class="table align-middle table-hover nowrap" id="etudiants-table">
             <thead>
               <tr>
                 <th scope="col">
