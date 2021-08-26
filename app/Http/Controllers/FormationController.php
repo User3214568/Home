@@ -25,7 +25,7 @@ class FormationController extends Controller
     public function store(Request $request){
 
         $isvalid = $request->validate([
-            'name'=>'required|unique:modules|max:255',
+            'name'=>'required|unique:formations|max:255',
             'description'=>'required'
         ]);
         if($isvalid){
@@ -62,7 +62,7 @@ class FormationController extends Controller
     }
     public function update($id , Request $request){
         $isvalid = $request->validate([
-            'name'=>'required|unique:modules|max:255',
+            'name'=>'required|unique:formations|max:255',
             'description'=>'required'
         ]);
         if($isvalid){

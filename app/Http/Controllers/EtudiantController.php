@@ -20,18 +20,19 @@ class EtudiantController extends Controller
         return view('admin',compact(['content','formations']));
     }
     public function store( Request $request){
-        Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
         $is_valid = $request->validate([
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            'cin'=>'required|unique:etudiants,cin|max:15',
-            'cne'=>'required|unique:etudiants,cne|max:15',
+            'cin'=>'required|unique:etudiants|max:15',
+            'cne'=>'required|unique:etudiants|max:15',
             'email'=>'required|max:30',
             'formation_id'=>'required',
             'born_date'=>'required'
         ]);
 
         if($is_valid){
+
+            Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
             return redirect(route('etudiant.create'));
         }
         if(!isset($request->ajax)) return $this->index();

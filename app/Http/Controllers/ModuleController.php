@@ -20,7 +20,7 @@ class ModuleController extends Controller
     public function update($id , Request $request){
         $content = 'module.update';
         $validated  = $request->validate([
-            'name'=>'required|max:255',
+            'name'=>'required|unique:modules|max:255',
             'description'=>'required'
         ]);
 
