@@ -78,7 +78,7 @@ class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,With
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
         $drawing->setDescription('This is my logo');
-        $drawing->setPath('https://ibb.co/zRxNWMB');
+        $drawing->setPath('https://i.ibb.co/6PwNcMT/header.png');
         $drawing->setHeight(140);
         $drawing->setCoordinates('A2');
         return [$drawing];
