@@ -21,7 +21,7 @@ use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,WithColumnWidths,WithDrawings,WithStartRow,WithHeadings , WithCustomStartCell
+class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,WithColumnWidths,WithStartRow,WithHeadings , WithCustomStartCell
 {
     private $auto_incremental = 0;
     private $formation;
@@ -73,7 +73,7 @@ class EtudiantsExport implements FromQuery,WithTitle,WithMapping,WithStyles,With
         ];
     }
 
-    public function drawings()
+    public function Nodrawings()
     {
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
