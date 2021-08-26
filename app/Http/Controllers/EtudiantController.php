@@ -33,7 +33,7 @@ class EtudiantController extends Controller
         if($is_valid){
 
             Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
-            return redirect(route('etudiant.create'));
+
         }
         if(!isset($request->ajax)) return $this->index();
 

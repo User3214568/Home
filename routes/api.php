@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\URL;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-URL::forceScheme('https');
+//URL::forceScheme('https');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

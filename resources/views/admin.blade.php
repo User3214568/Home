@@ -14,7 +14,13 @@
 
         ['title'=>'Module','link'=>route('module.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
 
-        ['title'=>'Etudiant','link'=>route('etudiant.index'), 'icon'=>'fas fa-user-graduate', 'expanded'=>false ],
+        ['title'=>'Etudiant', 'icon'=>'fas fa-user-graduate', 'expanded'=>true, 'sub_items'=>
+            [
+                ['title'=>'Adminer Vos Etudiants','link'=>route('etudiant.index'),'icon'=>'fas fa-user-edit'],
+                ['title'=>'Gestion des Notes','link'=>'#','icon'=>'fas fa-award'],
+
+            ]
+        ],
 
         ['title'=>'Utilisateur','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false]
 

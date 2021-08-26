@@ -23,7 +23,10 @@
         <div class="collapse ms-5" id="{{ $item['title'] }}">
             @foreach ($item['sub_items'] as $sub_item)
             <div class="sub-item p-1">
-                <a href="" class="text-reset">{{$sub_item}}</a>
+                <a href="{{$sub_item['link']}}" class="row text-reset">
+                    <i class="col-1 {{$sub_item['icon']}}"></i>
+                    <span class="col-10">{{$sub_item['title']}}</span>
+                </a>
             </div>
             @endforeach
 
