@@ -21,11 +21,11 @@ class EtudiantController extends Controller
     }
     public function store( Request $request){
         Etudiant::create($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']));
-        /*$is_valid = $request->validate([
+        $is_valid = $request->validate([
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            'cin'=>'required|unique:Etudiants|max:15',
-            'cne'=>'required|unique:Etudiants|max:15',
+            #'cin'=>'required|unique:Etudiants|max:15',
+            #'cne'=>'required|unique:Etudiants|max:15',
             'email'=>'required|max:30',
             'formation_id'=>'required',
             'born_date'=>'required'
@@ -33,7 +33,7 @@ class EtudiantController extends Controller
         if($is_valid){
         }
         if(!isset($request->ajax))
-        */return $this->index();
+        return $this->index();
 
     }
     public function edit($id){

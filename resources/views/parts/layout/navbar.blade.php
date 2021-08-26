@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light p-3 sticky-top ">
-    <a href="#" class="navbar-brand">Gestionnaire de Formation</a>
+
+    <a href="#" class=" navbar-brand">
+        <img class="border-end p-2" src="/images/logo.png" height="70"/>
+        Gestionnaire de Formation</a>
     <button
       class="navbar-toggler"
       type="button"
