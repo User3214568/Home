@@ -80,6 +80,9 @@ class EtudiantController extends Controller
     }
     public function evaluation(){
         $content ="etudiant.evaluation";
-        return view('admin',compact(['content']));
+        $formations = Formation::get();
+        return view('admin',compact(['content','formations']));
     }
+
 }
+

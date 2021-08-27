@@ -1,64 +1,37 @@
-<div class="row">
+<script src="/javascript/notes.js"></script>
+<div class="row mt-4">
     <h2>Evalution des Etudiants</h2>
 </div>
+<?php $formation = App\Formation::get()[0] ?>
 <div class="row">
-    <!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a
-        class="nav-link active"
-        id="ex1-tab-1"
-        data-mdb-toggle="tab"
-        href="#ex1-tabs-1"
-        role="tab"
-        aria-controls="ex1-tabs-1"
-        aria-selected="true"
-        >Tab 1</a
-      >
-    </li>
-    <li class="nav-item" role="presentation">
-      <a
-        class="nav-link"
-        id="ex1-tab-2"
-        data-mdb-toggle="tab"
-        href="#ex1-tabs-2"
-        role="tab"
-        aria-controls="ex1-tabs-2"
-        aria-selected="false"
-        >Tab 2</a
-      >
-    </li>
-    <li class="nav-item" role="presentation">
-      <a
-        class="nav-link"
-        id="ex1-tab-3"
-        data-mdb-toggle="tab"
-        href="#ex1-tabs-3"
-        role="tab"
-        aria-controls="ex1-tabs-3"
-        aria-selected="false"
-        >Tab 3</a
-      >
-    </li>
-  </ul>
-  <!-- Tabs navs -->
+    <p class=" note note-info">Vous devez choisir une formation pour modifier les notes des etudiants.</p>
+</div>
+
+<div class="row mt-3 justify-content-center">
+    <div class="col-6">
+        <select id="formation-select" class="text-reset border col-md-3 p-2 w-100" name="" id="">
+            <option disabled selected>Sélectionner une Formation</option>
+            @foreach ($formations as $form)
+                <option value="{{$form->id}}">{{$form->name}}</option>
+            @endforeach
+        </select>
+    </div>
+
+</div>
+
+<div class="border row p-4 mt-4" id="empty-notes">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+
+        <p class="text-danger"><i class="fas fa-info  fa-5x"></i></p>
+        <p>Aucune Donnée à afficher. Veuillez verifier que avez sélectionner une formation.
+            Si cette zone est toujours vide on vous invite à crée des nouveau étudiant
+        </p>
+        <a href="{{route('etudiant.create')}}" class="btn btn-danger"><h6>Ajouter des Etudiants</h6></a>
+    </div>
+</div>
+
 
   <!-- Tabs content -->
-  <div class="tab-content" id="ex1-content">
-    <div
-      class="tab-pane fade show active"
-      id="ex1-tabs-1"
-      role="tabpanel"
-      aria-labelledby="ex1-tab-1"
-    >
-      Tab 1 content
-    </div>
-    <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-      Tab 2 content
-    </div>
-    <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-      Tab 3 content
-    </div>
-  </div>
-  <!-- Tabs content -->
+<div class="row" id="etudiants-notes"></div>
+<!-- Tabs content -->
 </div>
