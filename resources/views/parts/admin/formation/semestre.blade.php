@@ -30,5 +30,5 @@
             <i class="fas fa-plus"></i>
         </button>
 
-    @include('parts.admin.formation.formation-popup')
+    @include('parts.admin.common.modal')
     </div>

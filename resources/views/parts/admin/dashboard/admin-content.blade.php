@@ -36,8 +36,13 @@
         @case('etudiant.update')
         @include('parts.admin.etudiant.etudiant')
         @break
+
         @case('etudiant.index')
         @include('parts.admin.etudiant.list')
+        @break
+
+        @case('etudiant.evaluation')
+        @include('parts.admin.etudiant.evaluation')
         @break
 
         @case('user.create')

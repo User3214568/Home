@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Devoir;
 use App\Module;
 use Illuminate\Http\Request;
 
@@ -20,13 +21,30 @@ class ModuleController extends Controller
     public function update($id , Request $request){
         $content = 'module.update';
         $validated  = $request->validate([
-            'name'=>'required|unique:modules|max:255',
+            'name'=>'required|max:255',
             'description'=>'required'
         ]);
 
         if($validated){
             Module::find($id)->update($request->only(['name','description']));
-            return view('admin',compact('content','module'));
+            $devoirs =json_decode($request->devoirs,true);
+
+            foreach ($devoirs as $key => $value) {
+                if(preg_match('/^[0-9]+$/',$key)){
+                    $ratio = $value['ratio'];
+                    if(!preg_match('/^[0-9]+(\.[0-9]+)?$/',$ratio)){
+                        $ratio = 0;
+                    }
+                    if(isset($value['id'])){
+                        $dv = Devoir::find($value['id']);
+                        $dv->update(['name'=>$value['name'] , 'ratio'=>$ratio]);
+                    }else{
+                        Devoir::create(['name'=>$value['name'] , 'ratio'=>$ratio,'module_id'=>$id]);
+                    }
+                }
+
+            }
+            return $this->index();
         }
 
     }
@@ -41,10 +59,19 @@ class ModuleController extends Controller
         ]);
 
         if($validated){
-            Module::create(['name'=>$request->name,'description'=>$request->description,'index'=>0]);
-        }
-        else{
+            $module = Module::create(['name'=>$request->name,'description'=>$request->description,'index'=>0]);
+            $devoirs =json_decode($request->devoirs,true);
 
+            foreach ($devoirs as $key => $value) {
+                if(preg_match('/^[0-9]+$/',$key)){
+                    $ratio = $value['ratio'];
+                    if(!preg_match('/^[0-9]+(\.[0-9]+)?$/',$ratio)){
+                        $ratio = 0;
+                    }
+                    Devoir::create(['name'=>$value['name'] , 'ratio'=>$ratio,'module_id'=>$module->id]);
+                }
+
+            }
         }
         return $this->create();
     }

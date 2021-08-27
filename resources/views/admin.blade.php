@@ -17,7 +17,7 @@
         ['title'=>'Etudiant', 'icon'=>'fas fa-user-graduate', 'expanded'=>true, 'sub_items'=>
             [
                 ['title'=>'Adminer Vos Etudiants','link'=>route('etudiant.index'),'icon'=>'fas fa-user-edit'],
-                ['title'=>'Gestion des Notes','link'=>'#','icon'=>'fas fa-award'],
+                ['title'=>'Gestion des Notes','link'=>route('etudiant.evaluation'),'icon'=>'fas fa-award'],
 
             ]
         ],

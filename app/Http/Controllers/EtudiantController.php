@@ -72,11 +72,14 @@ class EtudiantController extends Controller
         return $this->index();
     }
     public function show($id){
-        echo "what : ".($id);
         return Etudiant::find($id);
     }
     public function destroy($id){
         Etudiant::destroy($id);
         return $this->index();
+    }
+    public function evaluation(){
+        $content ="etudiant.evaluation";
+        return view('admin',compact(['content']));
     }
 }
