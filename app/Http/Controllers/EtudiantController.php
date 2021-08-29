@@ -135,9 +135,10 @@ class EtudiantController extends Controller
             return "Data Invalides";
         }
     }
-    public function notebymodule(){
-        $content = 'etudiant.note.module';
-        return view('admin',compact(['content']));
+    public function results(){
+        $content = 'etudiant.result';
+        $formations = Formation::get();
+        return view('admin',compact(['content','formations']));
     }
 
 }

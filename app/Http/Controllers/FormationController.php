@@ -120,15 +120,14 @@ class FormationController extends Controller
         return $this->index();
     }
     public function notes(Request $request){
+        $result = $request->target;
         if(isset($request->id)){
             $formation = Formation::find($request->id);
-            return response(view('parts.admin.etudiant.tabnotes',compact(['formation'])),200);
+            return response(view('parts.admin.etudiant.tabnotes',compact(['formation','result'])),200);
         }
         else{
             return response('Not Found',404);
         }
     }
-    public function resultat(Request $request){
 
-    }
 }

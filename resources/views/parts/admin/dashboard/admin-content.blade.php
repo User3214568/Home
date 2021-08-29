@@ -45,8 +45,8 @@
         @include('parts.admin.etudiant.evaluation')
         @break
 
-        @case('etudiant.note.module')
-        @include('parts.admin.etudiant.note-module')
+        @case('etudiant.result')
+        @include('parts.admin.etudiant.resultat')
         @break
 
         @case('user.create')

@@ -18,7 +18,7 @@
             [
                 ['title'=>'Adminer Vos Etudiants','link'=>route('etudiant.index'),'icon'=>'fas fa-user-edit'],
                 ['title'=>'Gestion des Notes','link'=>route('etudiant.evaluation'),'icon'=>'fas fa-award'],
-                ['title'=>'Table de Bords des Notes','link'=>route('note.module'),'icon'=>'fas fa-calculator'],
+                ['title'=>'Résultats des Etudiants','link'=>route('etudiant.result'),'icon'=>'fas fa-calculator'],
             ]
         ],
 

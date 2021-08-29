@@ -3,22 +3,32 @@
 $(document).ready(function(){
     $("#formation-select").on('change',function(){
         id = $(this).val()
+        var target = $(this).attr('target');
+        var empty = $("#etudiants-notes").text();
+        $("#empty-notes").remove();
+        $("#etudiants-notes").addClass('border mt-5');
+        $("#etudiants-notes").html('<div class="d-flex justify-content-center align-items-center m-5 p-5 flex-column "><div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div><div class="ms-4">Chargement du Contenue depuis le serveur ...</div></div>')
         token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url : '/admin/formation/notes',
             method : "POST",
             data : {
                 id : id,
+                target : target,
                 _token : token
             },
             success : function(response){
-                $("#etudiants-notes").empty();
-                $("#etudiants-notes").append(response);
-                $("#empty-notes").remove();
-                setupsave();
+                setTimeout(() => {
+                    $("#etudiants-notes").removeClass('border mt-5');
+                    $("#etudiants-notes").empty();
+                    $("#etudiants-notes").append(response);
+                    setupsave();
+                }, 1000);
             },
             error : function(error){
                 console.log(error)
+                $("#etudiants-notes").empty();
+                $("#etudiants-note").html('<div class="d-flex justify-content-center align-items-center m-5 p-5 flex-column "><div class="text-danger"><i class="fas fa-times-circle fa-6x"></i></div><div class="p-4">Une Erreur a été survenu : '+error.message+'</div></div>');
             }
         }
         );
