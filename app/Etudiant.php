@@ -15,11 +15,13 @@ class Etudiant extends Model
         return $this->belongsTo(Formation::class);
 
     }
+
     public function promotion(){
         return $this->belongsTo(Promotion::class);
     }
-    public function modules(){
-        return $this->belongsToMany(Module::class);
+
+    public function evaluations(){
+        return $this->hasMany(Evaluation::class);
     }
 
 }

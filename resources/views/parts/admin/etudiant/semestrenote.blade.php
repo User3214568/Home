@@ -1,3 +1,4 @@
+
 <div class="row">
     <!-- Tabs navs -->
     <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
@@ -23,12 +24,15 @@
             @foreach ($promotion->semestres as $key=>$sem)
 
             <div
-            class="tab-pane fade {{$key>0?'':'show active'}}"
+            class=" tab-pane fade {{$key>0?'':'show active'}}"
             id="tabs-{{$sem->numero."-".$promotion->numero}}"
             role="tabpanel"
             aria-labelledby="tab-{{$sem->numero."-".$promotion->numero}}"
             >
-                @include('parts.admin.etudiant.tablenote')
+
+                <div class="table-responsive">
+                    @include('parts.admin.etudiant.tablenote')
+                </div>
             </div>
 
             @endforeach
@@ -39,3 +43,10 @@
     </div>
 
 </div>
+@if (sizeof($promotion->semestres)>0)
+<div class="row justify-content-end p-3">
+    <button id="savenote" title="Enregistrer les modifications" class="btn btn-success">
+        Enregistrer Les Modifications
+    </button>
+</div>
+@endif

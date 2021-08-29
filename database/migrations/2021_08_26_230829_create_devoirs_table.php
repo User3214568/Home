@@ -17,7 +17,6 @@ class CreateDevoirsTable extends Migration
             $table->id();
             $table->string('name');
             $table->float('ratio');
-            $table->float('note')->nullable();
             $table->timestamps();
             $table->foreignId('module_id')->constrained();
         });

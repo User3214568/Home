@@ -21,6 +21,8 @@ Route::get('/login','MainController@login');
 Route::get('/restore-password','MainController@restorePassword');
 
 Route::middleware(('auth'))->group(function(){
+    Route::get('admin/etudiant/note-module','EtudiantController@notebymodule')->name('note.module');
+    Route::post('/admin/etudiant/update-note','EtudiantController@notesUpdate')->name('etudiant.note.update');
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
     Route::post('/admin/formation/notes','FormationController@notes')->name('formation.notes');
     Route::resource('/admin/user','UserController');

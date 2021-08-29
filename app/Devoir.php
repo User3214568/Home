@@ -11,4 +11,8 @@ class Devoir extends Model
     public function module(){
         return $this->belongsTo(Module::class);
     }
+    public function evaluations(){
+        return $this->hasMany(Evaluation::class);
+    }
+
 }

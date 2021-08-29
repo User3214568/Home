@@ -32,6 +32,7 @@
     <script src="/javascript/app.js"></script>
     <script src="/javascript/sidebar.js"></script>
 
+
     <title>@yield('title')</title>
 </head>
 <body>

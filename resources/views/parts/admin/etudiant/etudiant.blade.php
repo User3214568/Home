@@ -11,9 +11,13 @@
         ['type'=>'text', 'name'=>'cin' ,'value' => isset($etudiant)?$etudiant->cin:'', 'label'=>'Numéro de la crate d\'identité national'],
         ['type'=>'text', 'name'=>'cne' ,'value' => isset($etudiant)?$etudiant->cne:'' ,'label'=>'Code  Massar'],
         ['type'=>'text', 'name'=>'email' ,'value' => isset($etudiant)?$etudiant->email:'', 'label'=>'L\'email de L\' Etudiant'],
-        ['type'=>'selection','name'=>'formation_id' ,'value' => isset($etudiant)?$etudiant->formation_id:'','label'=>'Formation de L\' Etudiant','items'=> $formations],
+        ['type'=>'selection','name'=>'formation_id','selected'=>isset($etudiant)?$etudiant->formation_id:'' ,'value' => isset($etudiant)?$etudiant->formation_id:'','label'=>'Formation de L\' Etudiant','items'=> $formations],
         ['type'=>'date', 'name'=>'born_date' ,'value' => isset($etudiant)?$etudiant->born_date:'', 'label'=>'Date de Naissance'],
-];
+    ];
+    if(isset($etudiant)){
+        array_push($fields,['type'=>'selection','name'=>'promotion_id' ,'selected'=>$etudiant->promotion_id,'value' => $etudiant->promotion_id,'label'=>'Promotion de L\' Etudiant','items'=> $promotions]);
+    }
+
     $target = "Etudiant";
     ?>
 @include('parts.admin.common.formulaire')

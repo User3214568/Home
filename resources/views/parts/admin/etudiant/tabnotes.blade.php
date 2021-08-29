@@ -1,4 +1,6 @@
-<div class="row border p-1 mt-5">
+<h5 class="mt-5">Notes Des Etudiants</h5>
+<div class="row mt-1"><hr class="dropdown-divider"></div>
+<div class="row  p-1 mt-1">
     <!-- Tabs navs -->
     <ul class="nav  nav-tabs nav-justified mb-3" id="ex1" role="tablist">
         @foreach ($formation->promotions as $key=>$promo)
@@ -31,5 +33,5 @@
             @endforeach
 
     </div>
-
+    @include('parts.admin.common.modal')
 </div>

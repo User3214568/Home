@@ -16,6 +16,10 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->float('note')->nullable();
+            $table->string('etudiant_cin');
+            $table->foreign('etudiant_cin')->references('cin')->on('etudiants')->onDelete('cascade');
+            $table->foreignId('devoir_id');
         });
     }
 

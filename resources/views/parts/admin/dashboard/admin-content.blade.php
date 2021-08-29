@@ -45,6 +45,10 @@
         @include('parts.admin.etudiant.evaluation')
         @break
 
+        @case('etudiant.note.module')
+        @include('parts.admin.etudiant.note-module')
+        @break
+
         @case('user.create')
         @include('parts.admin.user.user')
         @break

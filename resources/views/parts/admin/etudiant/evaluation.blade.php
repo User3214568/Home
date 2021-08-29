@@ -1,9 +1,11 @@
 <script src="/javascript/notes.js"></script>
-<div class="row mt-4">
+
+<div class="row mt-4 ">
     <h2>Evalution des Etudiants</h2>
 </div>
-<?php $formation = App\Formation::get()[0] ?>
-<div class="row">
+<div class="row mt-1"><hr class="dropdown-divider"></div>
+
+<div class="row mt-3">
     <p class=" note note-info">Vous devez choisir une formation pour modifier les notes des etudiants.</p>
 </div>
 

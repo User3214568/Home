@@ -86,11 +86,11 @@ class FormationController extends Controller
 
                 foreach($semestres as $semestre => $modules){
                     if($semestre !=null){
-                        $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id]);
-                        $create_sem->modules()->attach($modules);
                         $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                        $create_sem->modules()->attach($modules);
                         if(($semestre%2 == 0)){
                             $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$id]);
+
                         }
 
                     }
@@ -112,6 +112,9 @@ class FormationController extends Controller
             foreach($formation->semestres as $sem){
                 Semestre::destroy($sem->id);
             }
+            foreach($formation->promotions as $promo){
+                Promotion::destroy($promo);
+            }
         }
         Formation::destroy($id);
         return $this->index();
@@ -124,5 +127,8 @@ class FormationController extends Controller
         else{
             return response('Not Found',404);
         }
+    }
+    public function resultat(Request $request){
+
     }
 }
