@@ -21,6 +21,7 @@ Route::get('/login','MainController@login');
 Route::get('/restore-password','MainController@restorePassword');
 
 Route::middleware(('auth'))->group(function(){
+
     Route::get('admin/etudiant/resultats','EtudiantController@results')->name('etudiant.result');
     Route::post('/admin/etudiant/update-note','EtudiantController@notesUpdate')->name('etudiant.note.update');
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
@@ -30,6 +31,7 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/module','ModuleController');
     Route::resource('/admin/etudiant','EtudiantController');
     Route::post('/admin/upload','UploadController@import')->name('upload');
+    Route::get('/admin/export-notes/{id}-{type}','UploadController@exportnotes')->name('etudiant.notes.export');
     Route::get('/admin/export','UploadController@export')->name('export');
     Route::get('/admin/export-all-formations','UploadController@exportAllFormations')->name('exportallformations');
     Route::get('/admin','MainController@admin')->name('admin');

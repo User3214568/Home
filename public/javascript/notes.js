@@ -36,27 +36,34 @@ $(document).ready(function(){
 });
 function setupsave(){
     evaluation = {};
-    $("#savenote").click(function(){
-        var fails = [];
-        $("td[name='note']").each(function(e){
+    $("button").each(function(){
+        $(this).click(function(){
+            if($(this).attr('name')=="savenote"){
+                var fails = [];
+                $(this).parent().prev().find("td[name='note']").each(function(e){
+                    console.log('found')
+                    var id = $(this).attr('id');
+                    var value =  Number($(this).text().trim());
+                    if(/^[0-9]+(\.[0-9]+)?$/.test(value) && (value<=20 && value >=0)){
 
-            var id = $(this).attr('id');
-            var value =  Number($(this).text().trim());
-            if(/^[0-9]+(\.[0-9]+)?$/.test(value) && (value<=20 && value >=0)){
-                evaluation[id] = {
-                    note : value
-                }
-            }
-            else{
-                fails.push('Valeur Invalide : '+id);
+                        evaluation[id] = {
+                            note : value
+                        }
+                    }
+                    else{
+                        fails.push('Valeur Invalide : '+id);
+                    }
+                });
+                console.log(evaluation)
+                if(fails.length == 0){
+                    editNote(evaluation)
+                }else alert('Donnée Invalides');
             }
         });
-        if(fails.length == 0){
-            editNote(evaluation)
-        }else alert('Donnée Invalides');
     });
 }
 function editNote(evaluation){
+    alert('save')
     var token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url : '/admin/etudiant/update-note',

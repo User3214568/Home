@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Etudiant;
 use App\Exports\EtudiantsExport;
 use App\Exports\ExportFormations;
+use App\Exports\NotesExport;
 use App\Formation;
 use App\Imports\BulkImport;
 use Illuminate\Http\Request;
@@ -32,6 +33,14 @@ class UploadController extends Controller
     }
     public function exportAllFormations(){
         return Excel::download(new ExportFormations(),'etudiants.xlsx');
+    }
+    public function exportnotes($id , $type){
+        if(is_numeric($id)){
+            return Excel::download(new NotesExport($id,$type),'notes.xlsx');
+        }
+        else{
+            return redirect(route('etudiant.evaluation'));
+        }
     }
 
 }

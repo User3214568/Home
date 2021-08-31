@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Critere;
 use App\Formation;
 use App\Module;
 use App\Promotion;
@@ -27,18 +28,24 @@ class FormationController extends Controller
 
         $isvalid = $request->validate([
             'name'=>'required|unique:formations|max:255',
-            'description'=>'required'
+            'description'=>'required',
+            'note_validation'=>'required|numeric',
+            'note_aj'=>'required|numeric',
+            'number_aj'=>'required|numeric',
+            'number_nv'=>'required|numeric'
         ]);
         if($isvalid){
             $semestres = json_decode($request->semestres,true);
-            $formation = Formation::create($request->only(['name','description']));
-            $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$formation->id]);
-            foreach($semestres as $semestre => $modules){
-                $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
-                $create_sem->modules()->attach($modules);
 
-                if($semestre%2 == 0){
-                    $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$formation->id]);
+            $critere = Critere::create($request->only(['note_validation', 'note_aj','number_aj','number_nv']));
+            $formation = Formation::create(array_merge($request->only(['name','description']),['critere_id'=>$critere->id]));
+            if(sizeof($semestres)>0){
+                foreach($semestres as $semestre => $modules){
+                    if($semestre%2 != 0){
+                        $promo = Promotion::create(['numero'=>(1+(($semestre-1)/2)),'nom'=>(1+(($semestre-1)/2))."".((1+(($semestre-1)/2)==1)?'ére':'ème').' Année','formation_id'=>$formation->id]);
+                    }
+                    $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                    $create_sem->modules()->attach($modules);
                 }
             }
 
@@ -70,12 +77,17 @@ class FormationController extends Controller
     public function update($id , Request $request){
         $isvalid = $request->validate([
             'name'=>'required|max:255',
-            'description'=>'required'
+            'description'=>'required',
+            'note_validation'=>'required|numeric',
+            'note_aj'=>'required|numeric',
+            'number_aj'=>'required|numeric',
+            'number_nv'=>'required|numeric'
         ]);
         if($isvalid){
             $semestres = json_decode($request->semestres,true);
             $formation = Formation::with('semestres')->find($id);
             $formation->update($request->only(['name','description']));
+            Critere::find($formation->critere)->update($request->only(['note_validation', 'note_aj','number_aj','number_nv']));
             $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$id]);
             # deleting old semestres and make new ones
 
@@ -113,7 +125,8 @@ class FormationController extends Controller
                 Semestre::destroy($sem->id);
             }
             foreach($formation->promotions as $promo){
-                Promotion::destroy($promo);
+                Promotion::destroy($promo->id);
+
             }
         }
         Formation::destroy($id);
@@ -128,6 +141,10 @@ class FormationController extends Controller
         else{
             return response('Not Found',404);
         }
+    }
+    public function validateOrdinaireSession($f,$sem){
+        $sem = Semestre::find($sem);
+
     }
 
 }

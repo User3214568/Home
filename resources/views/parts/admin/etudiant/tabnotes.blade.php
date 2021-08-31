@@ -1,3 +1,10 @@
+<h5 class="mt-5">Exporter / Importer Les notes</h5>
+<div class="row mt-1"><hr class="dropdown-divider"></div>
+<div class="row justify-content-around">
+    <button class="col-3 btn btn-info">Exporter Un Fichier Excel des notes Vide</button>
+    <button class="col-3 btn btn-success">Importer Les Notes depuis un fichier Excel</button>
+    <button class="col-3 btn btn-danger">Exporter Les notes Sous format Excel</button>
+</div>
 <h5 class="mt-5">Notes Des Etudiants</h5>
 <div class="row mt-1"><hr class="dropdown-divider"></div>
 <div class="row  p-1 mt-1">
@@ -35,3 +42,4 @@
     </div>
     @include('parts.admin.common.modal')
 </div>
+

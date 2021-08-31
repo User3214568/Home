@@ -39,11 +39,10 @@ class EtudiantController extends Controller
             foreach($promo->semestres as $semestre){
                 foreach($semestre->modules as $module){
                     foreach($module->devoirs as $devoir){
-
+                        if($devoir->session == 1)
                         Evaluation::create(['devoir_id'=>$devoir->id,'etudiant_cin'=>$etudiant->cin]);
                     }
                 }
-
             }
         }
 
@@ -140,6 +139,7 @@ class EtudiantController extends Controller
         $formations = Formation::get();
         return view('admin',compact(['content','formations']));
     }
+
 
 }
 

@@ -15,9 +15,7 @@ function editSemestre(e){
         })
         if(semestres[e.name].includes(Number($(this).attr('id')))) {
             $(this).prop("checked",true)
-            console.log($(this).prop("checked"))
         }
-        console.log(semestres[e.name] ,'****',Number($(this).attr('id')), semestres[e.name].includes(Number($(this).attr('id'))))
     });
     edit = true;
 }
@@ -42,7 +40,7 @@ $(document).ready(function(){
         })
       });
     $("#test-login").click(function(){
-        $("#email").val('rachid@gmail.com');
+        $("#email").val('hamza@gmail.com');
         $("#email").focus();
         $("#pass").val('hashed');
         $("#pass").focus();
@@ -95,16 +93,18 @@ $(document).ready(function(){
             }
         }
         else{
+
             var s = $("#sem"+target)
             var spans = "";
             var selected = [];
             $('#search-result input:checked').each(function() {
+
                 selected.push($(this).attr('id'));
                 spans += "<span class='p-2'>"+$(this).attr('value')+"<span>";
                 $(this).prop("checked",false)
             });
             semestres[target] = selected;
-            s.find("#modules-selected").html(spans)
+            s.find("#spans").html(spans)
         }
             syncHiddenInput();
             edit  = false;

@@ -14,5 +14,18 @@ class Evaluation extends Model
     public function etudiant(){
         return $this->belongsTo(Etudiant::class);
     }
+    public function scopeEvaluationSession($query,$cin,$session){
+        foreach($query->where('etudiant_cin',$cin)->get() as $v){
+            $devoir = Devoir::find($v->devoir_id);
+            if($devoir){
+                if($devoir->session == $session) return true;
+            }
 
+        }
+        return false;
+    }
+    public function getModule(){
+        $devoir = $this->devoir;
+        return $devoir->module->id;
+    }
 }

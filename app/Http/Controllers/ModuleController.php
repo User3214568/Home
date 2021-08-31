@@ -37,9 +37,14 @@ class ModuleController extends Controller
                     }
                     if(isset($value['id'])){
                         $dv = Devoir::find($value['id']);
+
                         $dv->update(['name'=>$value['name'] , 'ratio'=>$ratio]);
                     }else{
-                        Devoir::create(['name'=>$value['name'] , 'ratio'=>$ratio,'module_id'=>$id]);
+                        Devoir::create(['name'=>$value['name'] ,'session'=>$value['session'] ,  'ratio'=>$ratio,'module_id'=>$id]);
+                    }
+                }else{
+                    if($key == "toDelete"){
+                        Devoir::destroy($value);
                     }
                 }
 
@@ -61,14 +66,13 @@ class ModuleController extends Controller
         if($validated){
             $module = Module::create(['name'=>$request->name,'description'=>$request->description,'index'=>0]);
             $devoirs =json_decode($request->devoirs,true);
-
             foreach ($devoirs as $key => $value) {
                 if(preg_match('/^[0-9]+$/',$key)){
                     $ratio = $value['ratio'];
                     if(!preg_match('/^[0-9]+(\.[0-9]+)?$/',$ratio)){
                         $ratio = 0;
                     }
-                    Devoir::create(['name'=>$value['name'] , 'ratio'=>$ratio,'module_id'=>$module->id]);
+                    Devoir::create(['name'=>$value['name'] , 'ratio'=>$ratio,'session'=>$value['session'],'module_id'=>$module->id]);
                 }
 
             }

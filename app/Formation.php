@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Formation extends Model
 {
 
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name','description','critere_id'];
 
 
     public function semestres(){
@@ -21,5 +21,8 @@ class Formation extends Model
     }
     public function scopeName($query,$name){
         return $query->where('name' , $name);
+    }
+    public function critere(){
+        return $this->hasOne(Critere::class);
     }
 }

@@ -4,7 +4,7 @@
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
         <div class="d-flex justify-content-start flex-column ms-2">
             <span class="navbar-brand" >Gestionnaire de Formation</span>
-            <span class="text-reset">Gestion Pédagogique et Financiaire</span>
+            <span class="text-reset">Gestion Pédagogique et Financière</span>
 
         </div>
     </a>
