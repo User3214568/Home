@@ -18,12 +18,11 @@ $(document).ready(function(){
                 _token : token
             },
             success : function(response){
-                setTimeout(() => {
-                    $("#etudiants-notes").removeClass('border mt-5');
-                    $("#etudiants-notes").empty();
-                    $("#etudiants-notes").append(response);
-                    setupsave();
-                }, 1000);
+                $("#etudiants-notes").removeClass('border mt-5');
+                $("#etudiants-notes").empty();
+                $("#etudiants-notes").append(response);
+                setupsave();
+
             },
             error : function(error){
                 console.log(error)
@@ -40,8 +39,8 @@ function setupsave(){
         $(this).click(function(){
             if($(this).attr('name')=="savenote"){
                 var fails = [];
-                $(this).parent().prev().find("td[name='note']").each(function(e){
-                    console.log('found')
+                $(this).parent().parent().parent().find(".table-responsive").find("td[name='note']").each(function(e){
+
                     var id = $(this).attr('id');
                     var value =  Number($(this).text().trim());
                     if(/^[0-9]+(\.[0-9]+)?$/.test(value) && (value<=20 && value >=0)){
@@ -54,7 +53,7 @@ function setupsave(){
                         fails.push('Valeur Invalide : '+id);
                     }
                 });
-                console.log(evaluation)
+
                 if(fails.length == 0){
                     editNote(evaluation)
                 }else alert('Donnée Invalides');

@@ -30,8 +30,8 @@
                         </li>
                         @foreach ($sem->modules as $module)
                             <li class="nav-item tab-item" role="presentation">
-                                <a class="nav-link " id="{{ $sem->id . '-' . $module->id }}" data-mdb-toggle="tab"
-                                    href="#tab-{{ $sem->id . '-' . $module->id }}" role="tab"
+                                <a class="nav-link " id="{{ $sem->id . '-' . $module->id }}"
+                                    data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $module->id }}" role="tab"
                                     aria-controls="ex1-tabs-1" aria-selected="true">{{ $module->name }}</a>
                             </li>
 
@@ -46,12 +46,15 @@
                             <!-- Tabs navs -->
                             <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="ord-{{$sem->id}}" data-mdb-toggle="tab" href="#tab-ord-{{$sem->id}}"
-                                        role="tab" aria-controls="tab-ord-{{$sem->id}}" aria-selected="true">Session Ordinaire</a>
+                                    <a class="nav-link active" id="ord-{{ $sem->id }}" data-mdb-toggle="tab"
+                                        href="#tab-ord-{{ $sem->id }}" role="tab"
+                                        aria-controls="tab-ord-{{ $sem->id }}" aria-selected="true">Session
+                                        Ordinaire</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="rat-{{$sem->id}}" data-mdb-toggle="tab" href="#tab-rat-{{$sem->id}}"
-                                        role="tab" aria-controls="" aria-selected="false">Session Rattrappage</a>
+                                    <a class="nav-link" id="rat-{{ $sem->id }}" data-mdb-toggle="tab"
+                                        href="#tab-rat-{{ $sem->id }}" role="tab" aria-controls=""
+                                        aria-selected="false">Session Rattrappage</a>
                                 </li>
 
                             </ul>
@@ -59,8 +62,8 @@
 
                             <!-- Tabs content -->
                             <div class="tab-content" id="ex1-content">
-                                <div class="tab-pane fade show active" id="tab-ord-{{$sem->id}}" role="tabpanel"
-                                    aria-labelledby="ord-{{$sem->id}}">
+                                <div class="tab-pane fade show active" id="tab-ord-{{ $sem->id }}" role="tabpanel"
+                                    aria-labelledby="ord-{{ $sem->id }}">
                                     <div class="table-responsive">
                                         <?php $session = 1; ?>
                                         @if (!isset($result))
@@ -70,7 +73,8 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-rat-{{$sem->id}}" role="tabpanel" aria-labelledby="ex1-tab-2">
+                                <div class="tab-pane fade" id="tab-rat-{{ $sem->id }}" role="tabpanel"
+                                    aria-labelledby="ex1-tab-2">
                                     <div class="table-responsive">
                                         <?php $session = 2; ?>
                                         @if (!isset($result))
@@ -88,30 +92,66 @@
                         @foreach ($sem->modules as $mymodule)
                             <div class="tab-pane fade" id="tab-{{ $sem->id . '-' . $mymodule->id }}" role="tabpanel"
                                 aria-labelledby="ex1-tab-2">
-                                    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link active" id="sord-{{ $sem->id . '-' . $mymodule->id }}"
-                                                data-mdb-toggle="tab"
-                                                href="#tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
-                                                aria-controls="sord-{{ $sem->id . '-' . $mymodule->id }}"
-                                                aria-selected="true">Session Ordinaire</a>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="srat-{{ $sem->id . '-' . $mymodule->id }}"
-                                                data-mdb-toggle="tab"
-                                                href="#tab-srat-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
-                                                aria-controls="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
-                                                aria-selected="false">Session Rattrappage</a>
-                                        </li>
+                                <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="sord-{{ $sem->id . '-' . $mymodule->id }}"
+                                            data-mdb-toggle="tab"
+                                            href="#tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
+                                            aria-controls="sord-{{ $sem->id . '-' . $mymodule->id }}"
+                                            aria-selected="true">Session Ordinaire</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="srat-{{ $sem->id . '-' . $mymodule->id }}"
+                                            data-mdb-toggle="tab"
+                                            href="#tab-srat-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
+                                            aria-controls="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
+                                            aria-selected="false">Session Rattrappage</a>
+                                    </li>
 
-                                    </ul>
-                                    <!-- Tabs navs -->
+                                </ul>
+                                <!-- Tabs navs -->
 
-                                    <!-- Tabs content -->
-                                    <div class="tab-content" id="ex1-content">
-                                        <div class="tab-pane fade show active"
-                                            id="tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tabpanel"
-                                            aria-labelledby="tab-sord-{{ $sem->id . '-' . $mymodule->id }}">
+                                <!-- Tabs content -->
+                                <div class="tab-content" id="ex1-content">
+                                    <div class="tab-pane fade show active"
+                                        id="tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tabpanel"
+                                        aria-labelledby="tab-sord-{{ $sem->id . '-' . $mymodule->id }}">
+                                        <div class="row justify-content-end">
+                                            @if (!isset($result))
+                                                <form class="row justify-content-end"
+                                                    action="{{ route('etudiant.notes.import', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 1]) }}"
+                                                    method="post" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <button type="button" name="importModule"
+                                                        title="Importer Les Notes du Module"
+                                                        class="btn btn-success btn-floating ">
+                                                        <i class="fas fa-upload"></i>
+
+                                                    </button>
+                                                    <input name="file" type="file" hidden>
+                                                    <a title="Exporter Les Notes du Module" name="exportModule"
+                                                        href="{{ route('etudiant.notes.module.export', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 1, 'type' => 'false']) }}"
+                                                        class="btn btn-success btn-floating ms-2">
+                                                        <i class="fas fa-download"></i>
+
+                                                    </a>
+                                                    <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
+                                                        href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'module_id' => $mymodule->id]) }}"
+                                                        class="btn btn-info btn-floating  ms-2">
+                                                        <i class="fas fa-check"></i>
+
+                                                    </a>
+                                                    <button type="button" onclick="save(this)" name="savenote"
+                                                        title="Enregistrer les modifications"
+                                                        class="btn btn-info btn-floating  ms-2">
+                                                        <i class="fas fa-save"></i>
+                                                    </button>
+                                                    <button type="submit" id="submit" hidden></button>
+
+                                                </form>
+                                            @endif
+                                        </div>
+                                        <div class="table-responsive">
                                             <?php $session = 1; ?>
                                             @if (!isset($result))
                                                 @include('parts.admin.etudiant.table-module-note')
@@ -119,9 +159,34 @@
                                                 @include('parts.admin.etudiant.result-table')
                                             @endif
                                         </div>
-                                        <div class="tab-pane fade" id="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
-                                            role="tabpanel"
-                                            aria-labelledby="srat-{{ $sem->id . '-' . $mymodule->id }}">
+                                    </div>
+                                    <div class="tab-pane fade" id="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
+                                        role="tabpanel" aria-labelledby="srat-{{ $sem->id . '-' . $mymodule->id }}">
+                                        @if (!isset($result))
+                                            <form class="row justify-content-end"
+                                                action="{{ route('etudiant.notes.import', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 2]) }}"
+                                                method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                <button type="button" name="importModule"
+                                                    title="Importer Les Notes du Module"
+                                                    class="btn btn-success btn-floating">
+                                                    <i class="fas fa-upload"></i>
+                                                </button>
+                                                <input name="file" type="file" hidden>
+                                                <a title="Exporter Les Notes du Module" name="exportModule"
+                                                    href="{{ route('etudiant.notes.module.export', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 2, 'type' => 'false']) }}"
+                                                    class="btn btn-danger btn-floating ms-2">
+                                                    <i class="fas fa-download fa-1x"></i>
+                                                </a>
+                                                <button type="button"  name="savenote"
+                                                    title="Enregistrer les modifications"
+                                                    class="btn btn-info btn-floating  ms-2">
+                                                    <i class="fas fa-save"></i>
+                                                </button>
+                                                <button type="submit" id="submit" hidden></button>
+                                            </form>
+                                        @endif
+                                        <div class="table-responsive">
                                             <?php $session = 2; ?>
                                             @if (!isset($result))
                                                 @include('parts.admin.etudiant.table-module-note')
@@ -129,8 +194,9 @@
                                                 @include('parts.admin.etudiant.result-table')
                                             @endif
                                         </div>
-
                                     </div>
+
+                                </div>
 
                             </div>
                         @endforeach
@@ -148,4 +214,3 @@
     </div>
 
 </div>
-

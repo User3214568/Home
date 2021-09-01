@@ -22,6 +22,7 @@ Route::get('/restore-password','MainController@restorePassword');
 
 Route::middleware(('auth'))->group(function(){
 
+    Route::get('admin/Module/commit/{promotion_id}-{module_id}','ModuleController@commitOrdinaireSession')->name('module.commit.notes');
     Route::get('admin/etudiant/resultats','EtudiantController@results')->name('etudiant.result');
     Route::post('/admin/etudiant/update-note','EtudiantController@notesUpdate')->name('etudiant.note.update');
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
@@ -31,7 +32,9 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/module','ModuleController');
     Route::resource('/admin/etudiant','EtudiantController');
     Route::post('/admin/upload','UploadController@import')->name('upload');
-    Route::get('/admin/export-notes/{id}-{type}','UploadController@exportnotes')->name('etudiant.notes.export');
+    Route::post('/admin/import-module-note/{sem_id}-{module_id}-{session}','UploadController@importNoteModule')->name('etudiant.notes.import');
+    Route::get('/admin/export-module-notes/{sem_id}-{module_id}-{session}-{type}','UploadController@exportModule')->name('etudiant.notes.module.export');
+    Route::get('/admin/export-notes/{id}','UploadController@exportnotes')->name('etudiant.notes.export');
     Route::get('/admin/export','UploadController@export')->name('export');
     Route::get('/admin/export-all-formations','UploadController@exportAllFormations')->name('exportallformations');
     Route::get('/admin','MainController@admin')->name('admin');

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Devoir;
+use App\Evaluation;
 use App\Module;
+use App\Promotion;
+use App\Utilities\Validation;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
@@ -82,5 +85,21 @@ class ModuleController extends Controller
     public function destroy($id){
         Module::destroy($id);
         return $this->index();
+    }
+    public function commitOrdinaireSession($promo_id,$module_id){
+        $promotion = Promotion::find($promo_id);
+        $module = Module::find($module_id);
+        foreach ($promotion->etudiants as $etudiant) {
+            if(!(Validation::OrdinaireValidateModule($etudiant->cin,$module_id) == "Validé")){
+                foreach ($module->devoirs as $devoir) {
+                    if($devoir->session == 2){
+                        Evaluation::create(['etudiant_cin'=>$etudiant->cin,'devoir_id'=>$devoir->id]);
+                    }
+                }
+            }else{
+                // To Delete Evaluations that Exists as Old Result.
+            }
+        }
+        return redirect(route('etudiant.evaluation'));
     }
 }

@@ -23,6 +23,6 @@ class Formation extends Model
         return $query->where('name' , $name);
     }
     public function critere(){
-        return $this->hasOne(Critere::class);
+        return $this->belongsTo(Critere::class);
     }
 }

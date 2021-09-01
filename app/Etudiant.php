@@ -23,10 +23,18 @@ class Etudiant extends Model
     public function evaluations(){
         return $this->hasMany(Evaluation::class);
     }
-    public function hasSession($session){
-        return Evaluation::evaluationsession($this->cin,$session);
+    /**
+     * Cette Function test si un etudiant donné à un rattrappage dans un module donné
+     */
+    public function hasSession($module_id,$session){
+        return Evaluation::evaluationsession($this->cin,$module_id,$session);
     }
-
+    /**
+     * Cette Function test si un etudiant donné à un rattrappage dans une semestre donné
+     */
+    public function hasSessionSemestre($sem_id,$session){
+        return Evaluation::Semestresession($this->cin,$sem_id,$session);
+    }
     public function moduleAverage($id_module,$session){
         $evaluations = Etudiant::find($this->cin)->evaluations;
         $avg = 0;

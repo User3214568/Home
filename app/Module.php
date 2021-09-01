@@ -17,4 +17,14 @@ class Module extends Model
     public function devoirs(){
         return $this->hasMany(Devoir::class);
     }
+
+    public function getSessionDevoirsCount($session){
+        $count = 0 ;
+        foreach ($this->devoirs as $devoir) {
+            if($devoir->session == $session){
+                $count++;
+            }
+        }
+        return $count;
+    }
 }

@@ -19,21 +19,21 @@ use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat as StyleNumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-abstract class ModuleExport implements WithColumnFormatting ,WithDrawings, WithColumnWidths, WithCustomStartCell, WithStartRow, WithTitle, WithStyles
+abstract class TemplateExport implements WithColumnFormatting ,WithDrawings, WithCustomStartCell, WithStartRow, WithStyles
 {
     private $title;
     private $sub_title;
     private $header_size;
     private $start_row ;
-    public function __construct($title,$sub_title,$header_size)
+    public function __construct($title,$sub_title,$header_size,$start_row = 11)
     {
         $this->sub_title = $sub_title;
         $this->title = $title;
         $this->header_size = $header_size;
-        $this->start_row = 11;
+        $this->start_row = $start_row;
     }
 
-    public abstract function additionalStyles(Worksheet $sheet);
+    public abstract function additionalStyles(Worksheet $sheet,$styles);
 
     public function styles(Worksheet $sheet)
     {
@@ -61,25 +61,7 @@ abstract class ModuleExport implements WithColumnFormatting ,WithDrawings, WithC
         $count = 1;
 
         $styles = [];
-        foreach ($this->promotion->semestres as $sem) {
-            foreach ($sem->modules as $module) {
-                $sheet->getCell("A" . (sizeof($this->promotion->etudiants) + $this->start_row + 1 + $count))->setValue("M$count");
-                $styles["A" . (sizeof($this->promotion->etudiants) + $this->start_row + 1 + $count)]['borders'] = [
-                    'outline' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
-                    ],
-                ];
-                $sheet->getCell("B" . (sizeof($this->promotion->etudiants) + $this->start_row + 1 + $count))->setValue($module->name);
-                $styles["B" . (sizeof($this->promotion->etudiants) + $this->start_row + 1 + $count)]['borders'] = [
-                    'outline' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
-                    ],
-                ];
-                $count++;
-            }
-
-        }
-
+        $styles = $this->additionalStyles($sheet,$styles);
 
         $styles['A2'] = ['font' => ['size' => 14]];
         $styles['A4'] = ['font' => ['size' => 14, 'bold' => true]];
@@ -106,24 +88,7 @@ abstract class ModuleExport implements WithColumnFormatting ,WithDrawings, WithC
     {
         return "A$this->start_row";
     }
-    public function columnWidths(): array
-    {
-        $widths = [
-            'A' => 20,
-            'B' => 35,
-            'C' => 19,
-            'D' => 22,
-            'E' => 30,
 
-        ];
-        for ($i = 0; $i < $this->header_size - 8; $i++) {
-            $widths[chr(70 + $i)] = 7;
-        }
-        $widths[chr(70 + $i)] = 15;
-        $widths[chr(70 + $i + 1)] = 15;
-        $widths[chr(70 + $i + 2)] = 15;
-        return $widths;
-    }
     public function drawings()
     {
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();

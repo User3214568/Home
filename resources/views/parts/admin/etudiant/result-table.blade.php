@@ -16,18 +16,21 @@
         @if (sizeof($sem->promotion->etudiants) > 0)
 
             @foreach ($sem->promotion->etudiants as $key => $etudiant)
-                @if ($etudiant->hasSession($session))
+                @if ($etudiant->hasSession($mymodule->id,$session))
                     <tr>
                         <th>{{ $key + 1 }}</th>
                         <th scope="row">{{ $etudiant->cne }}</th>
                         <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
                         @if (sizeof($mymodule->devoirs) > 0)
-                            <?php $note = 0; ?>
-                            @foreach ($mymodule->devoirs as $devoir)
-
-                            @endforeach
+                            <?php
+                                if($session == 1){
+                                    $note = App\Utilities\Validation::validateSessionModule($etudiant->cin,$mymodule->id,$session,false);
+                                }else{
+                                    $note = App\Utilities\Validation::FinalModuleNote($etudiant->cin,$mymodule->id);
+                                }
+                            ?>
                             <th scope="row">{{ $note }}</th>
-                            <td>{{ $note >= 12 ? 'Validé' : ($note >= 8 ? 'Non Validé' : 'Ajourné') }}</td>
+                            <td>{{ $note >= $etudiant->formation->critere->note_validation ? 'Validé' : ($note >= $etudiant->formation->critere->note_aj ? 'Non Validé' : 'Ajourné') }}</td>
                         @else
                             <td>Aucune Note</td>
                         @endif

@@ -8,6 +8,6 @@ class Critere extends Model
 {
     protected $fillable = ['note_validation', 'note_aj','number_aj','number_nv'];
     public function formation(){
-        return $this->belongsTo(Formation::class);
+        return $this->hasOne(Formation::class);
     }
 }
