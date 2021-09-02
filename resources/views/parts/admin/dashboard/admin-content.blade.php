@@ -61,6 +61,19 @@
         @include('parts.admin.user.index')
         @break
 
+
+        @case('finance.add.tranche')
+        @include('parts.admin.finance.addtranche')
+        @break
+
+        @case('finance.add.payement')
+        @include('parts.admin.finance.profpay')
+        @break
+
+        @case('finance.payement.consultants')
+        @include('parts.admin.finance.consultantspay')
+        @break
+
         @default
 
         @endswitch

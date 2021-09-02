@@ -146,5 +146,15 @@ class FormationController extends Controller
         $sem = Semestre::find($sem);
 
     }
+    public function getModules($id){
+        $formation = Formation::find($id);
+        $modules = [];
+        if($formation){
+            foreach ($formation->semestres as   $s) {
+                $modules  = array_merge($modules,$s->modules->toArray());
+            }
+        }
+        return json_encode($modules);
+    }
 
 }

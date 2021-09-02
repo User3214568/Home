@@ -19,6 +19,7 @@ class Formation extends Model
     public function promotions(){
         return $this->hasMany(Promotion::class);
     }
+
     public function scopeName($query,$name){
         return $query->where('name' , $name);
     }

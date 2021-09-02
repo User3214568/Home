@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Promotion;
+use App\Utilities\Validation;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
@@ -103,7 +104,7 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
         $count = 0;
         foreach ($this->promotion->semestres as $s) {
             foreach ($s->modules as $module) {
-                $mavg = $etudiant->moduleAverage($module->id, 1);
+                $mavg = Validation::FinalModuleNote($etudiant->cin,$module->id);
                 $moy += $mavg;
                 $count++;
 
@@ -141,12 +142,12 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
             'E' => 30,
 
         ];
-        for ($i = 0; $i < $this->header_size - 5; $i++) {
+        for ($i = 0; $i < $this->header_size - 8; $i++) {
             $widths[chr(70 + $i)] = 7;
         }
-        $widths[chr(70 + $i)] = 15;
-        $widths[chr(70 + $i + 1)] = 15;
-        $widths[chr(70 + $i + 2)] = 15;
+        $widths[chr(70 + $i)] = 25;
+        $widths[chr(70 + $i + 1)] = 25;
+        $widths[chr(70 + $i + 2)] = 25;
         return $widths;
     }
 

@@ -23,6 +23,9 @@ class Etudiant extends Model
     public function evaluations(){
         return $this->hasMany(Evaluation::class);
     }
+    public function tranches(){
+        return $this->hasMany(Tranche::class);
+    }
     /**
      * Cette Function test si un etudiant donné à un rattrappage dans un module donné
      */
@@ -51,4 +54,5 @@ class Etudiant extends Model
             return null;
         }
     }
+
 }
