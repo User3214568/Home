@@ -28,14 +28,16 @@ Route::middleware(('auth'))->group(function(){
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
     Route::post('/admin/formation/notes','FormationController@notes')->name('formation.notes');
 
-    Route::get('/admin/finance/ajouter-tranche','FinanceController@addTranche')->name('finance.add.tranche');
-    Route::post('/admin/finance/ajouter-tranche','FinanceController@addTranchePost')->name('finance.add.tranch.post');
+    Route::post('/admin/finance/import/formation','UploadController@importPaiementEtudiant')->name('finance.import.paiement');
+
     Route::get('/admin/finance/ajouter-payement','FinanceController@addPayement')->name('finance.add.payement');
     Route::post('/admin/finance/ajouter-payement','FinanceController@storePayement')->name('finance.add.payement');
 
+    Route::get('/admin/finance/export/{id}-{type}','UploadController@exportFinanceFormation')->name('finance.export.formation');
 
-    Route::get('/admin/finance/payement-consultants','FinanceController@payementConsultants')->name('finance.payement.consultant');
 
+    Route::resource('/admin/finance/paiement','PaiementController');
+    Route::resource('/admin/finance/tranche','TrancheController');
     Route::resource('/admin/user','UserController');
     Route::resource('/admin/formation','FormationController');
     Route::resource('/admin/module','ModuleController');

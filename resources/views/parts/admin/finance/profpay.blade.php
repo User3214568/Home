@@ -1,7 +1,7 @@
 <script src="/javascript/paiement.js"></script>
 <?php
 
-$route = route('finance.add.payement');
+$route = route('paiement.create');
 $target = 'Paiement';
 
 $fields = [

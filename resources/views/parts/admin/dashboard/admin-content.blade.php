@@ -66,12 +66,20 @@
         @include('parts.admin.finance.addtranche')
         @break
 
+        @case('finance.tranche.edit')
+        @include('parts.admin.finance.edit-tranche')
+        @break
+
         @case('finance.add.payement')
         @include('parts.admin.finance.profpay')
         @break
 
         @case('finance.payement.consultants')
         @include('parts.admin.finance.consultantspay')
+        @break
+
+        @case('finance.versemnt.list')
+        @include('parts.admin.finance.list-vers')
         @break
 
         @default

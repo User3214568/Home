@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Etudiant;
 use App\Exports\EtudiantsExport;
 use App\Exports\ExportFormations;
+use App\Exports\ExportVersementALL;
+use App\Exports\FormationFinanceExport;
 use App\Exports\ModuleExport;
 use App\Exports\NotesExport;
 use App\Formation;
 use App\Imports\BulkImport;
 use App\Imports\ImportModule;
+use App\Imports\ImportPaiementEtudiant;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+
+use function PHPSTORM_META\type;
 
 class UploadController extends Controller
 {
@@ -56,6 +61,26 @@ class UploadController extends Controller
         $import_module->import($request->file('file'));
 
         return redirect(route('etudiant.evaluation'));
+    }
+
+    public function exportFinanceFormation($id,$type){
+        if($id == 0){
+            return Excel::download(new ExportVersementALL(),"all-versement-".date('d-m-Y').".xlsx");
+        }else{
+
+            $formation = Formation::find($id);
+            if($type=="true") $type = true;
+            else $type = false;
+            if($formation){
+                return Excel::download(new FormationFinanceExport($formation,$type),"versement-".$formation->name.".xlsx");
+            }
+        }
+    }
+    public function importPaiementEtudiant(Request $request){
+
+        Excel::import(new ImportPaiementEtudiant(), $request->file('file'));
+        return redirect(route('finance.versement.lis'));
+
     }
 
 }

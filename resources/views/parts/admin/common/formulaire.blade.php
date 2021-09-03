@@ -1,5 +1,5 @@
 <p>
-<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
+<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
 </h2>
 </p>
 @if ($errors->any())
@@ -13,21 +13,13 @@
     </div>
 @endif
 
+
 <form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate>
     @csrf
-    @if (isset($etudiant) || isset($user) || isset($module))
+    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche))
         @method('put')
     @endif
-    @if ($target == 'Paiement' || $target == 'Tranche')
-        <div class="row justify-content-end">
-            <button title="Importer Les {{$target}}s" class="col-1 btn btn-success btn-floating">
-                <i class="fas fa-upload"></i>
-            </button>
-            <a href="" title="Exporter Les {{$target}}s" class="col-1 btn btn-danger btn-floating ms-2">
-                <i class="fas fa-download"></i>
-            </a>
-        </div>
-    @endif
+
 
     @foreach ($fields as $field)
         <div class="row mt-4">
@@ -69,7 +61,7 @@
     @elseif(($field['type'] == 'checkbox'))
         <div class="form-check ">
             <input class="form-check-input" name="{{ $field['name'] }}" type="checkbox" value=""
-                id="_{{ $field['name'] }}" />
+                id="_{{ $field['name'] }}" {{(isset($field['checked'])?$field['checked']===1:false)?'checked':''}} />
             <label class="form-check-label" for="_{{ $field['name'] }}">
                 {{ $field['label'] }}
             </label>
@@ -179,7 +171,7 @@
 </div>
 <div class="mt-4 d-flex justify-content-end">
     <button class="btn btn-success">
-        <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) ? "Crée  $target" : "Modifier  $target" }}
+        <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) ? "Crée  $target" : "Modifier  $target" }}
         </h6>
     </button>
 </div>

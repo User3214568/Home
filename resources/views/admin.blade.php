@@ -23,7 +23,7 @@
         ],
 
         ['title'=>'Utilisateur','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
-        ['title'=>'Ajouter une Tranche','link'=>route('finance.add.tranche') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
         ['title'=>'Ajouter un Payement','link'=>route('finance.add.payement') , 'icon'=>'fas fa-th', 'expanded'=>false],
         ['title'=>'Ajouter Payement des Consultants','link'=>route('finance.payement.consultant') , 'icon'=>'fas fa-th', 'expanded'=>false],
 

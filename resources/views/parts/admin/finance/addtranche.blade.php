@@ -1,6 +1,6 @@
 
 <?php
-    $route = route('finance.add.tranch.post');
+    $route = route('tranche.create');
     $target = 'Tranche';
     $adj = 'Une Nouvelle';
     $fields = [
