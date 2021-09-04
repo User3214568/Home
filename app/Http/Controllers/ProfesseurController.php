@@ -21,7 +21,7 @@ class ProfesseurController extends Controller
     }
     public function store(Request $request){
         $request->validate([
-            'name'=>'required|unique:professeurs|max:255',
+            'name'=>'required|max:255',
             'module_id'=>'required|numeric',
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
