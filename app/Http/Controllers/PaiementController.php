@@ -20,12 +20,37 @@ class PaiementController extends Controller
     }
     public function store(Request $request){
        $request->validate([
-        'module'=>'required|numeric',
-        'prof'=>'string|max:255',
-        'montant'=>'numeric',
-        'date_payement'=>'date'
+        'formation_id'=>'required|numeric',
+        'module_id'=>'required|numeric',
+        'montant'=>'required|numeric',
+        'date_payement'=>'required|date'
        ]);
-       Paiement::create(array_merge($request->only(['prof','date_payement','montant']),['module_id'=>$request->module,'formation_id'=>$request->formation]));
-       return $this->addPayement();
+       Paiement::create(array_merge($request->only(['formation_id','date_payement','montant']),['professeur_id'=>$request->module_id]));
+       return $this->index();
+    }
+    public function edit($id){
+        $formations = Formation::get();
+        $paiement = Paiement::find($id);
+        if($paiement){
+            $content = "finance.payement.update";
+            return view("admin",compact(['content','formations','paiement']));
+        }else{
+            return $this->index();
+        }
+    }
+    public function update($id ,Request $request){
+        $request->validate([
+            'formation_id'=>'required|numeric',
+            'module_id'=>'required|numeric',
+            'montant'=>'required|numeric',
+            'date_payement'=>'required|date'
+        ]);
+        $paiement = Paiement::find($id);
+        if($paiement){
+            $paiement->update(array_merge($request->only(['formation_id','date_payement','montant']),['professeur_id'=>$request->module_id]));
+        }
+    }
+    public function destroy($id){
+        Paiement::destroy($id);
     }
 }

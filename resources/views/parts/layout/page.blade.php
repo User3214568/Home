@@ -31,7 +31,7 @@
 
     <script src="/javascript/app.js"></script>
     <script src="/javascript/sidebar.js"></script>
-
+    <script type="module" src="/javascript/fetch.js"></script>
 
     <title>@yield('title')</title>
 </head>

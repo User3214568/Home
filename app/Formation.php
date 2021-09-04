@@ -9,7 +9,6 @@ class Formation extends Model
 
     protected $fillable = ['name','description','critere_id'];
 
-
     public function semestres(){
         return $this->hasMany(Semestre::class)->orderBy('numero');
     }
@@ -18,6 +17,12 @@ class Formation extends Model
     }
     public function promotions(){
         return $this->hasMany(Promotion::class);
+    }
+    public function professeurs(){
+        return $this->hasMany(Professeur::class);
+    }
+    public function paiements(){
+        return $this->hasMany(Paiement::class);
     }
 
     public function scopeName($query,$name){

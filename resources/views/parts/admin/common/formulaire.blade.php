@@ -1,5 +1,5 @@
 <p>
-<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
+<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($prof) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
 </h2>
 </p>
 @if ($errors->any())
@@ -16,7 +16,7 @@
 
 <form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate>
     @csrf
-    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche))
+    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche) || isset($prof))
         @method('put')
     @endif
 
@@ -27,11 +27,11 @@
 
                 <select class="col border rounded-2   p-2 text-reset" name="{{ $field['name'] }}"
                     id="input_{{ $field['name'] }}" required>
-                    <option value="{{ $field['value'] }}" {{ !isset($etudiant) ? 'selected' : '' }} disabled>
+                    <option value="{{ $field['value'] }}" {{ !isset($etudiant) || !isset($prof) ? 'selected' : '' }} disabled>
                         {{ $field['label'] }}</option>
                     @foreach ($field['items'] as $item)
                         <option value="{{ $item->id ?: $item->cin }}"
-                            {{ isset($etudiant) && $field['selected'] == ($item->id ?: $item->cin) ? 'selected' : '' }}>
+                            {{ isset($etudiant) || isset($prof) && $field['selected'] == ($item->id ?: $item->cin) ? 'selected' : '' }}>
                             {{ $item->name ?: ($item->nom ?: $item->first_name . ' ' . $item->last_name) }}
                         </option>
                     @endforeach
@@ -171,7 +171,7 @@
 </div>
 <div class="mt-4 d-flex justify-content-end">
     <button class="btn btn-success">
-        <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) ? "Crée  $target" : "Modifier  $target" }}
+        <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($prof) ? "Crée  $target" : "Modifier  $target" }}
         </h6>
     </button>
 </div>

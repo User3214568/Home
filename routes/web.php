@@ -28,14 +28,22 @@ Route::middleware(('auth'))->group(function(){
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
     Route::post('/admin/formation/notes','FormationController@notes')->name('formation.notes');
 
-    Route::post('/admin/finance/import/formation','UploadController@importPaiementEtudiant')->name('finance.import.paiement');
+    Route::post('/admin/finance/import/formation','UploadController@importPaiementEtudiant')->name('finance.import.versement');
 
-    Route::get('/admin/finance/ajouter-payement','FinanceController@addPayement')->name('finance.add.payement');
-    Route::post('/admin/finance/ajouter-payement','FinanceController@storePayement')->name('finance.add.payement');
+
 
     Route::get('/admin/finance/export/{id}-{type}','UploadController@exportFinanceFormation')->name('finance.export.formation');
+    Route::get('/admin/finance/export/paiement-prof/{id}','UploadController@exportProfPaiement');
+
+    #EXPORT-Import PROFESSEURS------------------------------------------------------------
+    Route::post('/admin/professeur/import/{id}','UploadController@importProfesseurs')->name('professeur.import');
+    Route::get('/admin/professeur/export/{id}-{type}','UploadController@exportProfesseur')->name('professeur.export');
+    #------------------------------------------------------------------------------
+    Route::get('/admin/formation/modules/{id}','FormationController@getModules')->name('formation.modules');
+    Route::get('/admin/formation/professeurs/{id}','FormationController@getProfesseurs')->name('formation.professeurs');
 
 
+    Route::resource('/admin/professeur','ProfesseurController');
     Route::resource('/admin/finance/paiement','PaiementController');
     Route::resource('/admin/finance/tranche','TrancheController');
     Route::resource('/admin/user','UserController');
@@ -51,7 +59,7 @@ Route::middleware(('auth'))->group(function(){
     Route::get('/admin','MainController@admin')->name('admin');
     Route::get('/logout','UserController@logout')->name('logout');
 
-    Route::get('/admin/formation/modules/{id}','FormationController@getModules')->name('formation.modules');
+
 });
 
 

@@ -156,5 +156,13 @@ class FormationController extends Controller
         }
         return json_encode($modules);
     }
+    public function getProfesseurs($id){
+        $formation = Formation::find($id);
+        $profs = [];
+        if($formation){
+            $profs = $formation->professeurs;
+        }
+        return json_encode($profs);
+    }
 
 }

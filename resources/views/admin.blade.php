@@ -24,8 +24,8 @@
 
         ['title'=>'Utilisateur','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
         ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
-        ['title'=>'Ajouter un Payement','link'=>route('finance.add.payement') , 'icon'=>'fas fa-th', 'expanded'=>false],
-        ['title'=>'Ajouter Payement des Consultants','link'=>route('finance.payement.consultant') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Somme des Professeurs','link'=>route('professeur.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Payement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
 
 
     ];

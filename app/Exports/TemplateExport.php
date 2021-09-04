@@ -61,12 +61,11 @@ abstract class TemplateExport implements WithColumnFormatting ,WithDrawings, Wit
         $count = 1;
 
         $styles = [];
-        $styles = $this->additionalStyles($sheet,$styles);
 
         $styles['A2'] = ['font' => ['size' => 14]];
         $styles['A4'] = ['font' => ['size' => 14, 'bold' => true]];
         $styles["8"] = ['font' => ['size'=> 17 ,'bold' => true]];
-        $styles["$this->start_row"] = ['font' => [ 'bold' => true]];
+        $styles["$this->start_row"]['font'] = ['size'=>13, 'bold' => true];
         $styles["4"]['fill'] =[
             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
             'color' => ['rgb' => 'd9d9d9']
@@ -76,7 +75,19 @@ abstract class TemplateExport implements WithColumnFormatting ,WithDrawings, Wit
             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
             'color' => ['rgb' => 'd9d9d9']
         ];
+        for($i = 0 ; $i < $this->header_size ;$i++){
+            $styles[chr(65+$i)."$this->start_row"]['borders']= [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ],
+            ];
+            $styles[chr(65+$i)]['alignment'] =  [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ];
+        }
 
+        $styles = $this->additionalStyles($sheet,$styles);
 
         return $styles;
     }

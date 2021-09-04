@@ -74,12 +74,26 @@
         @include('parts.admin.finance.profpay')
         @break
 
+        @case('finance.payement.update')
+        @include('parts.admin.finance.profpay')
+        @break
+
         @case('finance.payement.consultants')
         @include('parts.admin.finance.consultantspay')
         @break
 
         @case('finance.versemnt.list')
         @include('parts.admin.finance.list-vers')
+        @break
+
+        @case('professeur.create')
+        @include('parts.admin.Professeur.add-prof')
+        @break
+        @case('professeur.update')
+        @include('parts.admin.Professeur.edit-prof')
+        @break
+        @case('list-prof')
+        @include('parts.admin.Professeur.list-prof')
         @break
 
         @default
