@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateEtudiantsTable extends Migration
+class ReupdateEtudiants extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,8 @@ class UpdateEtudiantsTable extends Migration
     public function up()
     {
         Schema::table('etudiants',function(Blueprint $table){
-            $table->string('born_place');
-            $table->string('phone');
-            $table->foreignId('promotion_id')->constrained();
-
+            $table->removeColumn('cne');
         });
-
     }
 
     /**
@@ -29,10 +25,6 @@ class UpdateEtudiantsTable extends Migration
      */
     public function down()
     {
-        Schema::table('etudiants',function(Blueprint $table){
-            $table->removeColumn('cne');
-            $table->removeColumn('born_place');
-            $table->removeColumn('phone');
-        });
+        //
     }
 }
