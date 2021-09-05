@@ -111,14 +111,14 @@ class UploadController extends Controller
 
     public function exportProfesseur($id,$type){
         if ($id == 0) {
-            return Excel::download(new ExportAllProfesseurs(), "all-versement-" . date('d-m-Y') . ".xlsx");
+            return Excel::download(new ExportAllProfesseurs(), "all-profs-somme-" . date('d-m-Y') . ".xlsx");
         } else {
 
             $formation = Formation::find($id);
             if ($type == "true") $type = true;
             else $type = false;
             if ($formation) {
-                return Excel::download(new ExportProfesseur($formation, $type), "versement-" . $formation->name . ".xlsx");
+                return Excel::download(new ExportProfesseur($formation, $type), "professeurs-" . $formation->name . "-somme.xlsx");
             }
         }
     }

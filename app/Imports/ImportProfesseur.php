@@ -26,7 +26,7 @@ class ImportProfesseur implements ToModel,WithHeadingRow
 
         if($module_id){
             $module_id = $module_id->id;
-            if($row['nom_du_professeur'] !== "" &&  $row['somme'] !== ""){
+            if($row['nom_du_professeur'] != "" && $row['nom_du_professeur'] != null &&  $row['somme'] != ""){
                 Professeur::create(['name'=>$row['nom_du_professeur'] ,
                 'module_id'=>$module_id,
                 'somme'=>$row['somme'],
