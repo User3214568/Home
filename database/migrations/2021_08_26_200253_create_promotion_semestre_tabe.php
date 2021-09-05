@@ -15,10 +15,8 @@ class CreatePromotionSemestreTabe extends Migration
     {
         Schema::create('promotion_semestre', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('promotion_id');
-            $table->unsignedBigInteger('semestre_id');
-            $table->foreign('promotion_id')->references('promotions')->on('id')->onDelete('cascade');
-            $table->foreign('semestre_id')->references('semestres')->on('id')->onDelete('cascade');
+            $table->foreignId('promotion_id');
+            $table->foreignId('semestre_id');
         });
     }
 
