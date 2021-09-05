@@ -21,9 +21,7 @@ class CreatePromotionsTable extends Migration
             $table->foreignId('formation_id')->constrained();
         });
 
-        Schema::table('etudiants',function (Blueprint $table){
-            $table->foreignId('promotion_id')->constrained();
-        });
+
     }
 
     /**

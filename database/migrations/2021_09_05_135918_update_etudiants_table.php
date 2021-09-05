@@ -16,7 +16,9 @@ class UpdateEtudiantsTable extends Migration
         Schema::table('etudiants',function(Blueprint $table){
             $table->string('born_place');
             $table->string('phone');
+            $table->foreignId('promotion_id')->constrained();
         });
+
     }
 
     /**
