@@ -2,15 +2,23 @@
 
 namespace App\Exports;
 
+use App\Formation;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class ExportAllFormationPaiement implements FromCollection
+class ExportAllFormationPaiement implements WithMultipleSheets
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+
+
+    public function sheets(): array
     {
-        //
+        $sheets = [];
+        $formations = Formation::orderBy('name','ASC')->get();
+
+        foreach($formations as $formation){
+            $sheets[] = new ExportFormationPaiement($formation,false);
+        }
+
+        return $sheets;
     }
 }

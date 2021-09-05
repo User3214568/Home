@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class ImportPaiementEtudiant implements ToModel,WithHeadingRow,WithHeadings
 {
@@ -21,8 +22,7 @@ class ImportPaiementEtudiant implements ToModel,WithHeadingRow,WithHeadings
         if($etudiant){
             for($i = 3 ; $i+2 < sizeof($row) ; $i+=3){
                 if(isset($row["vers$count"])){
-                    $date = date_create_from_format('d-m-Y', $row["date".($count)]);
-                    $date = date_format($date,'Y-m-d');
+                    $date = Date::excelToDateTimeObject($row["date".($count)])->format('Y-m-d');
                     foreach ($etudiant->tranches as  $tranche) {
                         Tranche::destroy($tranche->id);
                     }

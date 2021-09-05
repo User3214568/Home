@@ -22,6 +22,7 @@ export default class Fetch{
                     }
                 });
             });
+
             if($("#input_formation_id").val() != null){
 
                 var token = $('meta[name="csrf-token"]').attr('content');

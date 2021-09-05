@@ -25,17 +25,22 @@ class EtudiantController extends Controller
         $is_valid = $request->validate([
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            'cin'=>'required|unique:etudiants|max:15',
-            'cne'=>'required|unique:etudiants|max:15',
+            'cin'=>'required|unique:etudiants,cin|max:15',
             'email'=>'required|max:30',
             'formation_id'=>'required',
-            'born_date'=>'required'
-
+            'born_date'=>'required',
+            'born_place'=>'required',
+            'phone'=>'required'
         ]);
 
         if($is_valid){
-            $promo = Promotion::premier($request->formation_id)->get()[0];
-            $etudiant = Etudiant::create(array_merge($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date']),['promotion_id'=>$promo->id]));
+            if(isset($request->promotion_id)){
+                $promo = $request->promotion_id;
+            }else{
+
+                $promo = Promotion::premier($request->formation_id)->get()[0];
+            }
+            $etudiant = Etudiant::create(array_merge($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date','born_place','phone']),['promotion_id'=>$promo->id]));
             foreach($promo->semestres as $semestre){
                 foreach($semestre->modules as $module){
                     foreach($module->devoirs as $devoir){
@@ -60,13 +65,13 @@ class EtudiantController extends Controller
         $is_valid = $request->validate([
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            'cin'=>'required|max:15',
-            'cne'=>'required|max:15',
+            'cin'=>'required|unique:etudiants,cin|max:15',
             'email'=>'required|max:30',
             'formation_id'=>'required',
             'promotion_id'=>'required',
-            'born_date'=>'required'
-
+            'born_date'=>'required',
+            'born_place'=>'required',
+            'phone'=>'required'
         ]);
         if($is_valid){
             $promo = Promotion::premier($request->formation_id)->get()[0];
@@ -74,9 +79,8 @@ class EtudiantController extends Controller
             $old_promo = $etudiant->promotion_id;
             $old_formation = $etudiant->formation_id;
 
-            $etudiant->update($request->only(['first_name','last_name','cin','cne','email','formation_id','born_date','promotion_id']));
+            $etudiant->update($request->only(['first_name','last_name','cin','cne','email','born_place','phone','formation_id','born_date','promotion_id']));
             if(!($old_formation == $request->formation_id && $old_promo == $request->promotion_id)){
-
                 foreach ($etudiant->evaluations as  $evaluation) {
                     Evaluation::destroy($evaluation->id);
                 }
@@ -91,6 +95,9 @@ class EtudiantController extends Controller
                 }
             }
 
+        }
+        if(isset($request->ajax)){
+            return response("success");
         }
         return $this->index();
     }

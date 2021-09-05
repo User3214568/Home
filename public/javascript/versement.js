@@ -1,5 +1,5 @@
 export default class ListGesionnaire {
-    constructor(routeExport,up=0){
+    constructor(routeExport,routeImport,up=0){
         $(document).ready(function(){
             $("#importVersement").click(function(){
                 $("#fileInput").click();
@@ -9,7 +9,7 @@ export default class ListGesionnaire {
             });
             $("#formation-select").on('change',function(){
                 if(up == 1){
-                    $("#importForm").attr('action','/admin/professeur/import/'+$(this).val());
+                    $("#importForm").attr('action',routeImport+$(this).val());
                 }
                 $("#exportEmpty").attr('href',routeExport+$(this).val()+'-true');
                 $("#export").attr('href',routeExport+$(this).val()+'-false');
@@ -38,6 +38,7 @@ export default class ListGesionnaire {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         }
+
 
     }
 }

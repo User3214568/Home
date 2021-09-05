@@ -19,7 +19,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat as StyleNumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-abstract class TemplateExport implements WithColumnFormatting ,WithDrawings, WithCustomStartCell, WithStartRow, WithStyles
+abstract class TemplateExport implements WithDrawings, WithCustomStartCell, WithStartRow, WithStyles
 {
     private $title;
     private $sub_title;
@@ -117,13 +117,5 @@ abstract class TemplateExport implements WithColumnFormatting ,WithDrawings, Wit
         $drawing1->setCoordinates(chr($this->header_size + 65 - 1) . "2");
         return [$drawing, $drawing1];
     }
-    public function columnFormats(): array
-    {
-        $formats = [];
-        for ($i = 0; $i < $this->header_size - 8; $i++) {
-            $formats[chr(70 + $i)] = StyleNumberFormat::FORMAT_TEXT;
 
-        }
-        return $formats;
-    }
 }

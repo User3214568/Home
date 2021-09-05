@@ -9,7 +9,7 @@ class Etudiant extends Model
     protected $primaryKey='cin';
     public $incrementing  = false;
 
-    protected $fillable = ['formation_id','first_name','last_name','cin','cne','born_date','email','promotion_id'];
+    protected $fillable = ['formation_id','first_name','last_name','cin','cne','born_date','born_place','phone','email','promotion_id'];
 
     public function formation(){
         return $this->belongsTo(Formation::class);

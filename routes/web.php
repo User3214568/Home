@@ -31,9 +31,7 @@ Route::middleware(('auth'))->group(function(){
     Route::post('/admin/finance/import/formation','UploadController@importPaiementEtudiant')->name('finance.import.versement');
 
 
-
     Route::get('/admin/finance/export/{id}-{type}','UploadController@exportFinanceFormation')->name('finance.export.formation');
-    Route::get('/admin/finance/export/paiement-prof/{id}','UploadController@exportProfPaiement');
 
     #EXPORT-Import PROFESSEURS------------------------------------------------------------
     Route::post('/admin/professeur/import/{id}','UploadController@importProfesseurs')->name('professeur.import');
@@ -42,6 +40,16 @@ Route::middleware(('auth'))->group(function(){
     Route::get('/admin/formation/modules/{id}','FormationController@getModules')->name('formation.modules');
     Route::get('/admin/formation/professeurs/{id}','FormationController@getProfesseurs')->name('formation.professeurs');
 
+    #----------EXPORT IMPORT PAIEMENT DU PROF-----------------------
+    Route::get('/admin/finance/export/paiement/{id}-{type}','UploadController@exportFormationPaiement')->name('paiement.export');
+    Route::post('/admin/finance/import/paiement/{id}','UploadController@importProfPaiement')->name('paiement.import');
+    #------------------------------------------------------------
+
+
+    #--------------------ETUDIANT IMPORT EXPORT
+    Route::post('/admin/etudiant/import/{id}','UploadController@importEtudiants')->name('etudiant.import');
+    Route::get('/admin/etudiant/export/{id}-{type}','UploadController@exportEtudiants')->name('etudiant.export');
+    #--------------------------------------------------------------------------------
 
     Route::resource('/admin/professeur','ProfesseurController');
     Route::resource('/admin/finance/paiement','PaiementController');
@@ -50,11 +58,9 @@ Route::middleware(('auth'))->group(function(){
     Route::resource('/admin/formation','FormationController');
     Route::resource('/admin/module','ModuleController');
     Route::resource('/admin/etudiant','EtudiantController');
-    Route::post('/admin/upload','UploadController@import')->name('upload');
     Route::post('/admin/import-module-note/{sem_id}-{module_id}-{session}','UploadController@importNoteModule')->name('etudiant.notes.import');
     Route::get('/admin/export-module-notes/{sem_id}-{module_id}-{session}-{type}','UploadController@exportModule')->name('etudiant.notes.module.export');
     Route::get('/admin/export-notes/{id}','UploadController@exportnotes')->name('etudiant.notes.export');
-    Route::get('/admin/export','UploadController@export')->name('export');
     Route::get('/admin/export-all-formations','UploadController@exportAllFormations')->name('exportallformations');
     Route::get('/admin','MainController@admin')->name('admin');
     Route::get('/logout','UserController@logout')->name('logout');

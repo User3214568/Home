@@ -1,4 +1,4 @@
-
+import popup from "./popup.js";
 var devoirs = {
     toDelete : [],
     length: 0,
@@ -72,7 +72,7 @@ function handle(event) {
         if (/^[0-9]+(\.[0-9]+)?$/.test(ratio)) {
 
             if ((Number(event.data.param1=='1'?devoirs.sum().rat:devoirs.sum().ord) + Number(ratio)) > 100) {
-                popup('Données Invalides', 'La somme des proucentage des devoires a dépassé 100%', 'bg-danger', 'text-light');
+                popup('Données Invalides', 'La somme des proucentage des devoires a dépassé 100%', 'bg-danger');
             }
             else {
                 devoirs.length++;
@@ -108,7 +108,7 @@ function handle(event) {
             popup('Données Invalides',
                 "Le Pourcentage doit étre une une valeur numérique",
                 "bg-danger",
-                'text-light'
+
             )
         }
     }
@@ -116,7 +116,7 @@ function handle(event) {
         popup('Opération Interdite',
             "Le nom du devoir ou sa portion (pourcentage) dans la note du module est Vide!",
             "bg-danger",
-            'text-light'
+
         )
     }
     syncDevoirs();
@@ -131,7 +131,7 @@ function saveEdit(e) {
     }
 
     if (calculated - Number(devoirs[$(this).attr('id')].ratio) + Number($(this).parent().parent().find('#ratio').val()) > 100) {
-        popup('Données Invalides', 'La somme des proucentage des devoires a dépassé 100%', 'bg-danger', 'text-light');
+        popup('Données Invalides', 'La somme des proucentage des devoires a dépassé 100%', 'bg-danger');
         $(this).parent().parent().find('#ratio').val(devoirs[$(this).attr('id')].ratio)
     } else {
         devoirs[$(this).attr('id')].name = $(this).parent().parent().find('#name').val();
@@ -149,19 +149,4 @@ function removeModule(event) {
     $(this).parent().parent().remove();
     syncDevoirs();
 }
-function popup(title, content, bg, color, icon = 'far fa-times-circle') {
 
-    $("#modal-title-id").empty();
-    $("#modal-header").addClass('border-white');
-    $("#modal-header").addClass(bg + ' d-flex flex-column text-white ');
-    $("#modal-header").empty()
-    $("#modal-header").append("<div class='d-flex justify-content-center align-items-center " + bg + "'><p><i class='" + icon + " fa-6x'></i></p></div>")
-    $("#modal-footer").addClass('border-white');
-    $("#modal-id").html(
-        "<div class='mt-2 d-flex justify-content-center align-items-center'><p class='h4'>" + title + "</p=></div>" +
-        "<div class='d-flex justify-content-center align-items-center'><p>" + content + "</p></div>"
-    );
-    $("#saveModules").remove();
-    $("#close-popup").addClass(bg)
-    $("#modal-trigger").click();
-}

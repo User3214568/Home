@@ -96,6 +96,11 @@
         @include('parts.admin.Professeur.list-prof')
         @break
 
+
+        @case('etudiant.imported')
+        @include('parts.admin.etudiant.imported-list')
+        @break
+
         @default
 
         @endswitch

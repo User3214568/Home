@@ -19,7 +19,7 @@ class CreateProfesseursTable extends Migration
             $table->string('name');
             $table->float('somme');
             $table->foreignId('formation_id');
-
+            $table->foreignId('module_id');
         });
     }
 

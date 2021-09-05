@@ -1,4 +1,4 @@
-
+import popup from "./popup.js";
 $("document").ready(function(){
     $("#btn-upload").click(function(){
         $("#upload-id").click();
@@ -39,10 +39,11 @@ $("document").ready(function(){
                     url : ('/admin/etudiant'),
                     data : data,
                     success : function (e){
-
+                        popup("Imporation des Etudiants","L'Opération a ete effectué avec succée.","bg-success","far fa-check-circle");
                     },
                     error : function(e){
-                        console.log(e);
+                        popup("Imporation des Etudiants","Opération a ete Echouée.","bg-danger");
+
                     }
                 })
             }
