@@ -160,7 +160,7 @@ class FormationController extends Controller
         $formation = Formation::find($id);
         $profs = [];
         if($formation){
-            $profs = $formation->professeurs;
+            $profs = $formation->teachers();
         }
         return json_encode($profs);
     }

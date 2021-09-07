@@ -6,12 +6,7 @@
 @section('route-export', route('professeur.export', ['id' => 0, 'type' => 'false']))
 @section('route-export-empty', route('professeur.export', ['id' => 0, 'type' => 'true']))
 @section('table')
-    <?php
-    $allprofs = App\Professeur::with('formation')
-        ->get()
-        ->groupBy('formation.name');
 
-    ?>
     <tr>
         <th>Formation</th>
         <th>Module</th>
@@ -29,7 +24,7 @@
                 <td rowspan="{{ sizeof($profs) }}">{{ $formation_name }}</td>
                 @endif
                 <td>{{ $prof->module->name }}</td>
-                <td>{{ $prof->name }}</td>
+                <td>{{ $prof->teacher->name }}</td>
                 <td>{{ $prof->somme }}</td>
 
                 <td class="d-flex justify-content-center  align-items-center">

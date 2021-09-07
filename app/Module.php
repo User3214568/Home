@@ -18,7 +18,7 @@ class Module extends Model
         return $this->hasMany(Devoir::class);
     }
     public function professeur(){
-        return $this->hasMany(Professeur::class);
+        return $this->belongsToMany(Professeur::class);
     }
     public function getSessionDevoirsCount($session){
         $count = 0 ;

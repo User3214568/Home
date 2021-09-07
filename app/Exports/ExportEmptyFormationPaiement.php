@@ -14,7 +14,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function __construct($formation)
     {
         $this->formation = $formation;
-        parent::__construct($formation->name,'Paiement des Professeurs',3);
+        parent::__construct($formation->name,'Paiement des Professeurs',2);
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -22,7 +22,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function additionalStyles(Worksheet $sheet, $styles)
     {
         $styles["11"] = [];
-        for ($i=0; $i < 3 ; $i++) {
+        for ($i=0; $i < 2 ; $i++) {
             $styles[chr(65+$i)."11"] = [];
         }
         return $styles;
@@ -34,7 +34,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function columnWidths(): array
     {
         return [
-            'A'=>40,'B'=>40,'C'=>15
+            'A'=>60,'B'=>40
         ];
     }
     public function title(): string

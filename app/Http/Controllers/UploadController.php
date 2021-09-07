@@ -13,6 +13,7 @@ use App\Exports\ExportFormationPaiement;
 use App\Exports\ExportFormations;
 use App\Exports\ExportPaiementProf;
 use App\Exports\ExportProfesseur;
+use App\Exports\ExportTest;
 use App\Exports\ExportVersementALL;
 use App\Exports\FormationFinanceExport;
 use App\Exports\FormationVersementsExport;
@@ -27,6 +28,7 @@ use App\Imports\ImportPaiementEtudiant;
 use App\Imports\ImportPaiementFormation;
 use App\Imports\ImportProfesseur;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
 use function PHPSTORM_META\type;
@@ -156,5 +158,8 @@ class UploadController extends Controller
             Excel::import(new ImportPaiementFormation($formation),$request->file('file'));
         }
         return redirect(route('paiement.index'));
+    }
+    public function testDrop(){
+        return Excel::download(new ExportTest ,"test-drop.xlsx");
     }
 }

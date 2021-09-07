@@ -20,7 +20,6 @@
                     </tr>
                     <tr>
                         <td>Formation</td>
-                        <td>Module</td>
                         <td>Professeur</td>
                         <td>Montant</td>
                         <td></td>
@@ -29,8 +28,7 @@
                     @foreach ($d_paiement as $paiement)
                         <tr name="versement">
                                 <td>{{ $paiement->formation->name }}</td>
-                                <td>{{ $paiement->professeur->module->name }}</td>
-                                <td>{{ $paiement->professeur->name }}</td>
+                                <td>{{ $paiement->teacher->name }}</td>
                                 <td>{{ $paiement->montant }}</td>
                                 <td class="d-flex justify-content-center  align-items-center">
                                     <form action="{{ route('paiement.destroy', ['paiement' => $paiement->id]) }}"

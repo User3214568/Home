@@ -31,7 +31,7 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
             }
         }
         $this->header_size = max($this->header_size, 4);
-        parent::__construct($formation->name, "Historique des Versement et des Paiement", ($this->header_size * 3) + 3 + (!$this->empty ? 2 : 0), $this->start_row);
+        parent::__construct($formation->name, "Liste des Versements", ($this->header_size * 3) + 3 + (!$this->empty ? 2 : 0), $this->start_row);
         $this->header_size += (3 + (!$this->empty ? 2 : 0));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Formation;
 use App\Professeur;
+use App\Teacher;
 use Illuminate\Http\Request;
 
 class ProfesseurController extends Controller
@@ -11,8 +12,10 @@ class ProfesseurController extends Controller
     public function index(){
         $content = "list-prof";
         $formations = Formation::get();
-        $profs = Professeur::get();
-        return view('admin',compact(['profs','content','formations']));
+        $allprofs = Professeur::with('formation')
+        ->get()
+        ->groupBy('formation.name');
+        return view('admin',compact(['profs','content','formations','allprofs']));
     }
     public function create(){
         $content = "professeur.create";
@@ -26,7 +29,11 @@ class ProfesseurController extends Controller
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
-        Professeur::create($request->all());
+        $teacher = Teacher::get()->where('name',$request->name)->first();
+        if(!$teacher){
+            $teacher = Teacher::create(['name'=>$request->name]);
+        }
+        Professeur::create(array_merge($request->only(['module_id','formation_id','somme']),['teacher_id'=>$teacher->id]));
         return $this->index();
     }
     public function edit($id){
@@ -46,7 +53,11 @@ class ProfesseurController extends Controller
         ]);
         $prof = Professeur::find($id);
         if($prof){
-            $prof->update($request->all());
+            $teacher = Teacher::get()->where('name',$request->name)->first();
+            if(!$teacher){
+                $teacher = Teacher::create(['name'=>$request->name]);
+            }
+            $prof->update(array_merge($request->only(['module_id','formation_id','somme']),['teacher_id'=>$teacher->id]));
         }
         return $this->index();
     }

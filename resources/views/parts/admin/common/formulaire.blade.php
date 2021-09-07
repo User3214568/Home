@@ -1,5 +1,5 @@
 <p>
-<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($prof) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
+<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($paiement) && !isset($tranche) && !isset($prof) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
 </h2>
 </p>
 @if ($errors->any())
@@ -16,7 +16,7 @@
 
 <form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate>
     @csrf
-    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche) || isset($prof))
+    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche)  || isset($paiement) || isset($prof))
         @method('put')
     @endif
 
@@ -169,7 +169,7 @@
     </div>
     <div class="mt-4 d-flex justify-content-end">
         <button class="btn btn-success">
-            <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($prof) ? "Crée  $target" : "Modifier  $target" }}
+            <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($paiement) && !isset($prof) ? "Crée  $target" : "Modifier  $target" }}
             </h6>
         </button>
     </div>

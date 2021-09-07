@@ -20,10 +20,9 @@ $size = sizeof($paiements);
 
     <tr></tr>
         <tr>
-            <td  colspan="3" style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size : 14px" ><strong>Paiement des Professeurs, LE {{$date}}</strong></td>
+            <td  colspan="2" style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size : 14px" ><strong>Paiement des Professeurs, LE {{$date}}</strong></td>
         </tr>
         <tr>
-            <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ;  background-color : yellow">Module</td>
             <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ;  background-color : yellow">Professeur</td>
             <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ;  background-color : yellow">Montant</td>
         </tr>
@@ -31,16 +30,14 @@ $size = sizeof($paiements);
 
             @foreach ($coll_paiements as $paiement)
             <tr>
-
-                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->professeur->module->name}}</td>
-                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->professeur->name}}</td>
+                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->teacher->name}}</td>
                 <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->montant}}</td>
             </tr>
             <?php $total+= $paiement->montant; ?>
             @endforeach
             <tr>
                 <td colspan="1" style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ; font-weight : bold ; background-color : skyblue">Total Paiement</td>
-                <td colspan="2" style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ; font-weight : bold ; background-color : skyblue">{{$total}}</td>
+                <td colspan="1" style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center; font-size:13px ; font-weight : bold ; background-color : skyblue">{{$total}}</td>
             </tr>
         </tbody>
 

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use PhpOffice\PhpSpreadsheet\NamedRange;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,10 @@ use Illuminate\Support\Facades\URL;
 | contains the "web" middleware group. Now create something great!
 |
 */
-URL::forceScheme('https');
-
+//URL::forceScheme('https');
 Route::post('/login','UserController@login')->name('login');
+
+Route::get('test','UploadController@testDrop');
 
 Route::get('/','MainController@index')->name('home');
 Route::get('/login','MainController@login');
@@ -52,6 +56,7 @@ Route::middleware(('auth'))->group(function(){
     Route::get('/admin/etudiant/export/{id}-{type}','UploadController@exportEtudiants')->name('etudiant.export');
     #--------------------------------------------------------------------------------
 
+    Route::resource('/admin/finance/depense','DepensesController');
     Route::resource('/admin/professeur','ProfesseurController');
     Route::resource('/admin/finance/paiement','PaiementController');
     Route::resource('/admin/finance/tranche','TrancheController');
