@@ -39,7 +39,7 @@
                     @endforeach
                 @else
                     <div class="d-flex justify-content-center align-items-center">
-                        <p>Acune Norification à afficher.</p>
+                        <p>Acune Notification à afficher.</p>
                     </div>
                 @endif
             </div>
@@ -95,7 +95,7 @@
     <hr class="dropdown-divider">
 </div>
 <div class="row">
-    <div class="col-md-6 p-3  border-end  align-items-stretch">
+    <div class="col-md-6   border-end  align-items-stretch">
         <div>
             <h5>Revenus</h5>
         </div>
@@ -117,7 +117,7 @@
         </div>
 
     </div>
-    <div class="col-md-6 p-3 ">
+    <div class="col-md-6  ">
         <div>
             <h5>Dépenses Totaux</h5>
         </div>
