@@ -88,7 +88,7 @@
 
     @endforeach
     @if ($target == 'Module')
-        <script type="module" src="/javascript/module.js"></scrip>
+        <script type="module" src="/javascript/module.js"></script>
         <div class="row mt-4">
             <h5>Gestion des Devoirs de la Session Ordinaire du Module</h5>
         </div>

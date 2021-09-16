@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Etudiant;
 use App\Exceptions\ImportException;
+use App\Promotion;
 use Exception;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -23,6 +24,7 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
     {
         try{
 
+            $promotion = Promotion::premier($this->formation->id);
             $etudiant =   new Etudiant([
                 'cin'=>$row['cin'],
                 'first_name'=>$row['nom'],
@@ -31,7 +33,8 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
                 'born_place'=>$row['lieu_de_naissance'],
                 'email'=>$row['email'],
                 'phone'=>$row['telephone'],
-                'formation_id'=>$this->formation->id
+                'formation_id'=>$this->formation->id,
+                'promotion-id'=>$promotion->id
             ]);
             array_push($this->etudiants,$etudiant);
         }catch(Exception $e){
