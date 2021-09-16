@@ -10,7 +10,6 @@
     <hr class="dropdown-divider">
 </div>
 <div class=" mt-1 text-left h5 lead">
-    Bonjour et Bienvenu Monsieur  <span class="d-inline text-danger">{{ \Auth::user()->last_name." ".\Auth::user()->first_name}}</span>.
 </div>
 <div class="row">
         <div class="col-md-12 limit">
