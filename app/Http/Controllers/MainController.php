@@ -57,7 +57,7 @@ class MainController extends Controller
             $total_etudiants += $size_etudiant;
             $total_formations++;
         }
-        return view('admin',compact(['content','total_deps','fin_stats','total_versments','total_paiements','total_profs','total_modules','total_versment','stats','total_formations','total_etudiants']));
+        return view('admin',compact(['content','total_deps','fin_stats','total_versments','total_paiements','total_profs','total_modules','stats','total_formations','total_etudiants']));
     }
 
 }

@@ -15,7 +15,7 @@ class UpdatePaiement extends Migration
     {
         Schema::table('paiements',function(Blueprint $table){
  //           $table->dropForeign('module_id');
-            //$table->dropForeign('professeur_id');
+            $table->dropForeign('professeur_id');
             $table->foreignId('teacher_id');
         });
     }

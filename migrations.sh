@@ -22,3 +22,4 @@ php artisan migrate:refresh --path=/database/migrations/2021_09_06_151623_update
 php artisan migrate:refresh --path=/database/migrations/2021_09_07_092322_create_depenses_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_13_151303_create_notifications_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_14_043828_add_image_user.php
+
