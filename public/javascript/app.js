@@ -64,7 +64,7 @@ $(document).ready(function(){
         $("#search-result").slideDown('slow');
     });
     $("#add-formation-btn").click(function(){
-        $("#modal-title-id").text("Modification de La Semestre")
+        $("#modal-title-id").text("Gestion des Semestres")
     })
     $("#saveModules").click(function(e){
         var selected = [];

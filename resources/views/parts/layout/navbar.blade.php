@@ -61,7 +61,7 @@
                     </a>
                     <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdownMenuLink">
                         <img
-                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                src="{{url(route('avatar',['cin'=>Auth::user()->image]))}}"
                                 class="rounded-circle p-3"
                                 height="150"
                                 alt=""
