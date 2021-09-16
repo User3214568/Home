@@ -15,7 +15,7 @@ class ExportFormations implements WithMultipleSheets
     {
         $sheets = [];
         foreach(Formation::get() as $formation){
-            $sheets [] = new EtudiantsExport($formation->id);
+            $sheets [] = new EtudiantsExport($formation->id,false);
         }
         return $sheets;
     }

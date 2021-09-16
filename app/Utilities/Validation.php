@@ -40,6 +40,7 @@ class Validation {
             return 'Validé';
         }
         else{
+            if($session == 1) return "Rattrappage";
             if($average >= $critere->note_aj){
                 return 'Non Validé';
             }
@@ -48,8 +49,45 @@ class Validation {
             }
         }
     }
-    public function calMoyenSemestre($cin,$sem_id){
+    public static function result($cin){
+        $count  = 0;
+        $moy = 0;
+        $nv = 0;
+        $aj = 0;
+        $e = Etudiant::find($cin);
+        if($e){
+            $note_validation = $e->formation->critere->note_validation;
+            $note_aj  = $e->formation->critere->note_aj;
+            foreach ($e->promotion->semestres as $semestre) {
+                foreach ($semestre->modules as $module) {
+                    $note  = Validation::FinalModuleNote($cin,$module->id);
+                    $moy += $note;
+                    $count++;
+                    if($note < $note_validation){
+                        if($note < $note_aj){
+                            $aj++;
+                        }else{
+                            $nv++;
+                        }
+                    }
+                }
+            }
+            if($count != 0) $moy/=$count;
+            return ['note'=>number_format($moy,2),'nv'=>$nv,'aj'=>$aj,'final'=>Validation::decisionFinal($e,$e->formation,$nv,$aj)];
+        }
+    }
+    public static function decisionFinal($etudiant,$formation,$nnv,$naj){
+        if($etudiant && $formation){
+            $num_aj = $formation->critere->number_aj;
+            $num_nv = $formation->critere->number_nv;
+            if($naj > $num_aj || $nnv > $num_nv){
+                return 0;
+            }
+            else{
+                return 1;
+            }
 
+        }
     }
 }
 

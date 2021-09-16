@@ -53,5 +53,6 @@ class PaiementController extends Controller
     }
     public function destroy($id){
         Paiement::destroy($id);
+        return $this->index();
     }
 }

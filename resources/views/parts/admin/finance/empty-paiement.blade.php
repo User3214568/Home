@@ -20,9 +20,9 @@
             <td style="font-size: 14px;font-weight: bold;background-color: skyblue ; border : 1px solid black" >Montant</td>
         </tr>
     </thead>
-    @foreach ($formation->professeurs as $prof)
+    @foreach ($formation->teachers() as $teacher)
     <tr>
-        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$prof->teacher->name}}</td>
+        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$teacher->name}}</td>
         <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black"></td>
     </tr>
     @endforeach

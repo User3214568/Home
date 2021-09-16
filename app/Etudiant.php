@@ -26,6 +26,13 @@ class Etudiant extends Model
     public function tranches(){
         return $this->hasMany(Tranche::class);
     }
+    public function totalVersements(){
+        $total = 0 ;
+        foreach ($this->tranches as $tranche) {
+            $total += $tranche->vers;
+        }
+        return $total;
+    }
     /**
      * Cette Function test si un etudiant donné à un rattrappage dans un module donné
      */

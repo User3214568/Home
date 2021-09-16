@@ -65,9 +65,7 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
             $styles[chr(65 + $i)] = ['font' => ['size' => 15]];
             $styles[chr(65 + $i)]['alignment'] = [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-
             ];
-
         }
         return $styles;
     }

@@ -1,11 +1,16 @@
 <div class="row m-2">
     @include('parts.admin.dashboard.sidebar')
-    <div class="col-md-9" id="admin-content">
+    <div class="col-md-9 " id="admin-content">
 
         @if(!isset($content))
 
         @else
         @switch($content)
+
+        @case('admin.home')
+        @include('parts.admin.dashboard.home')
+        @break
+
         @case('formation.create')
         @include('parts.admin.formation.formation')
         @break
@@ -96,9 +101,24 @@
         @include('parts.admin.Professeur.list-prof')
         @break
 
+        @case('depense.list')
+        @include('parts.admin.common.depense.list-dep')
+        @break;
+
+        @case('depense.add')
+        @include('parts.admin.common.depense.create')
+        @break;
+
+        @case('dep.update')
+        @include('parts.admin.common.depense.create')
+        @break;
 
         @case('etudiant.imported')
         @include('parts.admin.etudiant.imported-list')
+        @break
+
+        @case('etudiant.delibration')
+        @include('parts.admin.etudiant.delibration')
         @break
 
         @default

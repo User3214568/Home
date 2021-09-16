@@ -8,11 +8,14 @@ use App\Exports\ExportAllEtudiants;
 use App\Exports\ExportAllFormationPaiement;
 use App\Exports\ExportAllProfesseurs;
 use App\Exports\ExportAllProfPaiement;
+use App\Exports\ExportDepenses;
+use App\Exports\ExportDepensesEmpty;
 use App\Exports\ExportEmptyFormationPaiement;
 use App\Exports\ExportFormationPaiement;
 use App\Exports\ExportFormations;
 use App\Exports\ExportPaiementProf;
 use App\Exports\ExportProfesseur;
+use App\Exports\ExportResultatModule;
 use App\Exports\ExportTest;
 use App\Exports\ExportVersementALL;
 use App\Exports\FormationFinanceExport;
@@ -22,11 +25,15 @@ use App\Exports\NotesExport;
 use App\Formation;
 use App\Imports\BulkImport;
 use App\Imports\EtudiantImport;
+use App\Imports\ImportDepenses;
 use App\Imports\ImportEtudiant;
 use App\Imports\ImportModule;
 use App\Imports\ImportPaiementEtudiant;
 use App\Imports\ImportPaiementFormation;
 use App\Imports\ImportProfesseur;
+use App\Module;
+use App\Promotion;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
@@ -161,5 +168,24 @@ class UploadController extends Controller
     }
     public function testDrop(){
         return Excel::download(new ExportTest ,"test-drop.xlsx");
+    }
+    public function importDepenses(Request $request){
+        Excel::import(new ImportDepenses , $request->file('file'));
+        $d =  new DepensesController;
+        return $d->index();
+    }
+    public function exportDepenses($type){
+        if($type == "true"){
+            return Excel::download(new ExportDepensesEmpty,"vide_depenses_comunnes.xlsx");
+        }else{
+            return Excel::download(new ExportDepenses,"depenses_communes.xlsx");
+        }
+    }
+    public function exportResultats($promotion_id,$session,$module_id){
+        $module = Module::find($module_id);
+        $promotion  = Promotion::find($promotion_id);
+        if($module && $promotion && in_array($session,[1,2])){
+            return Excel::download(new ExportResultatModule($promotion,$session,$module),"resultat_".$promotion->formation->name."_".$module->name."_session_".($session==1?"Ordinaire":"Ratt").".xlsx");
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -50,6 +51,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if($exception instanceof QueryException){
+            return response()->view('error-db-off',compact(['exception']));
+        }
+        if($exception instanceof ImportException){
+            return response()->view('exception',['error'=>$exception->getMessage()]);
+        }
+        if($exception instanceof CustomException){
+            return response()->view('exception',['error'=>$exception->getMessage()]);
+        }
         return parent::render($request, $exception);
     }
 }

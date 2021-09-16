@@ -142,10 +142,7 @@ class FormationController extends Controller
             return response('Not Found',404);
         }
     }
-    public function validateOrdinaireSession($f,$sem){
-        $sem = Semestre::find($sem);
 
-    }
     public function getModules($id){
         $formation = Formation::find($id);
         $modules = [];
@@ -164,5 +161,9 @@ class FormationController extends Controller
         }
         return json_encode($profs);
     }
-
+    public function delibration($formation_id){
+        $formation = Formation::find($formation_id);
+        if($formation)
+        return view('parts.admin.etudiant.delib-result',compact(['formation']));
+    }
 }

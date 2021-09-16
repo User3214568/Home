@@ -5,6 +5,20 @@
 <div class="row">
     <hr class="dropdown-divider">
 </div>
+<div class="row ">
+    @if (isset($errors) && sizeof($errors->all())>0)
+    <div class="col p-3 alert alert-danger">
+        <ul>
+
+            @foreach ($errors->all() as $err)
+            <li>
+                {{$err}}
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+</div>
 <div class="row mt-3 justify-content-center">
     <div class="col-6">
         <select id="formation-select" class="text-reset border col-md-3 p-2 w-100">

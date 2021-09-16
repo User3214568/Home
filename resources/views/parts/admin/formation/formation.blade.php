@@ -27,6 +27,11 @@
             <label class="form-label" for="input_desc">Description de la Formation</label>
             <div class="invalid-feedback mt-1">Veuillez saisir la description de la formation.</div>
         </div>
+        <div class="form-outline mt-4">
+            <input type="number" id="input_prix" name="prix" class="form-control" value="{{ isset($formation)?$formation->prix:'' }}" required />
+            <label class="form-label"  for="input_prix">Prix de la Formation</label>
+            <div class="invalid-feedback mt-1">Veuillez saisir le prix de la formation.</div>
+        </div>
         <div class="row mt-5"><h5>Régles de Validates des Modules et Semestres</h5></div>
         <div class="row"><hr class="dropdown-divider"></div>
         <p>Dans cette Zone vous remplissez les critères de validation des modules et des Semestre</p>
@@ -41,12 +46,12 @@
                 <label class="form-label" for="note_aj">Note d'Ajournement</label>
                 <div class="invalid-feedback mt-1">Veuillez saisir la note d'Ajournement.</div>
             </div>
-            <div class="col-sm-5 form-outline ms-2 mt-2">
+            <div class="col-sm-5 form-outline ms-2 mt-4">
                 <input class="form-control" id="aj" name="number_aj" required/>
                 <label class="form-label" for="aj">Nombre des AJ autorisé</label>
                 <div class="invalid-feedback mt-1">Veuillez saisir le non de modules ajournée autorisé.</div>
             </div>
-            <div class="col-sm-5 form-outline ms-2 mt-2">
+            <div class="col-sm-5 form-outline ms-2 mt-4">
                 <input class="form-control" id="nv" name="number_nv"  required/>
                 <label class="form-label" for="nv">Nombre des NV autorisé</label>
                 <div class="invalid-feedback mt-1">Veuillez saisir le non de modules non validées autorisé.</div>

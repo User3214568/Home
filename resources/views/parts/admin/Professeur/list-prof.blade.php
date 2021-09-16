@@ -14,35 +14,41 @@
         <th>Somme</th>
         <th></th>
     </tr>
+    @if(sizeof($allprofs) > 0 )
+        @foreach ($allprofs as $formation_name => $profs)
+        <?php $passed = false;?>
+            @foreach ($profs as $prof)
+                <tr name="versement">
+                    @if(!$passed)
+                    <?php $passed = true; ?>
+                    <td  rowspan="{{ sizeof($profs) }}">{{ $formation_name }}</td>
+                    @endif
+                    <td hidden>{{ $formation_name }}</td>
+                    <td>{{ $prof->module->name }}</td>
+                    <td>{{ $prof->teacher->name }}</td>
+                    <td>{{ $prof->somme }}</td>
 
-    @foreach ($allprofs as $formation_name => $profs)
-    <?php $passed = false;?>
-        @foreach ($profs as $prof)
-            <tr name="versement">
-                @if(!$passed)
-                <?php $passed = true; ?>
-                <td rowspan="{{ sizeof($profs) }}">{{ $formation_name }}</td>
-                @endif
-                <td>{{ $prof->module->name }}</td>
-                <td>{{ $prof->teacher->name }}</td>
-                <td>{{ $prof->somme }}</td>
+                    <td class="d-flex justify-content-center  align-items-center">
+                        <form action="{{ route('professeur.destroy', ['professeur' => $prof->id]) }}" method="POST">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-outline-danger btn-floating">
+                                <i class="fas fa-times  fa-1x"></i>
+                            </button>
+                        </form>
+                        <form action="{{ route('professeur.edit', ['professeur' => $prof->id]) }}" method="GET">
+                            <button class="btn btn-outline-secondary ms-1 btn-floating">
+                                <i class="fas fa-pen-fancy fa-1x"></i>
+                            </button>
+                        </form>
+                    </td>
 
-                <td class="d-flex justify-content-center  align-items-center">
-                    <form action="{{ route('professeur.destroy', ['professeur' => $prof->id]) }}" method="POST">
-                        @csrf
-                        @method('delete')
-                        <button class="btn btn-outline-danger btn-floating">
-                            <i class="fas fa-times  fa-1x"></i>
-                        </button>
-                    </form>
-                    <form action="{{ route('professeur.edit', ['professeur' => $prof->id]) }}" method="GET">
-                        <button class="btn btn-outline-secondary ms-1 btn-floating">
-                            <i class="fas fa-pen-fancy fa-1x"></i>
-                        </button>
-                    </form>
-                </td>
-
+            @endforeach
+            </tr>
         @endforeach
+        @else
+        <tr>
+            <td colspan="5">Aucune donnée à afficher.</td>
         </tr>
-    @endforeach
+        @endif
 @endsection

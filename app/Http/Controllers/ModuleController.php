@@ -86,11 +86,34 @@ class ModuleController extends Controller
         Module::destroy($id);
         return $this->index();
     }
-    public function commitOrdinaireSession($promo_id,$module_id){
+    public function commitOrdinaireSession($promo_id,$sem_id,$module_id){
         $promotion = Promotion::find($promo_id);
-        $module = Module::find($module_id);
+        if($module_id == 0 && $promotion){
+            foreach ($promotion->semestres  as $semestre) {
+                if($semestre->id == $sem_id){
+                    foreach ($semestre->modules as $module) {
+                        $this->commit($promotion,$module);
+                    }
+                }
+            }
+
+        }
+        else{
+            $module = Module::find($module_id);
+            if($module && $promotion){
+                $this->commit($promotion,$module);
+            }
+        }
+        return redirect(route('etudiant.evaluation'));
+    }
+    private function commit($promotion , $module){
         foreach ($promotion->etudiants as $etudiant) {
-            if(!(Validation::OrdinaireValidateModule($etudiant->cin,$module_id) == "Validé")){
+            foreach ($etudiant->evaluations as $evaluation) {
+                if($evaluation->devoir->session == 2){
+                    $evaluation->delete();
+                }
+            }
+            if(!(Validation::OrdinaireValidateModule($etudiant->cin,$module->id) == "Validé")){
                 foreach ($module->devoirs as $devoir) {
                     if($devoir->session == 2){
                         Evaluation::create(['etudiant_cin'=>$etudiant->cin,'devoir_id'=>$devoir->id]);
@@ -100,6 +123,5 @@ class ModuleController extends Controller
                 // To Delete Evaluations that Exists as Old Result.
             }
         }
-        return redirect(route('etudiant.evaluation'));
     }
 }

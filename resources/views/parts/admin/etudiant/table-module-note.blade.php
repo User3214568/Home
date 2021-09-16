@@ -1,7 +1,6 @@
 <table class="table table-bordered mt-3 align-middle">
     <?php $count_columns = 0; ?>
     <thead>
-
         <tr>
             <td rowspan="1"></td>
             @foreach ($mymodule->devoirs as $devoir)

@@ -1,15 +1,20 @@
 <script src="/javascript/module-note.js"></script>
-<h5 class="mt-5">Exporter Les notes du Formation</h5>
-<div class="row mt-1"><hr class="dropdown-divider"></div>
-<div class="row justify-content-around">
-    <a  href="{{route('etudiant.notes.export',['id'=>$formation->id])}}" class="col-3 btn btn-info">Exporter Les Notes de tous les module du Formation {{$formation->name}}</a>
-</div>
+
 <h5 class="mt-5">Notes Des Etudiants</h5>
 <div class="row mt-1"><hr class="dropdown-divider"></div>
+@if(isset($result))
+
+<div class="row justify-content-around">
+    <a  href="{{route('etudiant.notes.export',['id'=>$formation->id])}}" class="col-6 btn btn-success">
+        Exporter Les Résultats Finaux du Formation {{$formation->name}}
+    </a>
+</div>
+<div class="row mt-1"><hr class="dropdown-divider"></div>
+@endif
 <div class="row  p-1 mt-1">
     <!-- Tabs navs -->
-    <ul class="nav  nav-tabs nav-justified mb-3" id="ex1" role="tablist">
-        @foreach ($formation->promotions as $key=>$promo)
+    <ul class="nav  nav-tabs nav-justified mb-3 " id="ex1" role="tablist">
+        @foreach ($formation->promotions->sortBy('numero') as $key=>$promo)
             <li class="nav-item" role="presentation">
                 <a
                 class="nav-link {{$key>0?'':'active'}}"

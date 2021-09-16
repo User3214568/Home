@@ -7,9 +7,8 @@
 <?php
 
     $items = [
-
-        ['title'=>'Acceuil','link'=>'', 'icon'=>'fas fa-home', 'expanded'=>false ],
-
+        ['title'=>'Acceuil','link'=> route('admin'), 'icon'=>'fas fa-home', 'expanded'=>false ],
+        ['title'=>'Gestion Pédagogique','divider'=>true],
         ['title'=>'Formation','link'=>route('formation.index'), 'icon'=>'fas fa-code-branch', 'expanded'=>false],
 
         ['title'=>'Module','link'=>route('module.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
@@ -19,14 +18,15 @@
                 ['title'=>'Adminer Vos Etudiants','link'=>route('etudiant.index'),'icon'=>'fas fa-user-edit'],
                 ['title'=>'Gestion des Notes','link'=>route('etudiant.evaluation'),'icon'=>'fas fa-award'],
                 ['title'=>'Résultats des Etudiants','link'=>route('etudiant.result'),'icon'=>'fas fa-calculator'],
+                ['title'=>'Délibrations','link'=>route('etudiant.delibration'),'icon'=>'fas fa-check'],
             ]
         ],
-
         ['title'=>'Utilisateur','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
+        ['title'=>'Gestion Financiére','divider'=>true],
         ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
         ['title'=>'Somme des Professeurs','link'=>route('professeur.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
-        ['title'=>'Payement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
-
+        ['title'=>'Paiement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Dépenses Communes','link'=>route('depense.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
 
     ];
 ?>

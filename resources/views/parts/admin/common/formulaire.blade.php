@@ -1,5 +1,5 @@
 <p>
-<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($paiement) && !isset($tranche) && !isset($prof) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
+<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($paiement) && !isset($tranche) && !isset($prof) && !isset($dep) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
 </h2>
 </p>
 @if ($errors->any())
@@ -14,71 +14,81 @@
 @endif
 
 
-<form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate>
+<form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate  enctype="multipart/form-data">
     @csrf
-    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche)  || isset($paiement) || isset($prof))
+    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche) || isset($dep) || isset($paiement) || isset($prof))
         @method('put')
     @endif
-
-
-    @foreach ($fields as $field)
-        <div class="row mt-4">
-            @if ($field['type'] == 'selection')
-
-                <select class="col border rounded-2   p-2 text-reset" name="{{ $field['name'] }}"
-                    id="input_{{ $field['name'] }}" required>
-                    <option value="{{ $field['value'] }}" {{ !isset($etudiant) || !isset($prof) ? 'selected' : '' }}
-                        disabled>
-                        {{ $field['label'] }}</option>
-                    @foreach ($field['items'] as $item)
-                        <option value="{{ $item->id ?: $item->cin }}"
-                            {{ isset($etudiant) || (isset($prof) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
-                            {{ $item->name ?: ($item->nom ?: $item->first_name . ' ' . $item->last_name) }}
-                        </option>
-                    @endforeach
-                </select>
-        </div>
-    @elseif (($field['type'] == 'date'))
-
-        <div class=" form-outline ">
-            <input type="{{ $field['type'] }}"
-                value="{{ isset($etudiant) ? $etudiant->born_date : date('Y-m-d') }}"
-                id="input_{{ $field['name'] }}" name="{{ $field['name'] }}" class="form-control" required />
-            <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
-            <div class="invalid-feedback mt-5">Veuillez saisir {{ $field['label'] }} .</div>
-        </div>
-    @elseif(($field['type'] == 'textarea'))
-
-        <div class=" form-outline">
-            <textarea type="{{ $field['type'] }}" id="input_{{ $field['name'] }}" name="{{ $field['name'] }}"
-                class="form-control" rows="8" required>{{ $field['value'] }}</textarea>
-            <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
-            <div class="invalid-feedback mt-5">Veuillez saisir {{ $field['label'] }} .</div>
-        </div>
-
-    @elseif(($field['type'] == 'checkbox'))
-        <div class="form-check ">
-            <input class="form-check-input" name="{{ $field['name'] }}" type="checkbox" value=""
-                id="_{{ $field['name'] }}"
-                {{ (isset($field['checked']) ? $field['checked'] === 1 : false) ? 'checked' : '' }} />
-            <label class="form-check-label" for="_{{ $field['name'] }}">
-                {{ $field['label'] }}
-            </label>
-        </div>
-    @else
-
-        <div class=" form-outline">
-            <input type="{{ $field['type'] }}" id="input_{{ $field['name'] }}" value="{{ $field['value'] }}"
-                name="{{ $field['name'] }}" class="form-control" required />
-            <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
-            <div class="invalid-feedback mt-5">Veuillez saisir {{ $field['label'] }} .</div>
+    @if ($target === "Utilisateur")
+        <script src="/javascript/user.js"></script>
+        <div class="d-flex justify-content center align-items-center flex-column">
+            <div class="align-self-right">
+                <button  id="image_button" type="button" class="btn btn-light btn-floating">
+                    <i class="far fa-edit"></i>
+                </button>
+                <input type="file" onchange="readImage(this)" name="image" id="image_input" hidden>
+            </div>
+            <img id="image" class="rounded-circle" src="{{url(route('avatar',['cin'=> isset($user)?$user->cin:'none']))}}" height="180" alt="user image">
         </div>
     @endif
+    @foreach ($fields as $field)
+
+        @if ($field['type'] == 'selection')
+
+            <select class="mt-4 border rounded-2 p-2 text-reset" name="{{ $field['name'] }}"
+                id="input_{{ $field['name'] }}" required>
+                <option value="{{ $field['value'] }}" {{ !isset($etudiant) || !isset($prof) ? 'selected' : '' }}
+                    disabled>
+                    {{ $field['label'] }}</option>
+                @foreach ($field['items'] as $item)
+                    <option value="{{ $item->id ?: $item->cin }}"
+                        {{ isset($etudiant) || (isset($prof) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
+                        {{ $item->name ?: ($item->nom ?: $item->first_name . ' ' . $item->last_name) }}
+                    </option>
+                @endforeach
+            </select>
+        @elseif (($field['type'] == 'date'))
+
+            <div class="mt-4 form-outline ">
+                <input type="{{ $field['type'] }}"
+                    value="{{ isset($etudiant) ? $etudiant->born_date : date('Y-m-d') }}"
+                    id="input_{{ $field['name'] }}" name="{{ $field['name'] }}" class="form-control" required />
+                <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
+                <div class="invalid-feedback mt-1">Veuillez saisir {{ $field['label'] }} .</div>
+            </div>
+        @elseif(($field['type'] == 'textarea'))
+
+            <div class="mt-4 form-outline">
+                <textarea type="{{ $field['type'] }}" id="input_{{ $field['name'] }}"
+                    name="{{ $field['name'] }}" class="form-control" rows="8"
+                    required>{{ $field['value'] }}</textarea>
+                <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
+                <div class="invalid-feedback mt-1">Veuillez saisir {{ $field['label'] }} .</div>
+            </div>
+
+        @elseif(($field['type'] == 'checkbox'))
+            <div class="form-check mt-4">
+                <input class="form-check-input" name="{{ $field['name'] }}" type="checkbox" value=""
+                    id="_{{ $field['name'] }}"
+                    {{ (isset($field['checked']) ? $field['checked'] === 1 : false) ? 'checked' : '' }} />
+                <label class="form-check-label" for="_{{ $field['name'] }}">
+                    {{ $field['label'] }}
+                </label>
+            </div>
+        @else
+
+            <div class="mt-4 form-outline">
+                <input type="{{ $field['type'] }}" id="input_{{ $field['name'] }}"
+                    value="{{ $field['value'] }}" name="{{ $field['name'] }}" class="form-control" required />
+                <label class="form-label" for="input_{{ $field['name'] }}">{{ $field['label'] }}</label>
+                <div class="invalid-feedback mt-1">Veuillez saisir {{ $field['label'] }} .</div>
+            </div>
+        @endif
 
 
     @endforeach
     @if ($target == 'Module')
-        <script type="module" src="/javascript/module.js"></script>
+        <script type="module" src="/javascript/module.js"></scrip>
         <div class="row mt-4">
             <h5>Gestion des Devoirs de la Session Ordinaire du Module</h5>
         </div>
@@ -159,7 +169,7 @@
         @include('parts.admin.common.modal')
         <input type="text" id="data" name="devoirs" hidden />
         @if (isset($module))
-            <script async>
+            <script>
                 var devs = {!! json_encode($module->devoirs) !!};
             </script>
         @endif
@@ -167,9 +177,9 @@
     <div class="row mt-4 mb-4">
         <hr class="dropdown-divider">
     </div>
-    <div class="mt-4 d-flex justify-content-end">
+    <div class=" d-flex justify-content-end">
         <button class="btn btn-success">
-            <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($paiement) && !isset($prof) ? "Crée  $target" : "Modifier  $target" }}
+            <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($paiement) && !isset($prof) && !isset($dep) ? "Crée  $target" : "Modifier  $target" }}
             </h6>
         </button>
     </div>

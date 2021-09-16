@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
-use PhpOffice\PhpSpreadsheet\NamedRange;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +24,7 @@ Route::get('/restore-password','MainController@restorePassword');
 
 Route::middleware(('auth'))->group(function(){
 
-    Route::get('admin/Module/commit/{promotion_id}-{module_id}','ModuleController@commitOrdinaireSession')->name('module.commit.notes');
+    Route::get('admin/Module/commit/{promotion_id}-{sem_id}-{module_id}','ModuleController@commitOrdinaireSession')->name('module.commit.notes');
     Route::get('admin/etudiant/resultats','EtudiantController@results')->name('etudiant.result');
     Route::post('/admin/etudiant/update-note','EtudiantController@notesUpdate')->name('etudiant.note.update');
     Route::get('/admin/etudiant/evaluation','EtudiantController@evaluation')->name('etudiant.evaluation');
@@ -37,6 +34,17 @@ Route::middleware(('auth'))->group(function(){
 
 
     Route::get('/admin/finance/export/{id}-{type}','UploadController@exportFinanceFormation')->name('finance.export.formation');
+
+    #Export Resultat Modules---------------------------------------------------------------------------------------------------------------
+    Route::get('/admin/etudiant/export/resultat-modules/{promotion_id}-{session}-{module_id}','UploadController@exportResultats')->name('export.resultat.modules');
+    #---------------------------------------------------------------------------------------------------------------------------------------
+
+    #Delibration ---------------------------------------------------------------------------------------------------
+    Route::get('/admin/etudiant/delibration',"EtudiantController@delibration")->name('etudiant.delibration');
+    Route::get('/admin/formation/delibration/{formation_id}',"FormationController@delibration")->name('formation.delibration');
+
+   #---------------------------------------------------------------------------------------------------
+
 
     #EXPORT-Import PROFESSEURS------------------------------------------------------------
     Route::post('/admin/professeur/import/{id}','UploadController@importProfesseurs')->name('professeur.import');
@@ -51,10 +59,20 @@ Route::middleware(('auth'))->group(function(){
     #------------------------------------------------------------
 
 
-    #--------------------ETUDIANT IMPORT EXPORT
+    #--------------------ETUDIANT IMPORT EXPORT------------------------------------
     Route::post('/admin/etudiant/import/{id}','UploadController@importEtudiants')->name('etudiant.import');
     Route::get('/admin/etudiant/export/{id}-{type}','UploadController@exportEtudiants')->name('etudiant.export');
     #--------------------------------------------------------------------------------
+
+    #---------------------DEPENSES EXPORT IMPORT------------------------------
+    Route::get('/admin/finance/depense/export/{type}','UploadController@exportDepenses')->name('depense.export');
+    Route::post('/admin/finance/depense/import','UploadController@importDepenses')->name('depense.import');
+
+    #--------------------------------------------------------------------------------
+
+    #------------------Avatars routes ----------------------------------------
+    Route::get('/admin/avatars/{cin}','PrivateImagesController@getImage')->name('avatar');
+    #-----------------------------------------------------------------------
 
     Route::resource('/admin/finance/depense','DepensesController');
     Route::resource('/admin/professeur','ProfesseurController');

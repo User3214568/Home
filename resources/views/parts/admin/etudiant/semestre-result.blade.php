@@ -4,7 +4,7 @@
 
         <tr>
             <td rowspan="1"></td>
-            <th>Code Massar</th>
+            <th>CIN</th>
             <th>Nom et Prénom</th>
             <th>Note Moyenne</th>
             <th>Résultat</th>
@@ -19,7 +19,7 @@
                 @if ($etudiant->hasSessionSemestre($sem->id,$session))
                     <tr>
                         <th>{{ $key + 1 }}</th>
-                        <th scope="row">{{ $etudiant->cne }}</th>
+                        <th scope="row">{{ $etudiant->cin }}</th>
                         <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
                         <?php $glob_note = 0; ?>
                         @foreach ($sem->modules as $mymodule)
@@ -34,7 +34,13 @@
                                 <td>Aucune Note</td>
                             @endif
                         @endforeach
-                        <?php $glob_note = number_format($glob_note / sizeof($sem->modules),2) ?>
+                        <?php
+                            if(sizeof($sem->modules) > 0 ){
+                                    $glob_note = number_format($glob_note / sizeof($sem->modules),2);
+                            }else{
+                                $glob_note  = 0;
+                            }
+                        ?>
                         <td>{{ sizeof($sem->modules) > 0 ? $glob_note : '-' }}</td>
                         <td>{{ $glob_note >= $etudiant->formation->critere->note_validation ? 'Validé' : ($glob_note >= $etudiant->formation->critere->note_aj ? 'Non Validé' : 'Ajourné') }}</td>
 

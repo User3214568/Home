@@ -21,6 +21,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav ms-auto d-flex align-items-center">
+            @if(!Auth::check())
+
             <li class="nav-item">
                 <a href="{{route('home')}}" class="nav-link">Page d'Acceuil</a>
             </li>
@@ -31,7 +33,6 @@
                 <a href="#about" class="nav-link">A propos de Nous</a>
             </li>
 
-            @if(!Auth::check())
                 <li class="nav-item">
                     <a class="border-start btn btn-link text-reset d-flex align-items-center" href="/login">
                       <i class="fas fa-user-circle fa-3x m-2"></i>
@@ -51,7 +52,7 @@
                       aria-expanded="false"
                     >
                       <img
-                      src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                      src="{{url(route('avatar',['cin'=>Auth::user()->image]))}}"
                       class="rounded-circle"
                         height="40"
                         alt=""

@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 
 
-
-
 class CreatePasswordResetsTable extends Migration
 {
+    # 
     /**
      * Run the migrations.
      *
@@ -29,8 +28,10 @@ class CreatePasswordResetsTable extends Migration
      *
      * @return void
      */
+    // 
     public function down()
     {
         Schema::dropIfExists('password_resets');
     }
+    
 }

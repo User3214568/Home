@@ -55,4 +55,17 @@ body{
 #mysidebar{
     overflow: hidden;
 }
+.text-overflow{
+    overflow-wrap:break-word;
+}
+.apexcharts-canvas{
+    background-color: white !important;
+}
+.limit{
+    max-height: 200px !important;
+    overflow-y: auto;
+}
 
+.table-responsive{
+    overflow-y: auto;
+}

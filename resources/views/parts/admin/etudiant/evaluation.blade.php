@@ -10,7 +10,20 @@
     </h2>
 </div>
 <div class="row mt-1"><hr class="dropdown-divider"></div>
+<div class="row ">
+    @if (isset($errors) && sizeof($errors->all())>0)
+    <div class="col p-3 alert alert-danger">
+        <ul>
 
+            @foreach ($errors->all() as $err)
+            <li>
+                {{$err}}
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+</div>
 <div class="row mt-3">
     <p class=" note note-info">Vous devez choisir une formation pour modifier les notes des etudiants.</p>
 </div>

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Formation;
+use App\Observers\FormationObserver;
+use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -29,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        Formation::observe(FormationObserver::class);
+
     }
 }

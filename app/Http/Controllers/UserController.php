@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -24,23 +26,54 @@ class UserController extends Controller
         if(isset($user)) return view('admin',compact(['content','user']));
     }
     public function store(Request $request){
+
         $is_valid = $request->validate([
             'first_name'=>'required |max:50',
             'last_name'=>'required |max:50',
-            'cin'=>'required|unique:Etudiants|max:15',
+            'cin'=>'required|unique:users|max:15',
             'email'=>'required|max:30',
             'password'=>'required',
             'phone'=>'required|max:30'
         ]);
         if($is_valid){
+
+            if($request->file('image')){
+                $file = $request->file('image');
+                $image = $request->cin.".".$file->getClientOriginalExtension();
+                if(Storage::exists("app/avatars/$image")){
+                    Storage::delete("app/avatars/$image");
+                }
+                $file->storeAs('avatars',$image);
+            }else{
+                $image = "default.jpg";
+            }
             $pass_hashed = Hash::make($request->password);
-            User::create(array_merge($request->only(['first_name','last_name','cin','email','phone']) , ['password'=>$pass_hashed]));
+            User::create(array_merge($request->only(['first_name','last_name','cin','email','phone']) , ['password'=>$pass_hashed,'image'=>$image]));
         }
         if(!isset($request->ajax))
         return redirect(route('user.create'));
     }
     public function update($id , Request $request){
-        User::find($id)->update(array_merge($request->only(['first_name','last_name','cin','email','phone']),['password'=> Hash::make($request->password)]));
+        $request->validate([
+            'first_name'=>'required |max:50',
+            'last_name'=>'required |max:50',
+            'cin'=>'required|max:15',
+            'email'=>'required|max:30',
+            'password'=>'required',
+            'phone'=>'required|max:30'
+        ]);
+        $user  =  User::find($id);
+        if($request->file('image')){
+            $file = $request->file('image');
+            $image = $request->cin.".".$file->getClientOriginalExtension();
+            if(Storage::exists("app/avatars/".$user->image)){
+                Storage::delete("app/avatars/".$user->image);
+            }
+            $file->storeAs('avatars',$image);
+        }else{
+            $image = "default.jpg";
+        }
+        $user->update(array_merge($request->only(['first_name','last_name','cin','email','phone']),['password'=> Hash::make($request->password),'image'=> $image]));
         return $this->edit($id);
     }
     public function login(Request $request){
@@ -57,5 +90,8 @@ class UserController extends Controller
         Auth::logout();
         return redirect('/');
     }
-
+    public function destroy($id){
+        User::destroy($id);
+        return redirect(route('user.index'));
+    }
 }

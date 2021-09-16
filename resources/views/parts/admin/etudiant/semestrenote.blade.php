@@ -24,14 +24,17 @@
                     <!-- Tabs navs -->
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="{{ $sem->id }}-modules-all" data-mdb-toggle="tab"
-                                href="#tab-{{ $sem->id }}-modules-all" role="tab" aria-controls="ex1-tabs-1"
+                            <a class="nav-link active" id="{{ $sem->id . '-' . $promotion->name }}-modules-all"
+                                data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $promotion->name }}-modules-all"
+                                role="tab" aria-controls="ex1-tabs-1"
                                 aria-selected="true">{{ isset($result) ? 'Résultat du Semestre' : 'Tous Les Modules' }}</a>
                         </li>
                         @foreach ($sem->modules as $module)
                             <li class="nav-item tab-item" role="presentation">
-                                <a class="nav-link " id="{{ $sem->id . '-' . $module->id }}"
-                                    data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $module->id }}" role="tab"
+                                <a class="nav-link "
+                                    id="{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}"
+                                    data-mdb-toggle="tab"
+                                    href="#tab-{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}" role="tab"
                                     aria-controls="ex1-tabs-1" aria-selected="true">{{ $module->name }}</a>
                             </li>
 
@@ -39,22 +42,24 @@
                     </ul>
                     <!-- Tabs navs -->
                     <div class="tab-content" id="ex1-content">
-                        <div class="tab-pane fade show active" id="tab-{{ $sem->id }}-modules-all" role="tabpanel"
+                        <div class="tab-pane fade show active"
+                            id="tab-{{ $sem->id . '-' . $promotion->name }}-modules-all" role="tabpanel"
                             aria-labelledby="ex1-tab-1">
 
                             <!--  TABS FOR ALL MODULES  -->
                             <!-- Tabs navs -->
                             <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="ord-{{ $sem->id }}" data-mdb-toggle="tab"
-                                        href="#tab-ord-{{ $sem->id }}" role="tab"
-                                        aria-controls="tab-ord-{{ $sem->id }}" aria-selected="true">Session
+                                    <a class="nav-link active" id="ord-{{ $sem->id . '-' . $promotion->name }}"
+                                        data-mdb-toggle="tab" href="#tab-ord-{{ $sem->id . '-' . $promotion->name }}"
+                                        role="tab" aria-controls="tab-ord-{{ $sem->id . '-' . $promotion->name }}"
+                                        aria-selected="true">Session
                                         Ordinaire</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="rat-{{ $sem->id }}" data-mdb-toggle="tab"
-                                        href="#tab-rat-{{ $sem->id }}" role="tab" aria-controls=""
-                                        aria-selected="false">Session Rattrappage</a>
+                                    <a class="nav-link" id="rat-{{ $sem->id . '-' . $promotion->name }}"
+                                        data-mdb-toggle="tab" href="#tab-rat-{{ $sem->id . '-' . $promotion->name }}"
+                                        role="tab" aria-controls="" aria-selected="false">Session Rattrappage</a>
                                 </li>
 
                             </ul>
@@ -62,27 +67,54 @@
 
                             <!-- Tabs content -->
                             <div class="tab-content" id="ex1-content">
-                                <div class="tab-pane fade show active" id="tab-ord-{{ $sem->id }}" role="tabpanel"
-                                    aria-labelledby="ord-{{ $sem->id }}">
-                                    <div class="table-responsive">
-                                        <?php $session = 1; ?>
-                                        @if (!isset($result))
+                                <div class="tab-pane fade show active"
+                                    id="tab-ord-{{ $sem->id . '-' . $promotion->name }}" role="tabpanel"
+                                    aria-labelledby="ord-{{ $sem->id . '-' . $promotion->name }}">
+                                    <?php $session = 1; ?>
+                                    @if (!isset($result))
+                                        <div class="row justify-content-end">
+                                            <button onclick="save(this)" name="savenote"
+                                                title="Enregistrer les modifications"
+                                                class="me-2 btn btn-info btn-floating">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                            <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
+                                                href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'sem_id' => $sem->id, 'module_id' => 0]) }}"
+                                                class="btn btn-info btn-floating  ms-2">
+                                                <i class="fas fa-check"></i>
+                                            </a>
+                                        </div>
+                                        <div class="table-responsive mt-2">
                                             @include('parts.admin.etudiant.tablenote')
-                                        @else
+                                        </div>
+                                    @else
+
+                                        <div class="table-responsive mt-2">
                                             @include('parts.admin.etudiant.semestre-result')
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="tab-pane fade" id="tab-rat-{{ $sem->id }}" role="tabpanel"
-                                    aria-labelledby="ex1-tab-2">
-                                    <div class="table-responsive">
-                                        <?php $session = 2; ?>
-                                        @if (!isset($result))
+                                <div class="tab-pane fade" id="tab-rat-{{ $sem->id . '-' . $promotion->name }}"
+                                    role="tabpanel" aria-labelledby="ex1-tab-2">
+                                    <?php $session = 2; ?>
+                                    @if (!isset($result))
+                                        <div class="row justify-content-end">
+                                            <button onclick="save(this)" name="savenote"
+                                                title="Enregistrer les modifications"
+                                                class="me-2 btn btn-info btn-floating">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+
+                                        </div>
+                                        <div class="table-responsive mt-2">
                                             @include('parts.admin.etudiant.tablenote')
-                                        @else
+                                        </div>
+                                    @else
+                                        <div class="table-responsive mt-2">
                                             @include('parts.admin.etudiant.semestre-result')
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
+
                                 </div>
 
                             </div>
@@ -90,21 +122,26 @@
 
                         </div>
                         @foreach ($sem->modules as $mymodule)
-                            <div class="tab-pane fade" id="tab-{{ $sem->id . '-' . $mymodule->id }}" role="tabpanel"
+                            <div class="tab-pane fade"
+                                id="tab-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}" role="tabpanel"
                                 aria-labelledby="ex1-tab-2">
                                 <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link active" id="sord-{{ $sem->id . '-' . $mymodule->id }}"
+                                        <a class="nav-link active"
+                                            id="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
-                                            href="#tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
-                                            aria-controls="sord-{{ $sem->id . '-' . $mymodule->id }}"
+                                            href="#tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            role="tab"
+                                            aria-controls="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             aria-selected="true">Session Ordinaire</a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link" id="srat-{{ $sem->id . '-' . $mymodule->id }}"
+                                        <a class="nav-link"
+                                            id="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
-                                            href="#tab-srat-{{ $sem->id . '-' . $mymodule->id }}" role="tab"
-                                            aria-controls="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
+                                            href="#tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            role="tab"
+                                            aria-controls="tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             aria-selected="false">Session Rattrappage</a>
                                     </li>
 
@@ -114,8 +151,9 @@
                                 <!-- Tabs content -->
                                 <div class="tab-content" id="ex1-content">
                                     <div class="tab-pane fade show active"
-                                        id="tab-sord-{{ $sem->id . '-' . $mymodule->id }}" role="tabpanel"
-                                        aria-labelledby="tab-sord-{{ $sem->id . '-' . $mymodule->id }}">
+                                        id="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                        role="tabpanel"
+                                        aria-labelledby="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
                                         <div class="row justify-content-end">
                                             @if (!isset($result))
                                                 <form class="row justify-content-end"
@@ -136,10 +174,9 @@
 
                                                     </a>
                                                     <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
-                                                        href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'module_id' => $mymodule->id]) }}"
+                                                        href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'sem_id' => $sem->id, 'module_id' => $mymodule->id]) }}"
                                                         class="btn btn-info btn-floating  ms-2">
                                                         <i class="fas fa-check"></i>
-
                                                     </a>
                                                     <button type="button" onclick="save(this)" name="savenote"
                                                         title="Enregistrer les modifications"
@@ -149,9 +186,15 @@
                                                     <button type="submit" id="submit" hidden></button>
 
                                                 </form>
+                                            @else
+                                            <div class="row justify-content-end ">
+                                                <a title="Exporter les Résultat" href="{{route('export.resultat.modules',['promotion_id'=>$promotion->id,'module_id'=>$mymodule->id,"session"=>1])}}" class="btn btn-danger btn-floating">
+                                                    <i class="fas fa-file-export"></i>
+                                                </a>
+                                            </div>
                                             @endif
                                         </div>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive mt-2">
                                             <?php $session = 1; ?>
                                             @if (!isset($result))
                                                 @include('parts.admin.etudiant.table-module-note')
@@ -160,8 +203,10 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-srat-{{ $sem->id . '-' . $mymodule->id }}"
-                                        role="tabpanel" aria-labelledby="srat-{{ $sem->id . '-' . $mymodule->id }}">
+                                    <div class="tab-pane fade"
+                                        id="tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                        role="tabpanel"
+                                        aria-labelledby="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
                                         @if (!isset($result))
                                             <form class="row justify-content-end"
                                                 action="{{ route('etudiant.notes.import', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 2]) }}"
@@ -178,15 +223,21 @@
                                                     class="btn btn-danger btn-floating ms-2">
                                                     <i class="fas fa-download fa-1x"></i>
                                                 </a>
-                                                <button type="button"  name="savenote"
+                                                <button type="button" name="savenote"
                                                     title="Enregistrer les modifications"
                                                     class="btn btn-info btn-floating  ms-2">
                                                     <i class="fas fa-save"></i>
                                                 </button>
                                                 <button type="submit" id="submit" hidden></button>
                                             </form>
+                                        @else
+                                        <div class="row justify-content-end ">
+                                            <a title="Exporter les Résultat" href="{{route('export.resultat.modules',['promotion_id'=>$promotion->id,'module_id'=>$mymodule->id,"session"=>2])}}" class="btn btn-danger btn-floating">
+                                                <i class="fas fa-file-export"></i>
+                                            </a>
+                                        </div>
                                         @endif
-                                        <div class="table-responsive">
+                                        <div class="table-responsive mt-2">
                                             <?php $session = 2; ?>
                                             @if (!isset($result))
                                                 @include('parts.admin.etudiant.table-module-note')

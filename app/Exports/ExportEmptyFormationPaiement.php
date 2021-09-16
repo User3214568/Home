@@ -34,7 +34,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function columnWidths(): array
     {
         return [
-            'A'=>60,'B'=>40
+            'A'=>80,'B'=>20
         ];
     }
     public function title(): string

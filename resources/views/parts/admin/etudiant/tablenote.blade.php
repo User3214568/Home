@@ -57,16 +57,4 @@
     @endif
 
 </table>
-@if (sizeof($promotion->semestres) > 0 && !isset($result))
-    <div class="row justify-content-around p-3">
-        <button  onclick="save(this)" name="savenote" title="Enregistrer les modifications"
-            class="col-md-6 btn btn-success btn-wrap">
-            Enregistrer Les Modifications de cet Onlget
-        </button>
-        <button  onclick="save(this)" name="savenote" title="Enregistrer les modifications"
-            class="col-md-3 btn btn-info btn-wrap">
-            Commiter les notes et Préparer les RATT
-        </button>
-    </div>
 
-@endif

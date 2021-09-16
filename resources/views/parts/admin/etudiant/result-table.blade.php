@@ -4,7 +4,7 @@
 
         <tr>
             <td rowspan="1"></td>
-            <th>Code Massar</th>
+            <th>CIN</th>
             <th>Nom et Prénom</th>
             <th>Note Final</th>
             <th>Résultat Final</th>
@@ -19,7 +19,7 @@
                 @if ($etudiant->hasSession($mymodule->id,$session))
                     <tr>
                         <th>{{ $key + 1 }}</th>
-                        <th scope="row">{{ $etudiant->cne }}</th>
+                        <th scope="row">{{ $etudiant->cin }}</th>
                         <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
                         @if (sizeof($mymodule->devoirs) > 0)
                             <?php
@@ -30,7 +30,7 @@
                                 }
                             ?>
                             <th scope="row">{{ $note }}</th>
-                            <td>{{ $note >= $etudiant->formation->critere->note_validation ? 'Validé' : ($note >= $etudiant->formation->critere->note_aj ? 'Non Validé' : 'Ajourné') }}</td>
+                            <td>{{ $note >= $etudiant->formation->critere->note_validation ? 'Validé' : ($session == 2 ? (($note >= $etudiant->formation->critere->note_aj ? 'Non Validé' : 'Ajourné')):'Rattrappage') }}</td>
                         @else
                             <td>Aucune Note</td>
                         @endif
