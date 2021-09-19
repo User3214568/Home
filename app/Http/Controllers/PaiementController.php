@@ -21,7 +21,7 @@ class PaiementController extends Controller
     public function store(Request $request){
        $request->validate([
         'formation_id'=>'required|numeric',
-        'module_id'=>'required|numeric',
+        'module_id'=>'required',
         'montant'=>'required|numeric',
         'date_payement'=>'required|date'
        ]);
@@ -41,7 +41,7 @@ class PaiementController extends Controller
     public function update($id ,Request $request){
         $request->validate([
             'formation_id'=>'required|numeric',
-            'module_id'=>'required|numeric',
+            'module_id'=>'required',
             'montant'=>'required|numeric',
             'date_payement'=>'required|date'
         ]);

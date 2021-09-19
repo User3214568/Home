@@ -7,13 +7,13 @@ use App\Module;
 use App\Professeur;
 use App\Teacher;
 use Illuminate\Support\Collection;
-
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-
-class ImportProfesseur implements ToModel, WithHeadingRow
+class ImportProfesseur implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRows
 {
     public function __construct($formation)
     {
@@ -24,24 +24,21 @@ class ImportProfesseur implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $module_id = Module::get()->where('name', $row['module'])->first();
+        $result = $this->validate($row) ;
+        if ($result) {
+            $module = Module::get()->where('name', $row['module'])->first();
+            $teacher = Teacher::find($result);
+            if ($module) {
 
-        if ($module_id) {
-            $module_id = $module_id->id;
-            if (!($row['module'] == null || $row['nom_du_professeur'] == null || $row['somme'] == null || !is_numeric($row['somme']))) {
+                $prof = Professeur::with('teacher')->get()->where('module', $module)->where('formation_id', $this->formation->id)->where('teacher.id', $result)->first();
 
-                if ($row['nom_du_professeur'] != "" && $row['nom_du_professeur'] != null &&  $row['somme'] != "" && $row['somme'] != null) {
-                    $prof = Professeur::with('teacher')->get()->where('module_id', $module_id)->where('formation_id', $this->formation->id)->where('teacher.name', $row['nom_du_professeur'])->first();
-
-                    if ($prof) {
-                        $prof->update(['somme' => $row['somme']]);
-                    } else {
-                        $teacher  = Teacher::get()->where('name', $row['nom_du_professeur'])->first();
-                        if (!$teacher) {
-                            $teacher = Teacher::create(['name' => $row['nom_du_professeur']]);
-                        }
+                if ($prof) {
+                    $prof->update(['somme' => $row['somme']]);
+                } else {
+                    $teacher  = Teacher::find($result);
+                    if($teacher){
                         Professeur::create([
-                            'module_id' => $module_id,
+                            'module_id' => $module->id,
                             'somme' => $row['somme'],
                             'formation_id' => $this->formation->id,
                             'teacher_id' => $teacher->id
@@ -51,10 +48,24 @@ class ImportProfesseur implements ToModel, WithHeadingRow
             }
         }
     }
+    private function validate($row)
+    {
+        $teacher = false;
+        if($row['informations_du_professeur'] !== null && $row['somme'] !== null  && is_numeric($row['somme']) ){
+            $arr = explode(' : ',$row['informations_du_professeur']);
+            $teacher = $arr[0];
+        }
 
+        return $teacher;
+    }
     public function headingRow(): int
     {
         return 11;
     }
-
+    public function rules(): array
+    {
+        return [
+            'module' => ['string'],
+        ];
+    }
 }

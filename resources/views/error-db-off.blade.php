@@ -4,8 +4,7 @@
 @stop
 @section('content')
 @include('parts.layout.navbar')
-<?php $error = " Un Problème lié a notre base de données à ete survenu.Il semble que notre base
-de données n'est pas ouverte.
+<?php $error = " Un Problème lié a notre base de données à ete survenu.
 "?>
 @include('parts.admin.common.error')
 

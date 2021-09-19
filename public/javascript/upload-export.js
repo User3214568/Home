@@ -42,7 +42,8 @@ $("document").ready(function(){
                         popup("Imporation des Etudiants","L'Opération a ete effectué avec succée.","bg-success","far fa-check-circle");
                     },
                     error : function(e){
-                        popup("Imporation des Etudiants","Opération a ete Echouée.","bg-danger");
+                        console.log(e)
+                        //popup("Imporation des Etudiants","Opération a ete Echouée.","bg-danger");
 
                     }
                 })

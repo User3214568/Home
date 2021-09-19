@@ -3,15 +3,19 @@
 namespace App\Exports;
 
 use App\Professeur;
+use App\Teacher;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ExportProfesseur extends TemplateExport implements FromArray, WithTitle, WithColumnWidths, WithHeadings, WithMapping
+class ExportProfesseur extends TemplateExport implements  FromArray,WithTitle, WithColumnWidths, WithHeadings, WithMapping,WithEvents
 {
     public function __construct($formation, $empty = false)
     {
@@ -19,12 +23,15 @@ class ExportProfesseur extends TemplateExport implements FromArray, WithTitle, W
         $this->empty = $empty;
         $this->recettes = 0 ;
         $this->total = 0;
-        parent::__construct($formation->name, "Liste des Professeurs et Leurs Sommes", 3);
+        $this->size_rows = 0;
+        $this->header_size = $empty ? 3 : 5;
+        $this->init();
+        parent::__construct($formation->name, "Liste des Professeurs Affectés aux Modules",  $this->header_size);
     }
     public function additionalStyles(Worksheet $sheet, $styles)
     {
         for ($i = 0; $i < $this->size_rows; $i++) {
-            for ($j = 0; $j < 3; $j++) {
+            for ($j = 0; $j < $this->header_size; $j++) {
                 $styles[chr(65 + $j) . "" . ($i + 12)] = [
                     'borders' => [
                         'outline' => [
@@ -36,32 +43,78 @@ class ExportProfesseur extends TemplateExport implements FromArray, WithTitle, W
             }
         }
 
-        $sheet->getCell('B'.($this->size_rows+13))->setValue("Recettes");
-        $sheet->getCell('C'.($this->size_rows+13))->setValue($this->recettes);
-        $sheet->getCell('B'.($this->size_rows+14))->setValue("Restant");
-        $sheet->getCell('C'.($this->size_rows+14))->setValue($this->total - $this->formation->getPaid());
-        $styles['B'.($this->size_rows+13).':'.'C'.($this->size_rows+13)] = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+        if(!$this->empty){
+            $sheet->getCell('B'.($this->size_rows+13))->setValue("Recettes");
+            $sheet->getCell('C'.($this->size_rows+13))->setValue($this->recettes);
+            $sheet->getCell('B'.($this->size_rows+14))->setValue("Restant");
+            $sheet->getCell('C'.($this->size_rows+14))->setValue($this->total - $this->formation->getPaid());
+            $styles['B'.($this->size_rows+13).':'.'C'.($this->size_rows+13)] = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                    ],
                 ],
-            ],
-            'font'=>['size'=>13 ,'bold'=>true]
+                'font'=>['size'=>13 ,'bold'=>true]
 
-        ];
-        $styles['B'.($this->size_rows+14).':'.'C'.($this->size_rows+14)] = [
-            'borders' => [
-                'outline' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+            ];
+            $styles['B'.($this->size_rows+14).':'.'C'.($this->size_rows+14)] = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                    ],
                 ],
-            ],
-            'font'=>['size'=>13,'bold'=>true ]
+                'font'=>['size'=>13,'bold'=>true ]
 
-        ];
+            ];
+        }
         return $styles;
     }
+    public function registerEvents(): array
+    {
+        if($this->empty){
 
-    public function array():array{
+            $this->values = "";
+            $teachers = Teacher::all();
+            $this->length = sizeof($teachers);
+            foreach ($teachers as $key => $teacher) {
+                $this->values .= $teacher->__toString();
+                if(isset($teachers[$key+1])) $this->values .= " , ";
+            }
+            return [
+                AfterSheet::class => function(AfterSheet $event){
+                    for($i = 12 ; $i < 12 + $this->size_rows ; $i++){
+                        $this->dropdown($event,"B",$i,$this->values,$this->length);
+                    }
+                }
+            ];
+        }else return [];
+    }
+    private function dropdown($event , $col ,$row,$values,$length){
+        /** @var Sheet $sheet */
+        $sheet = $event->sheet;
+
+        /**
+         * validation for bulkuploadsheet
+         */
+        $this->rowCount = 1;
+        for( $i= $row; $i < $row + $this->rowCount; $i++){
+            $sheet->setCellValue("$col".$i, $sheet->getCell("$col".$i)->getValue());
+            $configs = "$values";
+            $objValidation = $sheet->getCell("$col".$i)->getDataValidation();
+            $objValidation->setType(DataValidation::TYPE_LIST);
+            $objValidation->setErrorStyle(DataValidation::STYLE_STOP);
+            $objValidation->setAllowBlank(false);
+            $objValidation->setShowInputMessage(true);
+            $objValidation->setShowErrorMessage(true);
+            $objValidation->setShowDropDown(true);
+            $objValidation->setErrorTitle('Donnée Invalide');
+            $objValidation->setError('Vous devez choisir un professeur de la list.');
+            $objValidation->setPromptTitle('Selectionner un Professeur');
+            $objValidation->setPrompt('Merci de séléctionner un professeur de la list.');
+            $objValidation->setFormula1('"' . $configs . '"');
+        }
+    }
+    public function init(){
         $modules = [];
         foreach ($this->formation->semestres as $semestre) {
             foreach ($semestre->modules as  $module) {
@@ -69,42 +122,60 @@ class ExportProfesseur extends TemplateExport implements FromArray, WithTitle, W
             }
         }
         $this->size_rows = sizeof($modules);
-        return $modules;
+        $this->modules = $modules;
+    }
+    public function array():array{
+
+        return $this->modules;
     }
     public function headings(): array
     {
-        return [
-            'Module',
+        $head = ['Module'];
+        if($this->empty){
+            array_push($head,'Informations du Professeur','Somme');
+        }else{
+            array_push($head,'Code  du Professeur',
             'Nom du Professeur',
-            'Somme'
-        ];
+            'Prénom du Professeur',
+            'Somme');
+        }
+        return $head;
     }
     public function map($module): array
     {
         $row = [];
-        $professeur = Professeur::get()->where('module_id', $module->id)->where('formation_id', $this->formation->id)->first();
-        if ($professeur) {
-            $this->total += $professeur->somme;
-            $row = array_merge($row, [
-                $module->name,
-                $this->empty ? "" : $professeur->teacher->name,
-                $this->empty ? "" : $professeur->somme
-            ]);
+        if (!$this->empty) {
+            $professeur = Professeur::get()->where('module_id', $module->id)->where('formation_id', $this->formation->id)->first();
+            if($professeur){
+
+                $this->total += $professeur->somme;
+                $row = array_merge($row, [
+                    $module->name,
+                    $professeur->teacher->id,
+                    $professeur->teacher->first_name,
+                    $professeur->teacher->last_name,
+                    $professeur->somme
+                ]);
+            }
         } else {
             $row = array_merge($row, [
                 $module->name,
-                "", ""
             ]);
         }
         return $row;
     }
     public function columnWidths(): array
     {
-        return [
-            'A' => 35,
-            'B' => 45,
-            'C' => 15
-        ];
+        $arr = [ 'A' => 35 , 'B' => 40 ];
+        if($this->empty){
+            $arr['C'] = 15;
+        }
+        else{
+            $arr['C'] = 45;
+            $arr['D'] = 45;
+            $arr['E'] = 15;
+        }
+        return $arr;
     }
     public function title(): string
     {

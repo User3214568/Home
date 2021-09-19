@@ -20,49 +20,43 @@ class ProfesseurController extends Controller
     public function create(){
         $content = "professeur.create";
         $formations = Formation::get();
-        return view('admin',compact(['content','formations']));
+        $teachers = Teacher::get();
+        return view('admin',compact(['content','teachers','formations']));
     }
     public function store(Request $request){
         $request->validate([
-            'name'=>'required|max:255',
+            'teacher_id'=>'required',
             'module_id'=>'required|numeric',
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
-        $teacher = Teacher::get()->where('name',$request->name)->first();
-        if(!$teacher){
-            $teacher = Teacher::create(['name'=>$request->name]);
-        }
-        Professeur::create(array_merge($request->only(['module_id','formation_id','somme']),['teacher_id'=>$teacher->id]));
-        return $this->index();
+        Professeur::create($request->all());
+        return redirect(route('professeur.index'));
     }
     public function edit($id){
         $content = "professeur.update";
         $formations = Formation::get();
         $prof = Professeur::find($id);
+        $teachers = Teacher::get();
         if($prof){
-            return view('admin',compact(['prof','content','formations']));
+            return view('admin',compact(['prof','teachers','content','formations']));
         }
     }
     public function update($id, Request $request){
         $request->validate([
-            'name'=>'required|max:255',
-            'module_id'=>'numeric',
+            'teacher_id'=>'required',
+            'module_id'=>'required|numeric',
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
         $prof = Professeur::find($id);
         if($prof){
-            $teacher = Teacher::get()->where('name',$request->name)->first();
-            if(!$teacher){
-                $teacher = Teacher::create(['name'=>$request->name]);
-            }
-            $prof->update(array_merge($request->only(['module_id','formation_id','somme']),['teacher_id'=>$teacher->id]));
+            $prof->update($request->all());
         }
-        return $this->index();
+        return redirect(route('professeur.index'));
     }
     public function destroy($id){
         Professeur::destroy($id);
-        return $this->index();
+        return redirect(route('professeur.index'));
     }
 }

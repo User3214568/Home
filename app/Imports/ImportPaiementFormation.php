@@ -30,23 +30,20 @@ class ImportPaiementFormation implements ToModel,WithStartRow,WithValidation
     public function model(array $row)
     {
         if($this->count == 0 ){
-            if($row[0] == "Date"){
+            if($row[0] == "Date" && $row[2] !== null ){
                 try{
-                    $this->date = Date::excelToDateTimeObject($row[1])->format('Y-m-d');
+                    $this->date = Date::excelToDateTimeObject($row[2])->format('Y-m-d');
                 }catch(Exception $e){
-                    dd($row[0]);die();
                     throw new ImportException($e->getMessage());
                 }
             }
-        }elseif($this->count>1){
-            $teacher = Teacher::get()->where('name',$row[0])->first();
+        }elseif($this->count>1 && $this->date !== null && $row [0] !== null && $row [1] !== null && $row [2] != null){
+            $teacher = Teacher::find($row[0]);
             if($teacher){
-                if($row[0] != null && $row[1] != null){
-                    Paiement::create(['formation_id'=>$this->formation->id,'teacher_id'=>$teacher->id,'montant'=>$row[1],'date_payement'=>$this->date]);
-                }
                 try{
+                    Paiement::create(['formation_id'=>$this->formation->id,'teacher_id'=>$teacher->id,'montant'=>$row[2],'date_payement'=>$this->date]);
                 }catch(Exception $e){
-                    throw new ImportException($e->message);
+                    throw new ImportException($e->getMessage());
                 }
             }
 

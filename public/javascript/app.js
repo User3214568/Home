@@ -48,14 +48,14 @@ $(document).ready(function(){
     $("#etudiants-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         setTimeout(function(){
-            $("#etudiants-table tr").filter(function() {
+            $("#etudiants-table tr[name='filter']").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         },50);
     });
     $("#etudiant-formation").on("change",function(){
         var value = $(this).val();
-        $("#etudiants-table tr").filter(function() {
+        $("#etudiants-table ").filter(function() {
             $(this).toggle($(this).text().indexOf(value) > -1)
         });
     });

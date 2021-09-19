@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Critere;
+use App\Etudiant;
 use App\Formation;
 use App\Module;
 use App\Promotion;
@@ -120,15 +121,19 @@ class FormationController extends Controller
     public function destroy($id){
         $formation = Formation::with('semestres')->find($id);
 
-        if(isset($formation)){
+        if($formation){
+
+            foreach($formation->promotions as $promo){
+                foreach ($promo->etudiants as  $etudiant) {
+                    Etudiant::destroy($etudiant->cin);
+                }
+                Promotion::destroy($promo->id);
+            }
             foreach($formation->semestres as $sem){
                 Semestre::destroy($sem->id);
             }
-            foreach($formation->promotions as $promo){
-                Promotion::destroy($promo->id);
-
-            }
         }
+        Critere::destroy($formation->critere_id);
         Formation::destroy($id);
         return $this->index();
     }

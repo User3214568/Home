@@ -15,7 +15,7 @@
         <th>Actions</th>
     </tr>
     @foreach ($etudiants->sortBy('formation_id') as $etudiant)
-        <tr>
+        <tr name="versement">
             <th>{{ $etudiant->formation->name }}</th>
             <th>{{ $etudiant->first_name }}</th>
             <th>{{ $etudiant->last_name }}</th>

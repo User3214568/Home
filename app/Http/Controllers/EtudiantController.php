@@ -42,8 +42,7 @@ class EtudiantController extends Controller
             if (isset($request->promotion_id)) {
                 $promo = $request->promotion_id;
             } else {
-
-                $promo = Promotion::premier($request->formation_id)->get()[0];
+                $promo = Promotion::premier($request->formation_id);
             }
             $etudiant = Etudiant::create(array_merge($request->only(['first_name', 'last_name', 'cin', 'cne', 'email', 'formation_id', 'born_date', 'born_place', 'phone']), ['promotion_id' => $promo->id]));
             foreach ($promo->semestres as $semestre) {
@@ -83,7 +82,7 @@ class EtudiantController extends Controller
             $formation = Formation::find($request->formation_id);
             try {
                 if ($formation) {
-                    $promo = Promotion::premier($request->formation_id)->get()[0];
+                    $promo = Promotion::premier($request->formation_id);
                 }
                 else throw new CustomException("La Formation demandé n'est pas existante");
             } catch (Exception $e) {

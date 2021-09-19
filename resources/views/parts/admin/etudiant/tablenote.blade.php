@@ -24,6 +24,9 @@
             @endif
         @endforeach
     </tr>
+    @php
+        $counter = 0;
+    @endphp
     @if (sizeof($sem->promotion->etudiants) > 0)
         @foreach ($sem->promotion->etudiants as $etudiant)
             @if ($etudiant->hasSessionSemestre($sem->id,$session))
@@ -50,8 +53,18 @@
                         @endif
                     @endforeach
                 </tr>
+                @php
+                    if($counter == 0) $counter++;
+                @endphp
             @endif
         @endforeach
+        @if($counter == 0)
+            @if($session == 1)
+                <td colspan="{{ $count_columns + 1 }}">Aucun Etudiant n'est inscrit dans la session ordinaire de ce Module.</td>
+            @else
+                <td colspan="{{ $count_columns + 1 }}">Aucun Etudiant Rattrappant. Verifier bien que vous avez commiter les notes du session ordinaire.</td>
+            @endif
+        @endif
     @else
         <td colspan="{{ $count_columns + 1 }}">Aucun Etudiant appartient à cette Promotion</td>
     @endif

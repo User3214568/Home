@@ -8,7 +8,7 @@
     <div class="col-4 form-outline ">
         <i class="fas fa-search trailing"></i>
         <input type="text" id="etudiants-search" value="" name="name" class="form-control form-icon-trailing"  />
-        <label class="form-label"  for="etudiants-search">Rechercher un Etudiant</label>
+        <label class="form-label"  for="etudiants-search">Rechercher un Utilisateur</label>
     </div>
     <a class="col-2 btn  btn-primary btn-lg btn-floating" href="{{route("user.create")}}">
         <i class="fas fa-plus"></i>
@@ -29,7 +29,7 @@
         <tbody>
             <?php $count=1?>
             @foreach ($users as $user)
-                <tr scope="row">
+                <tr name='filter' scope="row">
                     <th scope="col">{{$count}}</th>
                     <td scope="col">{{$user->first_name}}</td>
                     <td scope="col">{{$user->last_name}}</td>

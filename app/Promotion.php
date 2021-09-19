@@ -18,10 +18,10 @@ class Promotion extends Model
         return $this->hasMany(Semestre::class);
     }
     public function scopePremier($query,$formation){
-        return $query->where('formation_id',$formation)->where('numero',1);
+        return $query->where('formation_id',$formation)->where('numero',1)->first();
     }
     public function scopeDeuxieme($query,$formation){
-        return $query->where('formation_id',$formation)->where('numero',2);
+        return $query->where('formation_id',$formation)->where('numero',2)->first();
     }
 
 }

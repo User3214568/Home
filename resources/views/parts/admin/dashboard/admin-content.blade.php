@@ -121,6 +121,13 @@
         @include('parts.admin.etudiant.delibration')
         @break
 
+        @case('teacher.index')
+        @include('parts.admin.teacher.index')
+        @break
+        @case('teacher.create')
+        @include('parts.admin.teacher.add')
+        @break
+
         @default
 
         @endswitch

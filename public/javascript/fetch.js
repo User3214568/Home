@@ -13,8 +13,17 @@ export default class Fetch{
                         var selec = $("#input_module_id");
                         var options = JSON.parse(response);
                         selec.empty();
+                        var name = "";
+
                         options.forEach(element => {
-                            selec.append("<option value='"+element.id+"' >"+element.name+"</option>");
+                            if(element.name === undefined){
+                                if(element.first_name === undefined ) return
+                                name  = element.first_name +" "+ element.last_name
+                            }
+                            else{
+                                name = element.name
+                            }
+                            selec.append("<option value='"+element.id+"' >"+name+"</option>");
                         });
                     },
                     error : function(err){

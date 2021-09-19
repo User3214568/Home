@@ -8,6 +8,6 @@ class ImportException extends Exception
 {
     public function __construct($data)
     {
-        $this->data = $data;
+       parent::__construct($data);
     }
 }

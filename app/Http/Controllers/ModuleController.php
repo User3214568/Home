@@ -83,9 +83,19 @@ class ModuleController extends Controller
         return $this->create();
     }
     public function destroy($id){
-        Module::destroy($id);
-        return $this->index();
-    }
+        $module = Module::find($id);
+        if($module){
+            foreach($module->devoirs as $dev){
+                foreach($dev->evaluations as $eval){
+                    Evaluation::destroy($eval->id);
+                }
+                Devoir::destroy($dev->id);
+            }
+        }
+            Module::destroy($id);
+
+            return $this->index();
+        }
     public function commitOrdinaireSession($promo_id,$sem_id,$module_id){
         $promotion = Promotion::find($promo_id);
         if($module_id == 0 && $promotion){

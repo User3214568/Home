@@ -35,6 +35,7 @@ use App\Module;
 use App\Promotion;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -50,11 +51,9 @@ class UploadController extends Controller
         if($f){
             $import = new ImportEtudiant($f);
             Excel::import($import,$request->file('file'));
-            $etudiants = $import->getEtudiants();
 
         }
-        $content = 'etudiant.imported';
-        return view('admin', compact([ 'content', 'etudiants']));
+        return redirect(route('etudiant.index'));
     }
     public function exportEtudiants($id=0,$type=false)
     {

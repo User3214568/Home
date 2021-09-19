@@ -47,8 +47,8 @@
                     </option>
                 @endforeach
             </select>
-        @elseif (($field['type'] == 'date'))
 
+        @elseif (($field['type'] == 'date'))
             <div class="mt-4 form-outline ">
                 <input type="{{ $field['type'] }}"
                     value="{{ isset($etudiant) ? $etudiant->born_date : date('Y-m-d') }}"

@@ -3,9 +3,11 @@
 namespace App\Imports;
 
 use App\Etudiant;
+use App\Evaluation;
 use App\Exceptions\ImportException;
 use App\Promotion;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -22,10 +24,10 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
     }
     public function model(array $row)
     {
-        try{
 
-            $promotion = Promotion::premier($this->formation->id);
-            $etudiant =   new Etudiant([
+        $promo = Promotion::premier($this->formation->id);
+        if($promo instanceof Builder) throw new ImportException("Verifier que vous avez des Promotions dans la formation ".$this->formation->name);
+        $etudiant =  Etudiant::create([
                 'cin'=>$row['cin'],
                 'first_name'=>$row['nom'],
                 'last_name'=>$row['prenom'],
@@ -34,12 +36,17 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
                 'email'=>$row['email'],
                 'phone'=>$row['telephone'],
                 'formation_id'=>$this->formation->id,
-                'promotion-id'=>$promotion->id
-            ]);
-            array_push($this->etudiants,$etudiant);
-        }catch(Exception $e){
-            throw new ImportException($e->getMessage());
+                'promotion_id'=>$promo->id
+        ]);
+        foreach ($promo->semestres as $semestre) {
+            foreach ($semestre->modules as $module) {
+                foreach ($module->devoirs as $devoir) {
+                    if ($devoir->session == 1)
+                        Evaluation::create(['devoir_id' => $devoir->id, 'etudiant_cin' => $etudiant->cin]);
+                }
+            }
         }
+
     }
 
     public function headingRow():int{

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\URL;
 | contains the "web" middleware group. Now create something great!
 |
 */
-URL::forceScheme('https');
+//URL::forceScheme('https');
 Route::post('/login','UserController@login')->name('login');
 
 Route::get('test','UploadController@testDrop');
@@ -73,7 +73,7 @@ Route::middleware(('auth'))->group(function(){
     #------------------Avatars routes ----------------------------------------
     Route::get('/admin/avatars/{cin}','PrivateImagesController@getImage')->name('avatar');
     #-----------------------------------------------------------------------
-
+    Route::resource('/admin/teacher','TeacherController');
     Route::resource('/admin/finance/depense','DepensesController');
     Route::resource('/admin/professeur','ProfesseurController');
     Route::resource('/admin/finance/paiement','PaiementController');

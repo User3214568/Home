@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['id','first_name','last_name'];
+    public  $incrementing = false;
     public function paiements(){
         return $this->hasMany(Paiement::class);
     }
@@ -19,5 +20,9 @@ class Teacher extends Model
             $total += $paiement->montant;
         }
         return $total;
+    }
+    public function __toString()
+    {
+        return "$this->id : $this->first_name $this->last_name";
     }
 }

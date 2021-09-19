@@ -18,7 +18,7 @@ class ExportFormationPaiement extends TemplateExport implements FromView,WithTit
     {
         $this->formation = $formation;
         $this->paiements = $this->formation->paiements->groupBy('date_payement');
-        $this->header_size = 2;
+        $this->header_size = 3;
         parent::__construct($formation->name,"Liste des Paiements des Professeurs",$this->header_size);
     }
     public function additionalStyles(Worksheet $sheet, $styles)
@@ -36,7 +36,7 @@ class ExportFormationPaiement extends TemplateExport implements FromView,WithTit
     }
     public function columnWidths(): array
     {
-        $w = ['A'=>60,'B'=>40];
+        $w = ['A'=>30,'B'=>50,'C'=>15];
         return $w;
     }
     public function title(): string

@@ -5,8 +5,14 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithFormatData;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat as StyleNumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ExportEmptyFormationPaiement extends TemplateExport implements FromView,WithTitle,WithColumnWidths
@@ -14,7 +20,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function __construct($formation)
     {
         $this->formation = $formation;
-        parent::__construct($formation->name,'Paiement des Professeurs',2);
+        parent::__construct($formation->name,'Paiement des Professeurs',3);
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -22,7 +28,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function additionalStyles(Worksheet $sheet, $styles)
     {
         $styles["11"] = [];
-        for ($i=0; $i < 2 ; $i++) {
+        for ($i=0; $i < 3 ; $i++) {
             $styles[chr(65+$i)."11"] = [];
         }
         return $styles;
@@ -34,7 +40,7 @@ class ExportEmptyFormationPaiement extends TemplateExport implements FromView,Wi
     public function columnWidths(): array
     {
         return [
-            'A'=>80,'B'=>20
+            'A'=>30,'B'=>50,'C'=>15
         ];
     }
     public function title(): string

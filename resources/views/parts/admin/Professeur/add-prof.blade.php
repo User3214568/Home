@@ -7,7 +7,7 @@ $target = 'Professeur';
 $fields = [
     ['type'=>'selection','name'=>'formation_id','value'=>'','label'=>'Selectionner La Formation','items'=>$formations],
     ['type'=>'selection','name'=>'module_id','value'=>'','label'=>'Selectionner Un Module','items'=>[]],
-    ['type'=>'text','name'=>'name','value'=>'','label'=>'Nom et Prénom du Professeur'],
+    ['type'=>'selection','name'=>'teacher_id','value'=>'','label'=>'Selectionner un professeur','items'=>$teachers],
     ['type'=>'text','name'=>'somme','value'=>'','label'=>'Somme'],
 ];
 
