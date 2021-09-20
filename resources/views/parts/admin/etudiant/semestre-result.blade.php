@@ -13,10 +13,11 @@
         </tr>
     </thead>
     <tbody>
-
+        @php $counter = 0; @endphp
         @if (sizeof($sem->promotion->etudiants) > 0)
             @foreach ($sem->promotion->etudiants as $key => $etudiant)
                 @if ($etudiant->hasSessionSemestre($sem->id,$session))
+                    @php $counter++; @endphp
                     <tr>
                         <th>{{ $key + 1 }}</th>
                         <th scope="row">{{ $etudiant->cin }}</th>
@@ -47,9 +48,12 @@
                     </tr>
                 @endif
             @endforeach
+            @if($counter == 0 && $session == 2)
+                <td colspan="{{ 5 }}">Aucun Etudiant Rattrapant. Veuillez verifier que vous avez Valider
+                les notes du session Ordinaire.</td>
+            @endif
         @else
-
-            <td colspan="{{ $count_columns + 1 }}">Aucun Etudiant appartient à cette Promotion</td>
+            <td colspan="{{ 5 }}">Aucun Etudiant appartient à cette Promotion</td>
         @endif
 
     </tbody>

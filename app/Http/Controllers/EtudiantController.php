@@ -6,7 +6,9 @@ use App\Etudiant;
 use App\Evaluation;
 use App\Exceptions\CustomException;
 use App\Formation;
+use App\Module;
 use App\Promotion;
+use App\Semestre;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -166,5 +168,26 @@ class EtudiantController extends Controller
         $content = "etudiant.delibration";
         $formations = Formation::get();
         return view('admin',compact(['content','formations']));
+    }
+    public function requestNotes($result,$promotion,$semestre,$module,$session){
+        if($result === "false"){
+            $sem = Semestre::find($semestre);
+            if($module === "all"){
+                return view('parts.admin.etudiant.tablenote',compact(['session','sem']));
+            }else{
+                $mymodule = Module::find($module);
+                return view("parts.admin.etudiant.table-module-note",compact(['sem','mymodule','session']));
+
+            }
+        }else{
+            $sem = Semestre::find($semestre);
+            if($module === "all"){
+                return view('parts.admin.etudiant.semestre-result',compact(['session','sem']));
+            }else{
+                $mymodule = Module::find($module);
+                return view("parts.admin.etudiant.result-table",compact(['sem','mymodule','session']));
+
+            }
+        }
     }
 }

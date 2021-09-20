@@ -1,9 +1,10 @@
 <div class="row">
     <!-- Tabs navs -->
     <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
-        @foreach ($promotion->semestres as $key => $semestre)
-            <li class="nav-item" role="presentation">
-                <a class="nav-link {{ $key > 0 ? '' : 'active' }}"
+        @php $done = false; @endphp
+        @foreach ($promotion->semestres->sortBy('numero') as $key => $semestre)
+            <li  name="triggers-semestre" class="nav-item" role="presentation">
+                <a class="nav-link {{ $done ? ' ' : 'active' }}" @php $done = true; @endphp
                     id="tab-{{ $semestre->numero . '-' . $promotion->numero }}" data-mdb-toggle="tab"
                     href="#tabs-{{ $semestre->numero . '-' . $promotion->numero }}" role="tab"
                     aria-controls="tabs-{{ $semestre->numero . '-' . $promotion->numero }}"
@@ -15,22 +16,23 @@
 
     <div class="tab-content" id="content">
         @if (sizeof($promotion->semestres) > 0)
+        @php $done = false; $render = true; @endphp
+            @foreach ($promotion->semestres->sortBy('numero') as $key => $sem)
 
-            @foreach ($promotion->semestres as $key => $sem)
-
-                <div class=" tab-pane fade {{ $key > 0 ? '' : 'show active' }}"
+                <div class=" tab-pane fade {{ ( $done ? ' ' : 'show active') }}"
                     id="tabs-{{ $sem->numero . '-' . $promotion->numero }}" role="tabpanel"
                     aria-labelledby="tab-{{ $sem->numero . '-' . $promotion->numero }}">
                     <!-- Tabs navs -->
+                    @php $done = true; @endphp
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-                        <li class="nav-item" role="presentation">
+                        <li  name="triggers" class="nav-item" role="presentation">
                             <a class="nav-link active" id="{{ $sem->id . '-' . $promotion->name }}-modules-all"
                                 data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $promotion->name }}-modules-all"
                                 role="tab" aria-controls="ex1-tabs-1"
                                 aria-selected="true">{{ isset($result) ? 'Résultat du Semestre' : 'Tous Les Modules' }}</a>
                         </li>
                         @foreach ($sem->modules as $module)
-                            <li class="nav-item tab-item" role="presentation">
+                            <li  name="triggers" class="nav-item tab-item" role="presentation">
                                 <a class="nav-link "
                                     id="{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}"
                                     data-mdb-toggle="tab"
@@ -49,14 +51,14 @@
                             <!--  TABS FOR ALL MODULES  -->
                             <!-- Tabs navs -->
                             <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-                                <li class="nav-item" role="presentation">
+                                <li  name="triggers-session" class="nav-item" role="presentation">
                                     <a class="nav-link active" id="ord-{{ $sem->id . '-' . $promotion->name }}"
                                         data-mdb-toggle="tab" href="#tab-ord-{{ $sem->id . '-' . $promotion->name }}"
                                         role="tab" aria-controls="tab-ord-{{ $sem->id . '-' . $promotion->name }}"
                                         aria-selected="true">Session
                                         Ordinaire</a>
                                 </li>
-                                <li class="nav-item" role="presentation">
+                                <li  name="triggers-session" class="nav-item" role="presentation">
                                     <a class="nav-link" id="rat-{{ $sem->id . '-' . $promotion->name }}"
                                         data-mdb-toggle="tab" href="#tab-rat-{{ $sem->id . '-' . $promotion->name }}"
                                         role="tab" aria-controls="" aria-selected="false">Session Rattrappage</a>
@@ -67,7 +69,7 @@
 
                             <!-- Tabs content -->
                             <div class="tab-content" id="ex1-content">
-                                <div class="tab-pane fade show active"
+                                <div name="notes" semestre="{{$sem->id}}" session="1" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
                                     id="tab-ord-{{ $sem->id . '-' . $promotion->name }}" role="tabpanel"
                                     aria-labelledby="ord-{{ $sem->id . '-' . $promotion->name }}">
                                     <?php $session = 1; ?>
@@ -85,16 +87,21 @@
                                             </a>
                                         </div>
                                         <div class="table-responsive mt-2">
-                                            @include('parts.admin.etudiant.tablenote')
+                                            @if($render)
+                                                @include('parts.admin.etudiant.tablenote')
+                                            @endif
                                         </div>
                                     @else
 
                                         <div class="table-responsive mt-2">
-                                            @include('parts.admin.etudiant.semestre-result')
+                                            @if($render)
+                                                @include('parts.admin.etudiant.semestre-result')
+                                            @endif
                                         </div>
                                     @endif
+                                    @php $render = false;  @endphp
                                 </div>
-                                <div class="tab-pane fade" id="tab-rat-{{ $sem->id . '-' . $promotion->name }}"
+                                <div name="notes" semestre="{{$sem->id}}" session="2" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade" id="tab-rat-{{ $sem->id . '-' . $promotion->name }}"
                                     role="tabpanel" aria-labelledby="ex1-tab-2">
                                     <?php $session = 2; ?>
                                     @if (!isset($result))
@@ -107,11 +114,11 @@
 
                                         </div>
                                         <div class="table-responsive mt-2">
-                                            @include('parts.admin.etudiant.tablenote')
+                                            <!-- ('parts.admin.etudiant.tablenote') -->
                                         </div>
                                     @else
                                         <div class="table-responsive mt-2">
-                                            @include('parts.admin.etudiant.semestre-result')
+                                            <!--('parts.admin.etudiant.semestre-result')-->
                                         </div>
                                     @endif
 
@@ -121,12 +128,13 @@
                             <!-- Tabs content -->
 
                         </div>
+                        @php $showModule = false; @endphp
                         @foreach ($sem->modules as $mymodule)
                             <div class="tab-pane fade"
                                 id="tab-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}" role="tabpanel"
                                 aria-labelledby="ex1-tab-2">
                                 <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-                                    <li class="nav-item" role="presentation">
+                                    <li  name="triggers-session-module" class="nav-item" role="presentation">
                                         <a class="nav-link active"
                                             id="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
@@ -135,7 +143,7 @@
                                             aria-controls="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             aria-selected="true">Session Ordinaire</a>
                                     </li>
-                                    <li class="nav-item" role="presentation">
+                                    <li  name="triggers-session-module" class="nav-item" role="presentation">
                                         <a class="nav-link"
                                             id="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
@@ -150,7 +158,7 @@
 
                                 <!-- Tabs content -->
                                 <div class="tab-content" id="ex1-content">
-                                    <div class="tab-pane fade show active"
+                                    <div name="notes-module" session="1" module="{{$mymodule->id}}" semestre="{{$sem->id}}" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
                                         id="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                         role="tabpanel"
                                         aria-labelledby="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
@@ -197,13 +205,18 @@
                                         <div class="table-responsive mt-2">
                                             <?php $session = 1; ?>
                                             @if (!isset($result))
-                                                @include('parts.admin.etudiant.table-module-note')
+                                                @if($showModule)
+                                                    @include('parts.admin.etudiant.table-module-note')
+                                                @endif
                                             @else
-                                                @include('parts.admin.etudiant.result-table')
+                                                @if($showModule)
+                                                    @include('parts.admin.etudiant.result-table')
+                                                @endif
                                             @endif
+                                            @php $showModule = false; @endphp
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade"
+                                    <div name="notes-module" session="2"  module="{{$mymodule->id}}" semestre="{{$sem->id}}" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class=" tab-pane fade"
                                         id="tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                         role="tabpanel"
                                         aria-labelledby="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
@@ -240,9 +253,9 @@
                                         <div class="table-responsive mt-2">
                                             <?php $session = 2; ?>
                                             @if (!isset($result))
-                                                @include('parts.admin.etudiant.table-module-note')
+                                            <!-- ('parts.admin.etudiant.table-module-note')-->
                                             @else
-                                                @include('parts.admin.etudiant.result-table')
+                                              <!--  ('parts.admin.etudiant.result-table')-->
                                             @endif
                                         </div>
                                     </div>
@@ -250,6 +263,7 @@
                                 </div>
 
                             </div>
+
                         @endforeach
                     </div>
                     <!-- Tabs content -->

@@ -29,8 +29,11 @@ class Validation {
         $average = 0 ;
         foreach ($etudiant->evaluations as $evaluation) {
             if($evaluation->devoir->session == $session){
-                if($evaluation->devoir->module->id == $module_id){
-                    $average += $evaluation->devoir->ratio  * $evaluation->note / 100;
+                if($evaluation->devoir->module){
+
+                    if($evaluation->devoir->module->id == $module_id){
+                        $average += $evaluation->devoir->ratio  * $evaluation->note / 100;
+                    }
                 }
             }
         }

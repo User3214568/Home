@@ -73,6 +73,8 @@ Route::middleware(('auth'))->group(function(){
     #------------------Avatars routes ----------------------------------------
     Route::get('/admin/avatars/{cin}','PrivateImagesController@getImage')->name('avatar');
     #-----------------------------------------------------------------------
+    Route::get('/admin/etudiant/request-notes/{result}-{promotion}-{semestre}-{module}-{session}','EtudiantController@requestNotes');
+
     Route::resource('/admin/teacher','TeacherController');
     Route::resource('/admin/finance/depense','DepensesController');
     Route::resource('/admin/professeur','ProfesseurController');

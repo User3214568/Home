@@ -39,9 +39,11 @@ class Evaluation extends Model
             $devoir = Devoir::find($eval['devoir_id']);
             if($devoir){
                 if($devoir->session == $session){
-                    $sems = $devoir->module->semestres->where('id',$sem_id);
-                    if(sizeof($sems) > 0){
-                        return true;
+                    if($devoir->module){
+                        $sems = $devoir->module->semestres->where('id',$sem_id);
+                        if(sizeof($sems) > 0){
+                            return true;
+                        }
                     }
                 }
             }
