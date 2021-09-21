@@ -12,6 +12,9 @@
     </select>
 
 </div>
-<div id="target" class="row mt-5 border justify-content-center p-3">
-    <p class="text-center">Sélectionner une Formation puis une Promotion pour Confirmer la décision du fin d'année pour chaque étudiant</p>
+
+<div  class="row mt-5 border justify-content-center p-3">
+    <div class="col align-items-center" id="delib-info">
+        <p class="text-center">Sélectionner une Formation puis une Promotion pour Confirmer la décision du fin d'année pour chaque étudiant</p>
+    </div>
 </div>

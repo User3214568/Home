@@ -190,4 +190,30 @@ class EtudiantController extends Controller
             }
         }
     }
+    public function finAnnee(Request $request){
+        if($request->results)
+        $results = json_decode($request->results,true);
+        foreach($results as $promo=>$etudiants){
+            $promotion =   Promotion::find($promo);
+            if($promotion){
+                $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
+                foreach ($etudiants as  $e_res) {
+                        $etudiant  = Etudiant::find($e_res['e']);
+                        if($e_res['r'] == 0 && $etudiant && $next_promo){
+                            $etudiant->promotion()->dissociate($promotion->id);
+                            $etudiant->promotion()->associate($next_promo->id);
+                            $etudiant->save();
+                            foreach($next_promo->semestres as $sem){
+                                foreach ($sem->modules as  $mod) {
+                                    foreach($mod->devoirs as $dev){
+                                        Evaluation::create(['devoir_id'=>$dev->id,'etudiant_cin' => $e_res['e']]);
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        return redirect(route('etudiant.index'));
+    }
 }

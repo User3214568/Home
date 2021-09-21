@@ -73,7 +73,12 @@ Route::middleware(('auth'))->group(function(){
     #------------------Avatars routes ----------------------------------------
     Route::get('/admin/avatars/{cin}','PrivateImagesController@getImage')->name('avatar');
     #-----------------------------------------------------------------------
+
+    #----------------------------- notes section----------------------------
     Route::get('/admin/etudiant/request-notes/{result}-{promotion}-{semestre}-{module}-{session}','EtudiantController@requestNotes');
+    #----------------------------------------------------------------
+
+    Route::post('/admin/etudiant/find-annee','EtudiantController@finAnnee')->name('etudiant.finaliser');
 
     Route::resource('/admin/teacher','TeacherController');
     Route::resource('/admin/finance/depense','DepensesController');

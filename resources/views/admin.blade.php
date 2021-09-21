@@ -17,6 +17,8 @@
                 ['title'=>'Adminer Vos Etudiants','link'=>route('etudiant.index'),'icon'=>'fas fa-user-edit'],
                 ['title'=>'Gestion des Notes','link'=>route('etudiant.evaluation'),'icon'=>'fas fa-award'],
                 ['title'=>'Résultats des Etudiants','link'=>route('etudiant.result'),'icon'=>'fas fa-calculator'],
+                ['title'=>'Délibrations','link'=>route('etudiant.delibration'),'icon'=>'fas fa-check'],
+
             ]
         ],
         ['title'=>'Professeurs','link'=>route('teacher.index'),'icon'=>'fas fa-chalkboard-teacher','expanded'=>false],
