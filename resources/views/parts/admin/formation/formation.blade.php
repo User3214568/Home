@@ -73,6 +73,5 @@
     @if(isset($formation))
     <script>
         var semestres = {!! json_encode($formation->semestres->ids) !!};
-
     </script>
     @endif

@@ -23,6 +23,8 @@
         ['title'=>'Affectation des Modules','link'=>route('professeur.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
 
         ['title'=>'Utilisateurs','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
+        ['title'=>'Années Prcédentes','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
+
         ['title'=>'Gestion Financiére','divider'=>true],
         ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
         ['title'=>'Paiement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-th', 'expanded'=>false],

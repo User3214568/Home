@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Critere;
 use App\Etudiant;
+use App\Evaluation;
 use App\Formation;
 use App\Module;
 use App\Promotion;
@@ -32,6 +33,7 @@ class FormationController extends Controller
             'description'=>'required',
             'note_validation'=>'required|numeric',
             'note_aj'=>'required|numeric',
+            'prix' =>  'required|numeric',
             'number_aj'=>'required|numeric',
             'number_nv'=>'required|numeric'
         ]);
@@ -79,6 +81,7 @@ class FormationController extends Controller
         $isvalid = $request->validate([
             'name'=>'required|max:255',
             'description'=>'required',
+            'prix' => 'required|numeric',
             'note_validation'=>'required|numeric',
             'note_aj'=>'required|numeric',
             'number_aj'=>'required|numeric',
@@ -88,27 +91,111 @@ class FormationController extends Controller
             $semestres = json_decode($request->semestres,true);
             $formation = Formation::with('semestres')->find($id);
             $formation->update($request->only(['name','description']));
-            Critere::find($formation->critere)->update($request->only(['note_validation', 'note_aj','number_aj','number_nv']));
+            Critere::find($formation->critere_id)->update($request->only(['note_validation', 'note_aj','number_aj','number_nv']));
+            # deleting old semestres and make new ones
+            if(!(sizeof($formation->promotions)>0)){
+                $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$id]);
+            }else{
+                $promo = $formation->promotions->sortBy("numero")->last();
+                if((sizeof($promo->semestres) == 2) && sizeof($semestres) > sizeof($formation->semestres)){
+                    $promo = Promotion::create(['numero'=>($promo->numero+1),'nom'=>($promo->numero+1).((($promo->numero+1) == 1)?'ére':'éme').' Année','formation_id'=>$id]);
+
+                }
+            }
+
+            if(isset($semestres)){
+                foreach($semestres as $semestre=>$modules){
+                    $sem = $formation->semestres->where('numero',$semestre)->first();
+                    if($sem){
+                        $sem->modules()->sync($modules);
+                        foreach($modules as $m){
+                               if(!in_array($m,$sem->modules->pluck('id')->toArray())){
+                                    $my_mod = Module::find();
+                                    foreach($sem->promotion->etudiants as $etudiant){
+                                        foreach ($my_mod->devoirs as $dev) {
+                                            Evaluation::create(['devoir_id'=>$dev->id , 'etudiant_cin'=>$etudiant->cin]);
+                                        }
+                                    }
+                               }
+                        }
+                    }else{
+                        $my_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                        $my_sem->modules()->attach($modules);
+                        if(($semestre%2 == 0) && isset($semestres[($semestre+1).''])){
+                            $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$id]);
+                        }
+                    }
+                }
+                foreach ($formation->semestres as  $f_sem) {
+                    if(!array_key_exists($f_sem->numero,$semestres)){
+                        $f_sem->delete();
+                        if(!(sizeof($f_sem->promotion->semestres)>0)){
+                            $f_sem->promotion->delete();
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return $this->create();
+
+    }
+    public function updates($id , Request $request){
+        $isvalid = $request->validate([
+            'name'=>'required|max:255',
+            'description'=>'required',
+            'prix' => 'required|numeric',
+            'note_validation'=>'required|numeric',
+            'note_aj'=>'required|numeric',
+            'number_aj'=>'required|numeric',
+            'number_nv'=>'required|numeric'
+        ]);
+        if($isvalid){
+            $semestres = json_decode($request->semestres,true);
+            $formation = Formation::with('semestres')->find($id);
+            $formation->update($request->only(['name','description']));
+            Critere::find($formation->critere_id)->update($request->only(['note_validation', 'note_aj','number_aj','number_nv']));
             $promo = Promotion::create(['numero'=>1,'nom'=>'1ère Année','formation_id'=>$id]);
             # deleting old semestres and make new ones
 
-            foreach($formation->semestres as $semestre){
-                $semestre->delete();
-            }
+
             if(isset($semestres)){
-
                 foreach($semestres as $semestre => $modules){
-                    if($semestre !=null){
-                        $create_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
-                        $create_sem->modules()->attach($modules);
-                        if(($semestre%2 == 0)){
-                            $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$id]);
+                    if($modules != null && $semestre != null ){
+                        $my_sem = $formation->semestres->where('numero',$semestre)->first();
 
+                        if($my_sem){
+                            $my_sem->modules()->sync($modules);
+                        }else{
+                            $my_sem  = Semestre::create(['numero'=>$semestre , 'formation_id'=>$formation->id,'promotion_id'=>$promo->id]);
+                            $my_sem->modules()->attach($modules);
                         }
-
+                        if(($semestre%2 == 0)){
+                            if(!$my_sem->promotion){
+                                $promo = Promotion::create(['numero'=>(1+(($semestre)/2)),'nom'=>(1+(($semestre)/2)).'ére Année','formation_id'=>$id]);
+                            }
+                        }
+                        foreach($modules as $mod){
+                            $my_mod = Module::find($mod);
+                            if(!in_array($mod,$my_sem->modules->pluck('id')->toArray())){
+                                $my_mod = Module::find($mod);
+                                if($my_mod){
+                                    dd($my_sem);
+                                    foreach($my_sem->promotion->etudiants as $etudiant){
+                                        foreach ($my_mod->devoirs as $dev) {
+                                            Evaluation::create(['devoir_id'=>$dev->id , 'etudiant_cin'=>$etudiant->cin]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-
-
+                }
+                foreach ($formation->semestres as  $f_sem) {
+                    if(!array_key_exists($f_sem->numero,$semestres)){
+                        $f_sem->destroy();
+                    }
                 }
 
                 return $this->index();
