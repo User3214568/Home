@@ -1,4 +1,4 @@
-<div class="row m-2">
+<div class="row m-1 justify-content-between" >
     @include('parts.admin.dashboard.sidebar')
     <div class="col-md-9 " id="admin-content">
 
@@ -126,6 +126,10 @@
         @break
         @case('teacher.create')
         @include('parts.admin.teacher.add')
+        @break
+
+        @case('old.index')
+        @include('parts.admin.old.index')
         @break
 
         @default

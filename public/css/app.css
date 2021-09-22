@@ -2,7 +2,29 @@
 
 body{
     overflow-x:hidden;
-
+    font-size: 13px !important;
+}
+.card-text{
+    max-height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.card-text:hover{
+    max-height: none;
+    overflow: visible;
+    transition: all 1s ease;
+}
+.card-formation-module{
+    background-color: rgb(231, 197, 197);
+}
+#admin-content{
+    overflow-y: scroll;
+    height : 80vh;
+}
+#side{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height : 80vh;
 }
 .custom-toggler.navbar-toggler {
     border-color: white;
@@ -78,3 +100,37 @@ body{
 }
 
 
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+  }
+  .row{
+      transition: all 0.5 ease-in;
+  }
+  .col-md-3{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-1{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-11{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-9{
+    transition: all 0.5s ease;
+  }

@@ -1,8 +1,8 @@
-<div class="border  col-3  card text-center m-4">
+<div class="border  col-md-3  card text-center m-4">
     <div class="card-body">
-    <div class="card-header text-muted">2 days ago</div>
+    <div class="card-header text-muted">{{$passed}}</div>
     <h5 class="card-title">{{$name}}</h5>
-    <p class="card-text text-truncate">
+    <p class="card-text ">
        {{$description}}
     </p>
 

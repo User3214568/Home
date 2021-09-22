@@ -1,4 +1,4 @@
-// Material Select Initialization
+var obj_scroll = {toggled : true , value : 0,last : null};
 var semestres = {};
 var target = 0 ;
 var edit = false;
@@ -33,6 +33,7 @@ function deleteSemestre(e){
 
 $(document).ready(function(){
     syncHiddenInput();
+
     $("#popup").on('hide.bs.modal', function(){
         edit  = false;
         $('#search-result input:checked').each(function() {
@@ -148,4 +149,14 @@ window.onload = function (){
 var selection  = [];
 function addSelection(){
     document.getElementById('select-module');
+}
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.top = "0";
+  } else {
+    document.getElementById("navbar").style.top = "-100px";
+  }
+  prevScrollpos = currentScrollPos;
 }

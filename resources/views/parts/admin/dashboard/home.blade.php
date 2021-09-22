@@ -99,7 +99,7 @@
             <h5>Revenus</h5>
         </div>
         <div>
-            <table class="table">
+            <table class="table ">
                 <tr><td>-</td><td>-</td><td>-</td></tr>
                 <tr>
                     <td>Total Versements</td>

@@ -77,8 +77,14 @@ Route::middleware(('auth'))->group(function(){
     #----------------------------- notes section----------------------------
     Route::get('/admin/etudiant/request-notes/{result}-{promotion}-{semestre}-{module}-{session}','EtudiantController@requestNotes');
     #----------------------------------------------------------------
-
+    #----------------------------------END OF YEAR-----------------------------------------
     Route::post('/admin/etudiant/find-annee','EtudiantController@finAnnee')->name('etudiant.finaliser');
+    #-------------------------------------------------------------------------------
+
+    #-------------------------------------OLD------------------
+    Route::get('/admin/history','HistoryController@index')->name('history.index');
+    #--------------------------------------------------------------------
+
 
     Route::resource('/admin/teacher','TeacherController');
     Route::resource('/admin/finance/depense','DepensesController');

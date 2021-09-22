@@ -1,26 +1,33 @@
 var sideSlim = {
     width : -1,
-    isToggled : false
+    isToggled : false,
+    first : true
 }
 $(document).ready(function(){
     sideSlim.width =  $("#mysidebar").width();
 
-    $("#sidebartoggler").click(function(){
-        $("span").each(function(){
-            if($(this).attr('name') == 'side-item-label'){
-               $(this).attr('hidden',sideSlim.isToggled);
-            }
+    $("#sidebarHideToggler").click(function(){
+        $("#side").attr('hidden',function(index,value){
+            return !value;
         })
-        $("i").each(function(){
-            if($(this).attr('name') == 'side-item-label'){
-                $(this).attr('hidden',sideSlim.isToggled);
-            }
-        })
-        $("#mysidebar").animate({
-            width : sideSlim.isToggled?60:sideSlim.width
-        });
-        sideSlim.isToggled = !sideSlim.isToggled;
     })
     $("#sidebartoggler").click();
+    $("#sidebartoggler").click(function(){
+        $("#admin-content").toggleClass("col-md-11 col-md-9 ")
+        $("span[name='side-item-label']").attr('hidden',function(index,attr){
+            return !attr;
+        })
+        $("i[name='side-item-label']").attr('hidden',function(index,attr){
+            return !attr;
+        })
+        $("img[name='side-item-label']").attr('hidden',function(index,attr){
+            return !attr;
+        })
+        $("#sidebartoggler").toggleClass('align-items-center')
+        $("#mysidebar a").toggleClass("text-center")
+        $('i[name="icon-sidebar"]').toggleClass("fa-1x")
+        $("#mysidebar").toggleClass("col-md-1 col-md-3 ")
+    })
+
 
 });

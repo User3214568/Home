@@ -258,4 +258,5 @@ class FormationController extends Controller
         if($formation)
         return view('parts.admin.etudiant.delib-result',compact(['formation']));
     }
+
 }

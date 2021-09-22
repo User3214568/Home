@@ -96,7 +96,7 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
             $etudiant->last_name,
             $etudiant->cin,
             $etudiant->born_date,
-            $etudiant->cne,
+            $etudiant->born_place,
         ];
         $moy = 0;
         $count = 0;

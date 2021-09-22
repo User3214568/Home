@@ -25,7 +25,7 @@
         ['title'=>'Affectation des Modules','link'=>route('professeur.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
 
         ['title'=>'Utilisateurs','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
-        ['title'=>'Années Prcédentes','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
+        ['title'=>'Années Précédentes','link'=>route('history.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
 
         ['title'=>'Gestion Financiére','divider'=>true],
         ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
@@ -38,6 +38,5 @@
 @section('content')
     @include('parts.layout.navbar')
     @include('parts.admin.dashboard.admin-content')
-    @include('parts.layout.footer')
 @stop
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\EvaluationScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Evaluation extends Model
@@ -33,8 +34,6 @@ class Evaluation extends Model
 
         $evals = $query->with('devoir')->where('etudiant_cin',$cin)->get();
         $evals = $evals->toArray();
-        $sem = Semestre::find($sem_id);
-        $c = 0 ;
         foreach($evals as $eval){
             $devoir = Devoir::find($eval['devoir_id']);
             if($devoir){
@@ -70,6 +69,5 @@ class Evaluation extends Model
         $devoir = $this->devoir;
         return $devoir->module->id;
     }
-
 
 }

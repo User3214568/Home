@@ -10,7 +10,9 @@ class Etudiant extends Model
     public $incrementing  = false;
 
     protected $fillable = ['formation_id','first_name','last_name','cin','cne','born_date','born_place','phone','email','promotion_id'];
-
+    public function name(){
+        return $this->first_name." ".$this->last_name;
+    }
     public function formation(){
         return $this->belongsTo(Formation::class);
 

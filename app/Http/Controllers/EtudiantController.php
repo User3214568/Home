@@ -6,9 +6,12 @@ use App\Etudiant;
 use App\Evaluation;
 use App\Exceptions\CustomException;
 use App\Formation;
+use App\Hisresult;
+use App\History;
 use App\Module;
 use App\Promotion;
 use App\Semestre;
+use App\Utilities\Validation;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -191,18 +194,38 @@ class EtudiantController extends Controller
         }
     }
     public function finAnnee(Request $request){
-        if($request->results)
-        $results = json_decode($request->results,true);
-        foreach($results as $promo=>$etudiants){
-            $promotion =   Promotion::find($promo);
-            if($promotion){
-                $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
-                foreach ($etudiants as  $e_res) {
+        if($request->results){
+            $results = json_decode($request->results,true);
+            foreach($results as $promo=>$etudiants){
+                $promotion =   Promotion::find($promo);
+                if($promotion){
+                    $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
+                    foreach ($promotion->etudiants as $etudiant) {
+                        $history = History::create(['etudiant_cin'=>$etudiant->cin,
+                                                    'promotion_id'=>$promotion->id,'au'=>(date('Y')-1)."-".date('Y')]);
+                        foreach($promotion->semestres as $semestre){
+                            foreach($semestre->modules as $module){
+                                Hisresult::create(['module_id'=>$module->id,
+                                    'history_id'=>$history->id,
+                                    'semestre'=>$semestre->numero,
+                                    'note_final'=> Validation::FinalModuleNote($etudiant->cin,$module->id)
+                                ]);
+
+                            }
+                        }
+
+
+
+                    }
+                    foreach ($etudiants as  $e_res) {
                         $etudiant  = Etudiant::find($e_res['e']);
                         if($e_res['r'] == 0 && $etudiant && $next_promo){
                             $etudiant->promotion()->dissociate($promotion->id);
                             $etudiant->promotion()->associate($next_promo->id);
                             $etudiant->save();
+                            foreach ($etudiant->evaluations as $evaluation) {
+                                $evaluation->delete();
+                            }
                             foreach($next_promo->semestres as $sem){
                                 foreach ($sem->modules as  $mod) {
                                     foreach($mod->devoirs as $dev){
@@ -210,10 +233,30 @@ class EtudiantController extends Controller
                                     }
                                 }
                             }
+                        }elseif($etudiant && $e_res['r'] == 1 && $promotion){
+                            foreach ($etudiant->evaluations as $evaluation) {
+                                if($evaluation->devoir->session == 2){
+                                    $evaluation->delete();
+                                }
+                                $evaluation->update(['note'=>null]);
+                            }
                         }
+                    }
+
+
                 }
+
             }
+
         }
         return redirect(route('etudiant.index'));
+    }
+    private function search_if_exists($arr,$target){
+        foreach ($arr as $e_res) {
+            if($e_res['e'] == $target){
+                return true;
+            }
+        }
+        return false;
     }
 }

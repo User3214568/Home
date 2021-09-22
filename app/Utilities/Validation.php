@@ -92,6 +92,20 @@ class Validation {
 
         }
     }
+    public static function resultDesc($formation,$note,$flag = 0){
+        $note_validation = $formation->critere->note_validation;
+        if($note >= $note_validation){
+            return "Validé";
+        }else{
+            $note_aj = $formation->critere->note_aj;
+            if($note >= $note_aj && $flag == 0){
+                return "Non Validé";
+            }else{
+                return "Ajourrné";
+            }
+
+        }
+    }
 }
 
 ?>

@@ -3,9 +3,9 @@
 namespace App\Observers;
 
 use App\Formation;
-use App\Notification;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+
+use App\Utilities\Notificator\Notificator;
+
 
 class FormationObserver
 {
@@ -17,13 +17,8 @@ class FormationObserver
      */
     public function created(Formation $formation)
     {
-        $current_user = Auth::user();
-        $notif = Notification::create(['message'=>'L\'utilisateur '.$current_user->first_name .' a crée une nouvell formation : '.$formation->name]);
-        foreach (User::get() as $user) {
-           if($user->cin != $current_user->cin){
-               $notif->users()->attach($user->cin);
-           }
-        }
+        $notif = new Notificator();
+        $notif->notificate($formation,' a crée une nouvell formation : ' . $formation->name);
     }
 
     /**
@@ -34,7 +29,8 @@ class FormationObserver
      */
     public function updated(Formation $formation)
     {
-        //
+        $notif = new Notificator();
+        $notif->notificate($formation,' a modifié la Formation : ' . $formation->name);
     }
 
     /**
@@ -45,7 +41,8 @@ class FormationObserver
      */
     public function deleted(Formation $formation)
     {
-        //
+        $notif = new Notificator();
+        $notif->notificate($formation,' a supprimé la Formation : ' . $formation->name);
     }
 
     /**

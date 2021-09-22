@@ -187,8 +187,8 @@ $(document).ready(function () {
 
         //chart 3-4
       console.log(fin_stats)
-        renderChartRadial("#chart4",total_vsed <= 0 ? 100 :  total_versments*100/total_vsed);
-        renderChartRadial('#chart5',total_paiements <= 0 ? 100 :  total_pai*100/total_paiements);
+        renderChartRadial("#chart4",total_vsed <= 0 ? 100 :  (total_versments*100/total_vsed).toFixed(2));
+        renderChartRadial('#chart5',total_paiements <= 0 ? 100 :  (total_pai*100/total_paiements).toFixed(2));
 })
 
 function renderChartRadial(divId,value,label=""){

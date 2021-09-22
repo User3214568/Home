@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light p-3 sticky-top ">
+<nav id='navbar' class="navbar navbar-expand-md navbar-light bg-light sticky-top ">
 
     <a href="#" class="d-flex">
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
@@ -54,7 +54,7 @@
                       <img
                       src="{{url(route('avatar',['cin'=>Auth::user()->image]))}}"
                       class="rounded-circle"
-                        height="40"
+                        height="30"
                         alt=""
                         loading="lazy"
                       />
