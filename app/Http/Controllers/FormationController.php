@@ -220,9 +220,9 @@ class FormationController extends Controller
             foreach($formation->semestres as $sem){
                 Semestre::destroy($sem->id);
             }
-            Critere::destroy($formation->critere_id);
         }
         Formation::destroy($id);
+        if($formation) Critere::destroy($formation->critere_id);
         return redirect(route('formation.index'));
     }
     public function notes(Request $request){
