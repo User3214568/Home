@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Formation;
 
-use App\Utilities\Notificator\Notificator;
+use App\Utilities\Notificator;
 
 
 class FormationObserver
