@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utilities\Notificator;
+namespace App\Utilities;
 
 use App\Notification;
 use App\User;

@@ -53,7 +53,7 @@ class FormationController extends Controller
             }
 
             return redirect(route('formation.create'));
-            return $this->index();
+            return redirect(route('formation.index'));
         }
         else{
             return route('etudiant.create');
@@ -198,7 +198,7 @@ class FormationController extends Controller
                     }
                 }
 
-                return $this->index();
+                return redirect(route('formation.index'));
             }
 
         }
@@ -220,10 +220,10 @@ class FormationController extends Controller
             foreach($formation->semestres as $sem){
                 Semestre::destroy($sem->id);
             }
+            Critere::destroy($formation->critere_id);
         }
-        Critere::destroy($formation->critere_id);
         Formation::destroy($id);
-        return $this->index();
+        return redirect(route('formation.index'));
     }
     public function notes(Request $request){
         $result = $request->target;
