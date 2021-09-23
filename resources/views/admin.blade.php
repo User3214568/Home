@@ -21,16 +21,19 @@
 
             ]
         ],
-        ['title'=>'Professeurs','link'=>route('teacher.index'),'icon'=>'fas fa-chalkboard-teacher','expanded'=>false],
-        ['title'=>'Affectation des Modules','link'=>route('professeur.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Professeurs', 'icon'=>'fas fa-chalkboard-teacher', 'expanded'=>true, 'sub_items'=>
+            [
+                ['title'=>'Professeurs','link'=>route('teacher.index'),'icon'=>'fas fa-chalkboard-teacher'],
+                ['title'=>'Affectation des Modules','link'=>route('professeur.index') , 'icon'=>'fas fa-clipboard-list'],
+            ]
+        ],
 
+        ['title'=>'Années Précédentes','link'=>route('history.index'), 'icon'=>'fas fa-history', 'expanded'=>false],
         ['title'=>'Utilisateurs','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
-        ['title'=>'Années Précédentes','link'=>route('history.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
-
         ['title'=>'Gestion Financiére','divider'=>true],
-        ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
-        ['title'=>'Paiement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
-        ['title'=>'Dépenses Communes','link'=>route('depense.index') , 'icon'=>'fas fa-th', 'expanded'=>false],
+        ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-hand-holding-usd', 'expanded'=>false],
+        ['title'=>'Paiement des Professeurs','link'=>route('paiement.index') , 'icon'=>'fas fa-donate', 'expanded'=>false],
+        ['title'=>'Dépenses Communes','link'=>route('depense.index') , 'icon'=>'fas fa-file-invoice-dollar', 'expanded'=>false],
 
     ];
 ?>

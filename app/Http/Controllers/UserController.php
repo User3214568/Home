@@ -31,7 +31,7 @@ class UserController extends Controller
             'first_name'=>'required |max:50',
             'last_name'=>'required |max:50',
             'cin'=>'required|unique:users|max:15',
-            'email'=>'required|max:30',
+            'email'=>'required|email|unique:users,email|max:30',
             'password'=>'required',
             'phone'=>'required|max:30'
         ]);
@@ -54,28 +54,30 @@ class UserController extends Controller
         return redirect(route('user.create'));
     }
     public function update($id , Request $request){
-        $request->validate([
-            'first_name'=>'required |max:50',
-            'last_name'=>'required |max:50',
-            'cin'=>'required|max:15',
-            'email'=>'required|max:30',
-            'password'=>'required',
-            'phone'=>'required|max:30'
-        ]);
         $user  =  User::find($id);
-        if($request->file('image')){
-            $file = $request->file('image');
-            $image = $request->cin.".".$file->getClientOriginalExtension();
-            if(Storage::exists("app/avatars/".$user->image)){
-                Storage::delete("app/avatars/".$user->image);
+        if($user){
+            $request->validate([
+                'first_name'=>'required |max:50',
+                'last_name'=>'required |max:50',
+                'cin'=>'required|max:15',
+                'email'=>'required|max:30|email|unique:users,email,'.$user->cin,
+                'password'=>'required',
+                'phone'=>'required|max:30'
+            ]);
+            if($request->file('image')){
+                $file = $request->file('image');
+                $image = $request->cin.".".$file->getClientOriginalExtension();
+                if(Storage::exists("app/avatars/".$user->image)){
+                    Storage::delete("app/avatars/".$user->image);
+                }
+                $file->storeAs('avatars',$image);
+            }else{
+                $image = "default.jpg";
             }
-            $file->storeAs('avatars',$image);
-        }else{
-            $image = "default.jpg";
+            $user->update(array_merge($request->only(['first_name','last_name','cin','email','phone']),['password'=> Hash::make($request->password),'image'=> $image]));
         }
-        $user->update(array_merge($request->only(['first_name','last_name','cin','email','phone']),['password'=> Hash::make($request->password),'image'=> $image]));
-        return $this->edit($id);
-    }
+            return redirect(route('user.index'));
+        }
     public function login(Request $request){
         $remeber = array_key_exists('remember_me',$request->all());
         $result = Auth::attempt($request->only(['email','password']),$remeber);
