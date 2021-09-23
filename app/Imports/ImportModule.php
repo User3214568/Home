@@ -48,7 +48,7 @@ class ImportModule implements ToModel,WithHeadingRow,SkipsOnError,WithValidation
                 if(isset($array[$col])){
                     $evaluation_id = Evaluation::eems($array['cin'],$devoir->id,$this->session);
                     if(! ($evaluation_id instanceof  Builder)){
-                        Evaluation::find($evaluation_id)->update(['note'=> ($array[strtolower($devoir->name)])]);
+                        Evaluation::find($evaluation_id)->update(['note'=> ($array[$col])]);
                     }
                 }
                 $i++;
