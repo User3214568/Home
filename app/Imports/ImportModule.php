@@ -43,7 +43,9 @@ class ImportModule implements ToModel,WithHeadingRow,SkipsOnError,WithValidation
         try{
 
             foreach ($this->module->devoirs as $devoir) {
-                if(isset($array[strtolower($devoir->name)])){
+                $col = strtolower($devoir->name);
+                $col = str_replace(' ','_',$col);
+                if(isset($array[$col])){
                     $evaluation_id = Evaluation::eems($array['cin'],$devoir->id,$this->session);
                     if(! ($evaluation_id instanceof  Builder)){
                         Evaluation::find($evaluation_id)->update(['note'=> ($array[strtolower($devoir->name)])]);
