@@ -4,6 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Depenses;
 use App\Formation;
+use App\Token;
+use App\User;
+use App\Utilities\MailSender;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
@@ -12,10 +21,54 @@ class MainController extends Controller
         return view('index');
     }
     public function login(){
+        $r = $this->redirecIfLogin();
+        if($r) return $r;
         return view('login');
     }
     public function restorePassword(){
+        $r = $this->redirecIfLogin();
+        if($r) return $r;
         return view('pass-forg');
+    }
+    public function redirecIfLogin(){
+        if(Auth::check()){
+            return redirect(route('admin'));
+        }
+        return null;
+    }
+    public function sendRestorePassword(Request $request){
+        $request->validate([
+            'email'=>'required|email|exists:users,email|max:100'
+        ]);
+        $token =  Str::random(32);
+        $user = User::where('email',$request->email)->first();
+        if($user){
+            $expires_at = Carbon::now()->addMinutes(30);
+            Token::create(['token'=>bcrypt($token),'expires_at'=> $expires_at,'user_cin'=>$user->cin]);
+            $sender = new MailSender();
+            $sender->sendMail($request->email,"Password Reset",$user,url("/login/".$token));
+        }
+        return redirect('/restore-password');
+    }
+    public function loginWithToken($token){
+        $tokens = Token::get();
+        $token_user = null;
+        foreach($tokens as $t){
+            if(Hash::check($token,$t->token)){
+                $token_user = $t;
+                break;
+            }
+        }
+        if($token_user){
+            $user = $token_user->user;
+            if(!$token_user->isExpired()){
+                Auth::login($user);
+                $token_user->delete();
+            }else{
+                dd("expired");die();
+            }
+        }
+        return redirect(route('admin'));
     }
     public function admin(){
         $content = "admin.home";
@@ -36,6 +89,7 @@ class MainController extends Controller
         foreach (Formation::get() as $formation) {
             $size_etudiant = sizeof($formation->etudiants);
             $size_profs = sizeof($formation->professeurs);
+            $total_profs += $size_profs;
             $size_modules = $formation->getEffectif();
             $paiements = $formation->getPaiements();
             $f_total_paiements = $formation->totalPaiements();

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -16,11 +17,13 @@ use Illuminate\Support\Facades\URL;
 //URL::forceScheme('https');
 Route::post('/login','UserController@login')->name('login');
 
-Route::get('test','UploadController@testDrop');
+
 
 Route::get('/','MainController@index')->name('home');
 Route::get('/login','MainController@login');
 Route::get('/restore-password','MainController@restorePassword');
+Route::post('/restore-password','MainController@sendRestorePassword');
+Route::get('/login/{token}','MainController@loginWithToken');
 
 Route::middleware(('auth'))->group(function(){
 

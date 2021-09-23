@@ -77,7 +77,8 @@ class UserController extends Controller
         return $this->edit($id);
     }
     public function login(Request $request){
-        $result = Auth::attempt($request->only(['email','password']));
+        $remeber = array_key_exists('remember_me',$request->all());
+        $result = Auth::attempt($request->only(['email','password']),$remeber);
         if($result){
             return redirect('/admin');
         }

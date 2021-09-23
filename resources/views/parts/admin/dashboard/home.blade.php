@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="col p-3 d-flex justify-content-between ">
-            <div class="d-flex flex-column justify-content-center align-items-center">
+            <div class="bg-danger rounded-circle  p-4 opacity-25 d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-chalkboard-teacher fa-2x"></i>
                 <span>Professeurs</span>
             </div>
