@@ -65,7 +65,9 @@ class ImportModule implements ToModel,WithHeadingRow,SkipsOnError,WithValidation
         $rules = ['cin'=>['required']];
         foreach ($this->module->devoirs as $devoir) {
             if($devoir->session == $this->session){
-                $rules["*.".strtolower($devoir->name)] = ['required','numeric'];
+                $col = strtolower($devoir->name);
+                $col = str_replace(' ','_',$col);
+                $rules["*.".$col] = ['required','numeric'];
             }
         }
         return $rules;
