@@ -210,6 +210,7 @@ class FormationController extends Controller
 
         if($formation){
 
+            $formation->critere->delete();
             foreach($formation->promotions as $promo){
                 foreach ($promo->etudiants as  $etudiant) {
                     Etudiant::destroy($etudiant->cin);
