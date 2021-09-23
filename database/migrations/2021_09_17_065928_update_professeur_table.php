@@ -14,8 +14,7 @@ class UpdateProfesseurTable extends Migration
     public function up()
     {
         Schema::table('professeurs', function (Blueprint $table) {
-            $table->string('teacher_id');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+
         });
     }
 

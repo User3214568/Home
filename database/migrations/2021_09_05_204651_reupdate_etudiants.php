@@ -14,7 +14,6 @@ class ReupdateEtudiants extends Migration
     public function up()
     {
         Schema::table('etudiants',function(Blueprint $table){
-            $table->removeColumn('cne');
 
         });
     }

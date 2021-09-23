@@ -15,8 +15,7 @@ class UpdatePaiements extends Migration
     {
         Schema::table('paiements',function(Blueprint $table){
 
-                $table->string("teacher_id");
-                $table->foreign("teacher_id")->references("id")->on("teachers")->onDelete("cascade");
+
         });
     }
 

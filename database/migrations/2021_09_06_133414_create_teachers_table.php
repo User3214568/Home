@@ -20,7 +20,8 @@ class CreateTeachersTable extends Migration
         });
         Schema::table('professeurs',function(Blueprint $table){
             $table->dropColumn('name');
-            $table->foreignId('teacher_id')->constrained();
+            $table->string('teacher_id');
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }
 
