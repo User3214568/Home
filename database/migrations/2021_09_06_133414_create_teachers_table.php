@@ -18,11 +18,7 @@ class CreateTeachersTable extends Migration
             $table->string('last_name');
             $table->string("id")->primary()->index();
         });
-        Schema::table('professeurs',function(Blueprint $table){
-            $table->dropColumn('name');
-            $table->string('teacher_id');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-        });
+
     }
 
     /**

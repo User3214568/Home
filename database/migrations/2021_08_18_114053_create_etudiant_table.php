@@ -15,7 +15,6 @@ class CreateEtudiantTable extends Migration
     {
         Schema::create('etudiants', function (Blueprint $table) {
             $table->string('cin')->primary();
-            $table->string('cne');
             $table->string('email');
             $table->string('first_name');
             $table->string('last_name');
