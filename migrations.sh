@@ -21,6 +21,6 @@ php artisan migrate:refresh --path=/database/migrations/2021_09_07_092322_create
 php artisan migrate:refresh --path=/database/migrations/2021_09_13_151303_create_notifications_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_14_043828_add_image_user.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_21_142318_create_histories_table.php
+php artisan migrate:refresh --path=/database/migrations/2021_09_21_143019_create_hisresults_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_22_235638_create_tokens_table.php
-php artisan migrate:refresh --path=/database/migrations/2021_09_23_103338_update_users_table.php
 

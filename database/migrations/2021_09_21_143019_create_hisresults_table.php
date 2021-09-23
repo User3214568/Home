@@ -17,9 +17,10 @@ class CreateHisresultsTable extends Migration
             $table->id();
             $table->string('semestre');
             $table->bigInteger('module_id');
-            $table->foreign('module_id')->references('modules')->on('id')->onDelete('cascade');
+            $table->float('note_final');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
             $table->bigInteger('history_id');
-            $table->foreign('history_id')->references('histories')->on('id')->onDelete('cascade');
+            $table->foreign('history_id')->references('id')->on('histories')->onDelete('cascade');
             $table->timestamps();
         });
     }
