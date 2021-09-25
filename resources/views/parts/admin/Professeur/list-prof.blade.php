@@ -25,7 +25,7 @@
                     @endif
                     <td hidden>{{ $formation_name }}</td>
                     <td>{{ $prof->module->name }}</td>
-                    <td>{{ $prof->teacher->first_name." ".$prof->teacher->last_name }}</td>
+                    <td>{{ $prof->teacher->user->first_name." ".$prof->teacher->user->last_name }}</td>
                     <td>{{ $prof->somme }}</td>
 
                     <td class="d-flex justify-content-center  align-items-center">

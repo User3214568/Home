@@ -251,12 +251,5 @@ class EtudiantController extends Controller
         }
         return redirect(route('etudiant.index'));
     }
-    private function search_if_exists($arr,$target){
-        foreach ($arr as $e_res) {
-            if($e_res['e'] == $target){
-                return true;
-            }
-        }
-        return false;
-    }
+
 }

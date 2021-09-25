@@ -19,5 +19,9 @@ class Professeur extends Model
     public function teacher(){
         return $this->belongsTo(Teacher::class);
     }
+    public function findPromotion(){
+        $promo = $this->module->semestres->where('formation_id',$this->formation_id)->first()->promotion;
+        return $promo;
+    }
 
 }

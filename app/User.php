@@ -20,7 +20,7 @@ class User extends Authenticatable
     public $incrementing = false;
 
     protected $fillable = [
-        'first_name','phone','last_name','cin', 'email', 'password','image',
+        'first_name','phone','last_name','cin','type', 'email', 'password','image',
     ];
 
     /**
@@ -44,5 +44,8 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->belongsToMany(Notification::class)->withPivot('seen');
+    }
+    public function teacher(){
+        return $this->hasOne(Teacher::class);
     }
 }

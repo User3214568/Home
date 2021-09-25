@@ -1,5 +1,5 @@
 <p>
-<h2>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($paiement) && !isset($tranche) && !isset($prof) && !isset($dep) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
+<h2>{{ !isset($etudiant) && !isset($teacher) && !isset($user) && !isset($module) && !isset($paiement) && !isset($tranche) && !isset($prof) && !isset($dep) ? 'Ajouter ' . (isset($adj) ? $adj : 'Un Nouveau') . " $target" : "Modifier $target" }}
 </h2>
 </p>
 @if ($errors->any())
@@ -16,7 +16,7 @@
 
 <form class="row container p-3 needs-validation" method="post" action="{{ $route }}" novalidate  enctype="multipart/form-data">
     @csrf
-    @if (isset($etudiant) || isset($user) || isset($module) || isset($tranche) || isset($dep) || isset($paiement) || isset($prof))
+    @if (isset($etudiant) || isset($teacher) || isset($user) || isset($module) || isset($tranche) || isset($dep) || isset($paiement) || isset($prof))
         @method('put')
     @endif
     @if ($target === "Utilisateur")
@@ -43,7 +43,7 @@
                 @foreach ($field['items'] as $item)
                     <option value="{{ $item->id ?: $item->cin }}"
                         {{ isset($etudiant) || (isset($prof) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
-                        {{ $item->name ?: ($item->nom ?: $item->first_name . ' ' . $item->last_name) }}
+                        {{ $item->name ?: ($item->nom ?: $item->user->first_name . ' ' . $item->user->last_name) }}
                     </option>
                 @endforeach
             </select>
@@ -179,7 +179,7 @@
     </div>
     <div class=" d-flex justify-content-end">
         <button class="btn btn-success">
-            <h6>{{ !isset($etudiant) && !isset($user) && !isset($module) && !isset($tranche) && !isset($paiement) && !isset($prof) && !isset($dep) ? "Crée  $target" : "Modifier  $target" }}
+            <h6>{{ !isset($etudiant) && !isset($user) && !isset($teacher) && !isset($module) && !isset($tranche) && !isset($paiement) && !isset($prof) && !isset($dep) ? "Crée  $target" : "Modifier  $target" }}
             </h6>
         </button>
     </div>

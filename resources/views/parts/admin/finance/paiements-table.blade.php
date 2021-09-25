@@ -29,8 +29,8 @@ $size = sizeof($paiements);
 
             @foreach ($coll_paiements as $paiement)
             <tr>
-                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->teacher->id}}</td>
-                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->teacher->first_name." ".$paiement->teacher->last_name}}</td>
+                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->teacher->user_cin}}</td>
+                <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->teacher->user->first_name." ".$paiement->teacher->user->last_name}}</td>
                 <td style="font-family : 'Times New Roman';border : 1px solid black ; text-align : center ; font-size : 13px">{{$paiement->montant}}</td>
             </tr>
             <?php $total+= $paiement->montant; ?>

@@ -29,6 +29,8 @@ class Formation extends Model
         $teachers = [];
         foreach ($this->professeurs as  $prof) {
             if(!in_array($prof->teacher,$teachers)){
+
+                $prof->teacher->name = $prof->teacher->user->first_name." ".$prof->teacher->user->last_name;
                 array_push($teachers,$prof->teacher);
             }
         }

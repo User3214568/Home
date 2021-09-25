@@ -22,8 +22,8 @@
     </thead>
     @foreach ($formation->teachers() as $teacher)
     <tr>
-        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$teacher->id}}</td>
-        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$teacher->first_name." ".$teacher->last_name}}</td>
+        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$teacher->user_cin}}</td>
+        <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black">{{$teacher->user->first_name." ".$teacher->user->last_name}}</td>
         <td style="font-size: 13px;font-family: 'arial'; border : 1px solid black"></td>
     </tr>
     @endforeach

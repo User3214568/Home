@@ -28,7 +28,7 @@
                     @foreach ($d_paiement as $paiement)
                         <tr name="versement">
                                 <td>{{ $paiement->formation->name }}</td>
-                                <td>{{ $paiement->teacher->first_name." ".$paiement->teacher->first_name }}</td>
+                                <td>{{ $paiement->teacher->user->first_name." ".$paiement->teacher->user->first_name }}</td>
                                 <td>{{ $paiement->montant }}</td>
                                 <td class="d-flex justify-content-center  align-items-center">
                                     <form action="{{ route('paiement.destroy', ['paiement' => $paiement->id]) }}"

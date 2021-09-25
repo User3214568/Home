@@ -21,7 +21,7 @@ class CreateProfesseursTable extends Migration
             $table->foreignId('formation_id');
             $table->foreignId('module_id');
 
-            $table->string('teacher_id');
+            $table->integer('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }

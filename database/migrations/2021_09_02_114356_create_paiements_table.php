@@ -18,7 +18,7 @@ class CreatePaiementsTable extends Migration
             $table->float('montant');
             $table->foreignId('formation_id');
             $table->date('date_payement');
-            $table->string("teacher_id");
+            $table->integer("teacher_id");
             $table->foreign("teacher_id")->references("id")->on("teachers")->onDelete("cascade");
             $table->timestamps();
         });

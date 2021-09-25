@@ -14,9 +14,10 @@ class CreateTeachersTable extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string("id")->primary()->index();
+            $table->id();
+            $table->string('user_cin');
+            $table->foreign('user_cin')->references('cin')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
 
     }

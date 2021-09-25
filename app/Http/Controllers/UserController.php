@@ -82,7 +82,14 @@ class UserController extends Controller
         $remeber = array_key_exists('remember_me',$request->all());
         $result = Auth::attempt($request->only(['email','password']),$remeber);
         if($result){
-            return redirect('/admin');
+            if(Auth::user()->type == 0){
+                return redirect(route('admin'));
+            }elseif(Auth::user()->type == 1){
+                return redirect(route('enseignant.index'));
+            }else{
+                return redirect('/');
+            }
+
         }
         else{
             return view('login',['alreadyFailed'=>true]);

@@ -152,8 +152,8 @@ class ExportProfesseur extends TemplateExport implements  FromArray,WithTitle, W
                 $row = array_merge($row, [
                     $module->name,
                     $professeur->teacher->id,
-                    $professeur->teacher->first_name,
-                    $professeur->teacher->last_name,
+                    $professeur->teacher->user->first_name,
+                    $professeur->teacher->user->last_name,
                     $professeur->somme
                 ]);
             }

@@ -35,9 +35,9 @@
             @else
                 @foreach ($teachers as $teacher)
                 <tr name="filter">
-                    <td>{{$teacher->id}}</td>
-                    <td>{{$teacher->first_name}}</td>
-                    <td>{{$teacher->last_name}}</td>
+                    <td>{{$teacher->user->cin}}</td>
+                    <td>{{$teacher->user->first_name}}</td>
+                    <td>{{$teacher->user->last_name}}</td>
                     <td>
 
                     </td>

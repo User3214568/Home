@@ -26,7 +26,7 @@ class PaiementController extends Controller
         'date_payement'=>'required|date'
        ]);
        Paiement::create(array_merge($request->only(['formation_id','date_payement','montant']),['teacher_id'=>$request->module_id]));
-       return $this->index();
+       return redirect(route('paiement.index'));
     }
     public function edit($id){
         $formations = Formation::get();
@@ -49,10 +49,12 @@ class PaiementController extends Controller
         if($paiement){
             $paiement->update(array_merge($request->only(['formation_id','date_payement','montant']),['teacher_id'=>$request->module_id]));
         }
-        return $this->index();
+        return redirect(route('paiement.index'));
+
     }
     public function destroy($id){
         Paiement::destroy($id);
-        return $this->index();
+        return redirect(route('paiement.index'));
+
     }
 }

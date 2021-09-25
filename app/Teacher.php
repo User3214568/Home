@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    protected $fillable = ['id','first_name','last_name'];
-    public  $incrementing = false;
+    protected $fillable = ['user_cin'];
     public function paiements(){
         return $this->hasMany(Paiement::class);
     }
@@ -23,6 +22,15 @@ class Teacher extends Model
     }
     public function __toString()
     {
-        return "$this->id : $this->first_name $this->last_name";
+        if($this->user){
+
+            return $this->user_cin.":". $this->user->first_name .":". $this->user->last_name;
+        }
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function professeurs(){
+        return $this->hasMany(Professeur::class);
     }
 }

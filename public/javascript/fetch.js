@@ -17,8 +17,8 @@ export default class Fetch{
 
                         options.forEach(element => {
                             if(element.name === undefined){
-                                if(element.first_name === undefined ) return
-                                name  = element.first_name +" "+ element.last_name
+                                if(element.user.first_name === undefined ) return
+                                name  = element.user.first_name +" "+ element.user.last_name
                             }
                             else{
                                 name = element.name
@@ -32,29 +32,7 @@ export default class Fetch{
                 });
             });
 
-            if($("#input_formation_id").val() != null){
 
-                var token = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url : '/admin/formation/modules/' +$("#input_formation_id").val(),
-                    method : 'GET',
-                    data : {
-                        _token : token
-                    },
-                    success : function(response){
-                        var selec = $("#input_module_id");
-                        var options = JSON.parse(response);
-                        selec.empty();
-                        options.forEach(element => {
-                            if(element.id != selec.val())
-                            selec.append("<option value='"+element.id+"' >"+element.name+"</option>");
-                        });
-                    },
-                    error : function(err){
-                        console.log(err)
-                    }
-                });
-            }
         });
 
     }
