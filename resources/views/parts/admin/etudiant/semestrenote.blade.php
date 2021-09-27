@@ -32,6 +32,7 @@
                                 aria-selected="true">{{ isset($result) ? 'Résultat du Semestre' : 'Tous Les Modules' }}</a>
                         </li>
                         @foreach ($sem->modules as $module)
+                        @if(!isset($auth_modules) || (isset($auth_modules) && in_array($module->id,$auth_modules)))
                             <li  name="triggers" class="nav-item tab-item" role="presentation">
                                 <a class="nav-link "
                                     id="{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}"
@@ -39,7 +40,7 @@
                                     href="#tab-{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}" role="tab"
                                     aria-controls="ex1-tabs-1" aria-selected="true">{{ $module->name }}</a>
                             </li>
-
+                            @endif
                         @endforeach
                     </ul>
                     <!-- Tabs navs -->
@@ -69,6 +70,7 @@
 
                             <!-- Tabs content -->
                             <div class="tab-content" id="ex1-content">
+
                                 <div name="notes" semestre="{{$sem->id}}" session="1" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
                                     id="tab-ord-{{ $sem->id . '-' . $promotion->name }}" role="tabpanel"
                                     aria-labelledby="ord-{{ $sem->id . '-' . $promotion->name }}">
@@ -130,6 +132,8 @@
                         </div>
                         @php $showModule = false; @endphp
                         @foreach ($sem->modules as $mymodule)
+                        @if(!isset($auth_modules) || (isset($auth_modules) && in_array($module->id,$auth_modules)))
+
                             <div class="tab-pane fade"
                                 id="tab-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}" role="tabpanel"
                                 aria-labelledby="ex1-tab-2">
@@ -263,7 +267,7 @@
                                 </div>
 
                             </div>
-
+                            @endif
                         @endforeach
                     </div>
                     <!-- Tabs content -->

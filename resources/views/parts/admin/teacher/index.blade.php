@@ -4,6 +4,15 @@
     <p>Vous pouvez consulter la list des professeurs dans la table ci-dessous ou bien
         ajouter, modifier ou supprimer un professeur.
     </p>
+    <div class="note note-info">
+        Les professeurs crée par des administrateurs peuvent acceder à leurs espace professeur @auth
+        <br>
+        <ul>
+            <li><strong>Username : </strong>Prénom.Nom@gest.ma</li>
+            <li><strong>Mot de Passe : </strong>Prénom_En_Majuscule@Nom_En_Majuscule</li>
+        </ul>
+        @endauth
+    </div>
 </div>
 <div class="row justify-content-between p-3">
     <div class="col-4 form-outline ">
@@ -23,7 +32,7 @@
                 <th>Code</th>
                 <th>Nom</th>
                 <th>Prénom</th>
-                <th>Modules</th>
+
                 <th></th>
             </tr>
         </thead>
@@ -38,9 +47,7 @@
                     <td>{{$teacher->user->cin}}</td>
                     <td>{{$teacher->user->first_name}}</td>
                     <td>{{$teacher->user->last_name}}</td>
-                    <td>
 
-                    </td>
                     <td class="">
                         <a href="{{route('teacher.edit',['teacher'=>$teacher->id])}}" class="btn btn-success btn-floating">
                             <i class="fas fa-pen-fancy"></i>

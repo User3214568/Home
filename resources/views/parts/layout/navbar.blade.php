@@ -1,9 +1,9 @@
-<nav id='navbar' class="navbar navbar-expand-md navbar-light bg-light sticky-top ">
+<nav id='navbar' class="navbar navbar-expand-md navbar-light transparent  sticky-top ">
 
     <a href="#" class="d-flex">
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
         <div class="d-flex justify-content-start flex-column ms-2">
-            <span class="navbar-brand" >Gestionnaire de Formation</span>
+            <span class="navbar-brand" >Gestionnaire des Formations</span>
             <span class="text-reset">Gestion Pédagogique et Financière</span>
 
         </div>
@@ -24,14 +24,12 @@
             @if(!Auth::check())
 
             <li class="nav-item">
-                <a href="{{route('home')}}" class="nav-link">Page d'Acceuil</a>
+                <a href="{{route('home')}}" class="nav-link">Acceuil</a>
             </li>
             <li class="nav-item">
                 <a href="#func" class="nav-link">Nos Fonctionnalitées</a>
             </li>
-            <li class="nav-item">
-                <a href="#about" class="nav-link">A propos de Nous</a>
-            </li>
+
 
                 <li class="nav-item">
                     <a class="border-start btn btn-link text-reset d-flex align-items-center" href="/login">

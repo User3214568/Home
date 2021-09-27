@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Formation;
 use App\Paiement;
 use App\Professeur;
 use App\Teacher;
@@ -84,10 +85,11 @@ class TeacherController extends Controller
         return view('enseignant');
     }
     public function teacherNotes(){
-        $professeurs = Professeur::with('formation','module')->get()->groupBy(['formation.name','module.name']);
+        $auth_formations = Auth::user()->teacher->authModules();
+
         $content = 'parts.enseignant.notes.notes';
-        if($professeurs){
-            return view('enseignant',compact(['professeurs','content']));
-        }
+        $formations = Formation::get();
+        return view('enseignant',compact(['formations','auth_formations','content']));
+
     }
 }

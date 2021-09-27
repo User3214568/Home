@@ -46,7 +46,7 @@
 
 </div>
 <div class="row mt-4 border-bottom border-top justify-content-around text-dark">
-    <div class="col-md-3 border-end  bg-white">
+    <div class="col-md-3 border-end  bg-transparent">
         <div class="col p-3 d-flex justify-content-between border-bottom">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-user-graduate fa-2x"></i>
@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="col p-3 d-flex justify-content-between ">
-            <div class="  p-4 opacity-25 d-flex flex-column justify-content-center align-items-center">
+            <div class="d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-chalkboard-teacher fa-2x"></i>
                 <span>Professeurs</span>
             </div>
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9  bg-white"  id="chart1">
+    <div class="col-md-9  bg-transparent"  id="chart1">
 
     </div>
 

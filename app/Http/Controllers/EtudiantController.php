@@ -14,6 +14,7 @@ use App\Semestre;
 use App\Utilities\Validation;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EtudiantController extends Controller
 {
@@ -173,10 +174,15 @@ class EtudiantController extends Controller
         return view('admin',compact(['content','formations']));
     }
     public function requestNotes($result,$promotion,$semestre,$module,$session){
+        if(Auth::user()->type == 1){
+            $f = Promotion::find($promotion)->formation;
+            $auth_modules = Auth::user()->teacher->authModules()[$f->id];
+
+        }
         if($result === "false"){
             $sem = Semestre::find($semestre);
             if($module === "all"){
-                return view('parts.admin.etudiant.tablenote',compact(['session','sem']));
+                return view('parts.admin.etudiant.tablenote',compact(['session','auth_modules','sem']));
             }else{
                 $mymodule = Module::find($module);
                 return view("parts.admin.etudiant.table-module-note",compact(['sem','mymodule','session']));

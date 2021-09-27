@@ -75,8 +75,7 @@ Route::middleware((['auth','type:0']))->group(function () {
         #------------------Avatars routes ----------------------------------------
         #-----------------------------------------------------------------------
 
-        #----------------------------- notes section----------------------------
-        Route::get('/admin/etudiant/request-notes/{result}-{promotion}-{semestre}-{module}-{session}', 'EtudiantController@requestNotes');
+
         #----------------------------------------------------------------
         #----------------------------------END OF YEAR-----------------------------------------
         Route::post('/admin/etudiant/find-annee', 'EtudiantController@finAnnee')->name('etudiant.finaliser');
@@ -86,13 +85,11 @@ Route::middleware((['auth','type:0']))->group(function () {
         Route::get('/admin/history', 'HistoryController@index')->name('history.index');
         #--------------------------------------------------------------------
 
-
         Route::resource('/admin/teacher', 'TeacherController');
         Route::resource('/admin/finance/depense', 'DepensesController');
         Route::resource('/admin/professeur', 'ProfesseurController');
         Route::resource('/admin/finance/paiement', 'PaiementController');
         Route::resource('/admin/finance/tranche', 'TrancheController');
-        Route::resource('/admin/user', 'UserController');
         Route::resource('/admin/formation', 'FormationController');
         Route::resource('/admin/module', 'ModuleController');
         Route::resource('/admin/etudiant', 'EtudiantController');
@@ -101,13 +98,19 @@ Route::middleware((['auth','type:0']))->group(function () {
         Route::get('/admin/export-notes/{id}', 'UploadController@exportnotes')->name('etudiant.notes.export');
         Route::get('/admin/export-all-formations', 'UploadController@exportAllFormations')->name('exportallformations');
         Route::get('/admin', 'MainController@admin')->name('admin');
-
     });
-Route::middleware('auth')->group(function(){
-    Route::get('/logout', 'UserController@logout')->name('logout');
-    Route::get('/users/avatars/{cin}', 'PrivateImagesController@getImage')->name('avatar');
 
+
+    Route::middleware('auth')->group(function(){
+        Route::get('/logout', 'UserController@logout')->name('logout');
+        Route::get('/users/avatars/{cin}', 'PrivateImagesController@getImage')->name('avatar');
+        Route::resource('/admin/user', 'UserController');
+
+     #----------------------------- notes section----------------------------
+     Route::get('/admin/etudiant/request-notes/{result}-{promotion}-{semestre}-{module}-{session}', 'EtudiantController@requestNotes');
 });
+
+
 Route::middleware((['auth','type:1']))->group(function () {
     Route::get('/enseignant','TeacherController@homepage')->name('enseignant.index');
     Route::get('/enseignant/notes','TeacherController@teacherNotes')->name('enseignant.notes');

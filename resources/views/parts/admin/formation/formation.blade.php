@@ -1,4 +1,4 @@
-
+    <script src="/javascript/formation.js"></script>
     <p><h2>{{isset($formation)?'Editer La Formation '.$formation->name:'Ajouter Une Nouvelle Formation'}}</h2></p>
     @if($errors->any())
         <div class="note note-danger">
@@ -62,7 +62,9 @@
                 <p class="text-reset"><h5>Répartion des Semestres</h5></p>
                 <p><hr class="dropdown-divider"></p>
             </div>
-            @include('parts.admin.formation.semestre')
+            <div class="w-100" id="semestres">
+                @include('parts.admin.formation.add-sem')
+            </div>
         </div>
         <div class="mt-4 d-flex justify-content-end">
             <button class="btn btn-success"><h6>{{isset($formation)?'Modifier La Formation':'Crée La Formation'}}</h6></button>
@@ -73,5 +75,6 @@
     @if(isset($formation))
     <script>
         var semestres = {!! json_encode($formation->semestres->ids) !!};
+
     </script>
     @endif

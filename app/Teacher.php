@@ -33,4 +33,15 @@ class Teacher extends Model
     public function professeurs(){
         return $this->hasMany(Professeur::class);
     }
+    public function authModules(){
+        $res = Professeur::where('teacher_id',$this->id)->get()->groupBy(['formation_id','module_id']);
+        $auth_formations = [];
+        foreach($res as $formation => $modules){
+            $auth_formations[$formation]= [];
+            foreach ($modules as $module => $profs) {
+                array_push($auth_formations[$formation],$module);
+            }
+        }
+        return $auth_formations;
+    }
 }

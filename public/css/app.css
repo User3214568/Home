@@ -3,6 +3,9 @@
 body{
     overflow-x:hidden;
     font-size: 13px !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('/images/260161.jpg');
 }
 .card-text{
     max-height: 50px;
@@ -15,7 +18,7 @@ body{
     transition: all 1s ease;
 }
 .card-formation-module{
-    background-color: rgb(231, 197, 197);
+
 }
 #admin-content{
     overflow-y: scroll;
@@ -95,14 +98,16 @@ body{
     border: none !important;
     border-bottom: 1px solid rgb(71, 69, 69) !important;
 }
-.table-responsive{
-
+.limit-height{
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
   }
 
   /* Track */
@@ -133,4 +138,12 @@ body{
   }
   .col-md-9{
     transition: all 0.5s ease;
+  }
+  .transparent{
+      background-color: transparent !important;
+      box-shadow: none;
+  }
+  .notransparent{
+    background-color: rgb(171, 220, 235) !important;
+
   }

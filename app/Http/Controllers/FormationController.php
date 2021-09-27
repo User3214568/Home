@@ -54,11 +54,9 @@ class FormationController extends Controller
                 }
             }
 
-            return redirect(route('formation.create'));
-            return redirect(route('formation.index'));
-        } else {
-            return route('etudiant.create');
+
         }
+        return redirect(route('formation.index'));
     }
     public function edit($id)
     {
@@ -69,14 +67,13 @@ class FormationController extends Controller
             foreach ($formation->semestres as $semestre) {
                 $modules_id = [];
                 foreach ($semestre->modules as $module) {
-                    array_push($modules_id, $module->id);
+                    array_push($modules_id, strval($module->id));
                 }
                 $formation->semestres->ids[$semestre->numero] = $modules_id;
             }
         }
-
+        $formation->semestres->ids['last'] = 1;
         $modules = Module::get();
-        $semestres = Semestre::with('modules')->get();
         return view('admin', compact(['content', 'semestres', 'modules', 'formation']));
     }
 
@@ -118,6 +115,7 @@ class FormationController extends Controller
 
     public function update($id, Request $request)
     {
+
         $isvalid = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
@@ -134,7 +132,7 @@ class FormationController extends Controller
 
                 $formation->update($request->only(['name', 'description']));
                 Critere::find($formation->critere_id)->update($request->only(['note_validation', 'note_aj', 'number_aj', 'number_nv']));
-                # deleting old semestres and make new ones
+                # find out if semestre already has some promotions
                 if (!(sizeof($formation->promotions) > 0)) {
                     $promo = Promotion::create(['numero' => 1, 'nom' => '1ère Année', 'formation_id' => $id]);
                 } else {
