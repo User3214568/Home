@@ -182,7 +182,11 @@ class EtudiantController extends Controller
         if($result === "false"){
             $sem = Semestre::find($semestre);
             if($module === "all"){
-                return view('parts.admin.etudiant.tablenote',compact(['session','auth_modules','sem']));
+                if(isset($auth_modules)){
+                    return view('parts.admin.etudiant.tablenote',compact(['session','auth_modules','sem']));
+                }else{
+                    return view('parts.admin.etudiant.tablenote',compact(['session','sem']));
+                }
             }else{
                 $mymodule = Module::find($module);
                 return view("parts.admin.etudiant.table-module-note",compact(['sem','mymodule','session']));
