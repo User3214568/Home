@@ -37,24 +37,24 @@
         <p>Dans cette Zone vous remplissez les critères de validation des modules et des Semestre</p>
         <div class="row justify-content-center">
             <div class="col-sm-5 form-outline ms-2 mt-1">
-                <input class="form-control" id="note_validation" name="note_validation" required/>
+                <input class="form-control" id="note_validation" value="{{isset($formation)?$formation->critere->note_validation}}" name="note_validation" required/>
                 <label class="form-label" for="note_validation">Note de Validation</label>
                 <div class="invalid-feedback mt-1">Veuillez saisir la note de validation.</div>
             </div>
             <div class="col-sm-5 form-outline ms-2 mt-1">
-                <input class="form-control" id="note_validation" name="note_aj" required/>
+                <input class="form-control" id="note_validation" name="note_aj" value="{{isset($formation)?$formation->critere->note_aj}}" required/>
                 <label class="form-label" for="note_aj">Note d'Ajournement</label>
                 <div class="invalid-feedback mt-1">Veuillez saisir la note d'Ajournement.</div>
             </div>
             <div class="col-sm-5 form-outline ms-2 mt-4">
-                <input class="form-control" id="aj" name="number_aj" required/>
+                <input class="form-control" id="aj" name="number_aj" value="{{isset($formation)?$formation->critere->number_aj}}" required/>
                 <label class="form-label" for="aj">Nombre des AJ autorisé</label>
-                <div class="invalid-feedback mt-1">Veuillez saisir le non de modules ajournée autorisé.</div>
+                <div class="invalid-feedback mt-1">Veuillez saisir le nombre des modules ajournées autorisé.</div>
             </div>
             <div class="col-sm-5 form-outline ms-2 mt-4">
-                <input class="form-control" id="nv" name="number_nv"  required/>
+                <input class="form-control" id="nv" name="number_nv" value="{{isset($formation)?$formation->critere->number_nv}}"  required/>
                 <label class="form-label" for="nv">Nombre des NV autorisé</label>
-                <div class="invalid-feedback mt-1">Veuillez saisir le non de modules non validées autorisé.</div>
+                <div class="invalid-feedback mt-1">Veuillez saisir le nombre des modules non validées autorisé.</div>
             </div>
         </div>
         <div class=" d-flex justify-content-start flex-column   mt-4">
