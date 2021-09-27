@@ -14,28 +14,31 @@
         <th>Promotion</th>
         <th>Actions</th>
     </tr>
-    @foreach ($etudiants->sortBy('formation_id') as $etudiant)
-        <tr name="versement">
-            <th>{{ $etudiant->formation->name }}</th>
-            <th>{{ $etudiant->first_name }}</th>
-            <th>{{ $etudiant->last_name }}</th>
-            <th>{{ $etudiant->cin }}</th>
-            <th>{{ $etudiant->promotion->nom }}</th>
-            <td class="d-flex justify-content-center  align-items-center">
-                <form action="{{ route('etudiant.destroy', ['etudiant' => $etudiant->cin]) }}" method="POST">
-                    @csrf
-                    @method('delete')
-                    <button class="btn btn-outline-danger btn-floating">
-                        <i class="fas fa-times  fa-1x"></i>
-                    </button>
-                </form>
-                <form action="{{ route('etudiant.edit', ['etudiant' => $etudiant->cin]) }}" method="GET">
-                    <button class="btn btn-outline-secondary ms-1 btn-floating">
-                        <i class="fas fa-pen-fancy fa-1x"></i>
-                    </button>
-                </form>
+    @if(sizeof($etudiants) == 0)
+        <tr><td colspan="6">Aucun Etudiant à afficher.</td></tr>
+    @else
+        @foreach ($etudiants->sortBy('formation_id') as $etudiant)
+            <tr name="versement">
+                <th>{{ $etudiant->formation->name }}</th>
+                <th>{{ $etudiant->first_name }}</th>
+                <th>{{ $etudiant->last_name }}</th>
+                <th>{{ $etudiant->cin }}</th>
+                <th>{{ $etudiant->promotion->nom }}</th>
+                <td class="d-flex justify-content-center  align-items-center">
+                    <form action="{{ route('etudiant.destroy', ['etudiant' => $etudiant->cin]) }}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-outline-danger btn-floating">
+                            <i class="fas fa-times  fa-1x"></i>
+                        </button>
+                    </form>
+                    <form action="{{ route('etudiant.edit', ['etudiant' => $etudiant->cin]) }}" method="GET">
+                        <button class="btn btn-outline-secondary ms-1 btn-floating">
+                            <i class="fas fa-pen-fancy fa-1x"></i>
+                        </button>
+                    </form>
 
-        </tr>
-    @endforeach
-
+            </tr>
+        @endforeach
+    @endif
 @endsection
