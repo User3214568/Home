@@ -1,1 +1,149 @@
-//
+/* Set the border color */
+
+body{
+    overflow-x:hidden;
+    font-size: 13px !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('/images/260161.jpg');
+}
+.card-text{
+    max-height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.card-text:hover{
+    max-height: none;
+    overflow: visible;
+    transition: all 1s ease;
+}
+.card-formation-module{
+
+}
+#admin-content{
+    overflow-y: scroll;
+    height : 80vh;
+}
+#side{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height : 80vh;
+}
+.custom-toggler.navbar-toggler {
+    border-color: white;
+}
+.custom-toggler .navbar-toggler-icon {
+    background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+.half{
+    height : 10vh;
+}
+
+.img-fit{
+    width: 100%;
+    height: 100%;
+}
+.btn-wrap{
+    width : 40%;
+}
+
+.index-text{
+    font-size: larger;
+}
+
+.sidebar-item:hover{
+    background-color: rgb(230,230,230,0.9) ;
+}
+.sub-item:hover{
+    background-color: rgb(230,230,230,0.9) ;
+
+}
+
+.my-chip{
+    background-color: rgb(210,210,210,0.9) ;
+}
+
+.search{
+    display : none ;
+    max-height : 130px;
+    overflow-y: scroll;
+
+}
+.chips{
+    background-color: rgb(210,210,210,0.9);
+
+}
+.my-nowrap{
+    white-space: nowrap;
+}
+#mysidebar{
+    overflow: hidden;
+}
+.text-overflow{
+    overflow-wrap:break-word;
+}
+.apexcharts-canvas{
+    background-color: white !important;
+}
+.limit{
+    max-height: 200px !important;
+    overflow-y: auto;
+}
+
+.table-responsive{
+    overflow-y: auto;
+}
+.select-formulaire{
+    border: none !important;
+    border-bottom: 1px solid rgb(71, 69, 69) !important;
+}
+.limit-height{
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+  }
+  .row{
+      transition: all 0.5 ease-in;
+  }
+  .col-md-3{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-1{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-11{
+
+    transition: all 0.5s ease;
+  }
+  .col-md-9{
+    transition: all 0.5s ease;
+  }
+  .transparent{
+      background-color: transparent !important;
+      box-shadow: none;
+  }
+  .notransparent{
+    background-color: rgb(171, 220, 235) !important;
+
+  }

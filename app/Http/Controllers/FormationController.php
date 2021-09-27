@@ -74,7 +74,7 @@ class FormationController extends Controller
         }
         $formation->semestres->ids['last'] = 1;
         $modules = Module::get();
-        return view('admin', compact(['content', 'semestres', 'modules', 'formation']));
+        return view('admin', compact(['content', 'modules', 'formation']));
     }
 
     private function syncFormationSemestres($formation,$promo,$semestres){
