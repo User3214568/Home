@@ -23,6 +23,6 @@ php artisan migrate:refresh --path=/database/migrations/2021_09_21_142318_create
 php artisan migrate:refresh --path=/database/migrations/2021_09_21_143019_create_hisresults_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_22_235638_create_tokens_table.php
 
-#User::create(['first_name'=>'Mahfoud','last_name'=>'Hamza','cin'=>'A1000','email'=>'hamza@gmail.com','password'=>bcrypt('hashed')])
+#User::create(['first_name'=>'Mahfoud','last_name'=>'Hamza','cin'=>'A1000','email'=>'hamza@gmail.com','password'=>bcrypt('hashed'),'type'=>0])
 
 

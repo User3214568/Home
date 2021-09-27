@@ -67,16 +67,22 @@ function syncsemestres(){
     $("#semestres-data").val(JSON.stringify(results))
 }
 function init(){
+
     var keys = Object.keys(semestres)
-    keys.forEach(function(key){
-        if(key !== 'last'){
-            var sem = $("#sem-template")
-            sem.find('input:checkbox').each(function(index,item){
-                if(semestres[key].includes($(item).val())){
-                    $(item).prop('checked',true)
-                }
-            })
-            $("#add-semestre").click()
-        }
-    })
+    if(keys.length == 0){
+        semestres.last = 1
+    }else{
+
+        keys.forEach(function(key){
+            if(key !== 'last'){
+                var sem = $("#sem-template")
+                sem.find('input:checkbox').each(function(index,item){
+                    if(semestres[key].includes($(item).val())){
+                        $(item).prop('checked',true)
+                    }
+                })
+                $("#add-semestre").click()
+            }
+        })
+    }
 }
