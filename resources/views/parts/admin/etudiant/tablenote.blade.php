@@ -33,7 +33,7 @@
     @php
         $counter = 0;
     @endphp
-    @if(sizeof(array_intersect($sem->modules->pluck('id')->toArray(),$auth_modules)) > 0)
+    @if(!isset($auth_modules) || sizeof(array_intersect($sem->modules->pluck('id')->toArray(),$auth_modules)) > 0)
     @if (sizeof($sem->promotion->etudiants) > 0)
         @foreach ($sem->promotion->etudiants as $etudiant)
             @if ($etudiant->hasSessionSemestre($sem->id, $session))
