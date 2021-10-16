@@ -2,10 +2,9 @@
 
     <a href="#" class="d-flex">
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
-        <div class="d-flex justify-content-start flex-column ms-2">
-            <span class="navbar-brand" >Gestionnaire des Formations</span>
+        <div class="d-none d-sm-flex justify-content-start flex-column ms-2">
+            <span class=" navbar-brand" >Gestionnaire des Formations</span>
             <span class="text-reset">Gestion Pédagogique et Financière</span>
-
         </div>
     </a>
     <button
@@ -50,7 +49,7 @@
                       aria-expanded="false"
                     >
                       <img
-                      src="{{url(route('avatar',['cin'=>Auth::user()->image]))}}"
+                      src="{{url(route('avatar',['cin'=>Auth::user()->cin]))}}"
                       class="rounded-circle"
                         height="30"
                         alt=""
@@ -59,7 +58,7 @@
                     </a>
                     <ul class="dropdown-menu p-2" aria-labelledby="navbarDropdownMenuLink">
                         <img
-                                src="{{url(route('avatar',['cin'=>Auth::user()->image]))}}"
+                                src="{{url(route('avatar',['cin'=>Auth::user()->cin]))}}"
                                 class="rounded-circle p-3"
                                 height="150"
                                 alt=""

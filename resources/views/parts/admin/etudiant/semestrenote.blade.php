@@ -79,14 +79,16 @@
                                         <div class="row justify-content-end">
                                             <button onclick="save(this)" name="savenote"
                                                 title="Enregistrer les modifications"
-                                                class="me-2 btn btn-info btn-floating">
+                                                class="me-2 btn btn-success btn-floating">
                                                 <i class="fas fa-save"></i>
                                             </button>
-                                            <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
-                                                href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'sem_id' => $sem->id, 'module_id' => 0]) }}"
-                                                class="btn btn-info btn-floating  ms-2">
-                                                <i class="fas fa-check"></i>
-                                            </a>
+                                            @if(!isset($auth_modules))
+                                                <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
+                                                    href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'sem_id' => $sem->id, 'module_id' => 0]) }}"
+                                                    class="btn btn-primary btn-floating  ms-2">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                            @endif
                                         </div>
                                         <div class="table-responsive mt-2">
                                             @if($render)
@@ -110,7 +112,7 @@
                                         <div class="row justify-content-end">
                                             <button onclick="save(this)" name="savenote"
                                                 title="Enregistrer les modifications"
-                                                class="me-2 btn btn-info btn-floating">
+                                                class="me-2 btn btn-success btn-floating">
                                                 <i class="fas fa-save"></i>
                                             </button>
 
@@ -161,7 +163,7 @@
                                 <!-- Tabs navs -->
 
                                 <!-- Tabs content -->
-                                <div class="tab-content" id="ex1-content">
+                                <div class="tab-content p-2" id="ex1-content">
                                     <div name="notes-module" session="1" module="{{$mymodule->id}}" semestre="{{$sem->id}}" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
                                         id="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
                                         role="tabpanel"
@@ -181,18 +183,18 @@
                                                     <input name="file" type="file" hidden>
                                                     <a title="Exporter Les Notes du Module" name="exportModule"
                                                         href="{{ route('etudiant.notes.module.export', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 1, 'type' => 'false']) }}"
-                                                        class="btn btn-success btn-floating ms-2">
+                                                        class="btn btn-danger btn-floating ms-2">
                                                         <i class="fas fa-download"></i>
 
                                                     </a>
                                                     <a title="Commiter Les Notes du Session Ordinaire" name="commitOrd"
                                                         href="{{ route('module.commit.notes', ['promotion_id' => $promotion->id, 'sem_id' => $sem->id, 'module_id' => $mymodule->id]) }}"
-                                                        class="btn btn-info btn-floating  ms-2">
+                                                        class="btn btn-primary btn-floating  ms-2">
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                     <button type="button" onclick="save(this)" name="savenote"
                                                         title="Enregistrer les modifications"
-                                                        class="btn btn-info btn-floating  ms-2">
+                                                        class="btn btn-success btn-floating  ms-2">
                                                         <i class="fas fa-save"></i>
                                                     </button>
                                                     <button type="submit" id="submit" hidden></button>
@@ -242,7 +244,7 @@
                                                 </a>
                                                 <button type="button" name="savenote"
                                                     title="Enregistrer les modifications"
-                                                    class="btn btn-info btn-floating  ms-2">
+                                                    class="btn btn-success btn-floating  ms-2">
                                                     <i class="fas fa-save"></i>
                                                 </button>
                                                 <button type="submit" id="submit" hidden></button>

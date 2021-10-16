@@ -132,6 +132,10 @@
         @include('parts.admin.old.index')
         @break
 
+        @case('formations.laureat')
+        @include('parts.admin.laureats.list')
+        @break
+
         @default
 
         @endswitch

@@ -10,7 +10,7 @@
     <div id="side">
 
         <div class="mt-5 d-flex align-items-center flex-column">
-            <img name="side-item-label" src="{{ url(route('avatar', ['cin' => Auth::user()->image])) }}" class="rounded-circle p-3" height="150"
+            <img name="side-item-label" src="{{ url(route('avatar', ['cin' => Auth::user()->cin])) }}" class="rounded-circle p-3" height="150"
                 alt="" />
             <h5 class=""><span name=" side-item-label"><strong><span
                         name="side-item-label">{{ Auth::user()->first_name }} {{ ' ' }}

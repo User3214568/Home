@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Scopes\GraduatedScope;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Etudiant extends Model
@@ -10,12 +12,15 @@ class Etudiant extends Model
     public $incrementing  = false;
 
     protected $fillable = ['formation_id','first_name','last_name','cin','cne','born_date','born_place','phone','email','promotion_id'];
+
     public function name(){
         return $this->first_name." ".$this->last_name;
     }
     public function formation(){
         return $this->belongsTo(Formation::class);
-
+    }
+    public function graduations(){
+        return $this->hasMany(Graduated::class);
     }
 
     public function promotion(){
@@ -62,6 +67,9 @@ class Etudiant extends Model
         }else{
             return null;
         }
+    }
+    public static function booted(){
+        static::addGlobalScope(new GraduatedScope);
     }
 
 }

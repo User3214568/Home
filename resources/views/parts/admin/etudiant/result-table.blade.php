@@ -17,7 +17,7 @@
             @php $counter = 0; @endphp
             @foreach ($sem->promotion->etudiants as $key => $etudiant)
                 @if ($etudiant->hasSession($mymodule->id,$session))
-                    @php $counter = 0; @endphp
+                    @php $counter++; @endphp
                     <tr>
                         <th>{{ $key + 1 }}</th>
                         <th scope="row">{{ $etudiant->cin }}</th>

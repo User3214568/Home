@@ -29,6 +29,7 @@
         ],
 
         ['title'=>'Années Précédentes','link'=>route('history.index'), 'icon'=>'fas fa-history', 'expanded'=>false],
+        ['title'=>'Lauréats','link'=>route('formations.laureat'), 'icon'=>'fas fa-graduation-cap', 'expanded'=>false],
         ['title'=>'Utilisateurs','link'=>route('user.index'), 'icon'=>'fas fa-user-lock', 'expanded'=>false],
         ['title'=>'Gestion Financiére','divider'=>true],
         ['title'=>'Versements des Etudiants','link'=>route('tranche.index') , 'icon'=>'fas fa-hand-holding-usd', 'expanded'=>false],

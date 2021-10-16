@@ -25,9 +25,17 @@ class UserController extends Controller
     }
     public function edit($id)
     {
-        $content = 'user.update';
         $user = User::find($id);
-        if (isset($user)) return view('admin', compact(['content', 'user']));
+        if (isset($user)){
+            if(Auth::user()->type == 0){
+                $content = 'user.update';
+                return view('admin', compact(['content', 'user']));
+            }
+            if(Auth::user()->type == 1){
+                $content = 'parts.admin.user.user';
+                return view('enseignant', compact(['content', 'user']));
+            }
+        }
     }
     public function store(Request $request)
     {
@@ -69,17 +77,14 @@ class UserController extends Controller
             $request->validate([
                 'first_name' => 'required |max:50',
                 'last_name' => 'required |max:50',
-                'cin' => 'required||max:15',
                 'email' => 'required|max:30|email',
                 'password' => 'required',
                 'phone' => 'max:30'
             ]);
-            if($user->type = 1){
-                Auth::user()->teacher->update(['user_cin'=>$request->cin]);
-            }
+
             if ($request->file('image')) {
                 $file = $request->file('image');
-                $image = $request->cin . "." . $file->getClientOriginalExtension();
+                $image = $id . "." . $file->getClientOriginalExtension();
                 if (Storage::exists("app/avatars/" . $user->image)) {
                     Storage::delete("app/avatars/" . $user->image);
                 }
@@ -87,7 +92,8 @@ class UserController extends Controller
             } else {
                 $image = "default.jpg";
             }
-            $user->update(array_merge($request->only(['first_name', 'last_name', 'cin', 'email', 'phone']), ['password' => Hash::make($request->password), 'image' => $image]));
+            $user->update(array_merge($request->only(['first_name', 'last_name', 'email', 'phone']), ['password' => Hash::make($request->password), 'image' => $image]));
+
         }
         return redirect(route('user.index'));
     }

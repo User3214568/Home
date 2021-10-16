@@ -45,6 +45,9 @@
                 id="mod{{$module->id}}-tab"
                 role="tabpanel"
                 >
+                @php
+
+                @endphp
                 @include('parts.admin.old.module-result')
             </div>
 
@@ -58,6 +61,7 @@
                     id="all-tab"
                     role="tabpanel"
         >
+
             @include('parts.admin.old.all-result')
         </div>
     @endif

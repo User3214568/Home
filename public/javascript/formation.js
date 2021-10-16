@@ -33,6 +33,7 @@ $(document).ready(function () {
                 $(item).prop('checked', false)
             }
         })
+        syncsemestres()
     })
 })
 function updateSemestre(element) {

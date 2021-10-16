@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 
 class PrivateImagesController extends Controller
 {
@@ -15,6 +14,7 @@ class PrivateImagesController extends Controller
 
         }
         else{
+            dd($user);die();
             $image  = storage_path("app/avatars/default.jpg");
         }
         return response()->file($image);

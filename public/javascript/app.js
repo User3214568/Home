@@ -24,7 +24,12 @@ $(document).ready(function(){
             $(this).toggle($(this).text().indexOf(value) > -1)
         });
     });
-
+    $("#au-formation").on('change',function(){
+        var value = $(this).val();
+        $("#etudiants-table ").filter(function() {
+            $(this).toggle($(this).text().indexOf(value) > -1)
+        });
+    })
     $("#search-module").focus(function(){
         $("#search-result").slideDown('slow');
     });

@@ -42,11 +42,6 @@
       role="tabpanel"
       aria-labelledby="ex3-tab-2"
     >
-        @php
-            $count = 0;
-            $moy = 0;
-        @endphp
-
         @include('parts.admin.old.results')
     </div>
 

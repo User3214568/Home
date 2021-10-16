@@ -14,16 +14,20 @@
         <th>Promotion</th>
         <th>Actions</th>
     </tr>
-    @if(sizeof($etudiants) == 0)
-        <tr><td colspan="6">Aucun Etudiant à afficher.</td></tr>
-    @else
-        @foreach ($etudiants->sortBy('formation_id') as $etudiant)
+    @php $count = false ; @endphp
+    @foreach ($etudiants->sortBy('formation_id') as $etudiant)
+        @if ($etudiant->promotion)
+            @php
+                if (!$count) {
+                    $count = true;
+                }
+            @endphp
             <tr name="versement">
-                <th>{{ $etudiant->formation->name }}</th>
-                <th>{{ $etudiant->first_name }}</th>
-                <th>{{ $etudiant->last_name }}</th>
-                <th>{{ $etudiant->cin }}</th>
-                <th>{{ $etudiant->promotion->nom }}</th>
+                <td>{{ $etudiant->formation->name }}</td>
+                <td>{{ $etudiant->first_name }}</td>
+                <td>{{ $etudiant->last_name }}</td>
+                <td>{{ $etudiant->cin }}</td>
+                <td>{{ $etudiant->promotion ? $etudiant->promotion->nom : 'Sans Promotion' }}</td>
                 <td class="d-flex justify-content-center  align-items-center">
                     <form action="{{ route('etudiant.destroy', ['etudiant' => $etudiant->cin]) }}" method="POST">
                         @csrf
@@ -37,8 +41,12 @@
                             <i class="fas fa-pen-fancy fa-1x"></i>
                         </button>
                     </form>
-
             </tr>
-        @endforeach
+        @endif
+    @endforeach
+    @if (!$count)
+        <tr>
+            <td colspan="6">Aucun Etudiant à afficher.</td>
+        </tr>
     @endif
 @endsection

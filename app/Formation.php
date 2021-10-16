@@ -15,6 +15,9 @@ class Formation extends Model
     public function etudiants(){
         return $this->hasMany(Etudiant::class);
     }
+    public function graduateds(){
+        return $this->hasMany(Graduated::class);
+    }
     public function promotions(){
         return $this->hasMany(Promotion::class);
     }

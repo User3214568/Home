@@ -7,8 +7,17 @@
             <th>Note Finale</th>
         <th>Résultat Finale</th>
     </tr>
+    @php
+        $count = 0 ; $moy = 0;
+    @endphp
     @foreach ($histories as $history)
     @if(isset($history->etudiant))
+    @foreach ($history->hisresults as $hisresult)
+        @php
+            $moy += $hisresult->note_final;
+            $count++;
+        @endphp
+    @endforeach
     <tr>
         <td>{{$history->etudiant_cin}}</td>
         <td>{{$history->etudiant->name()}}</td>

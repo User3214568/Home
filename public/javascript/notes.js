@@ -32,6 +32,7 @@ $(document).ready(function(){
         }
         );
     });
+    setupsave()
 });
 function setupsave(){
     evaluation = {};

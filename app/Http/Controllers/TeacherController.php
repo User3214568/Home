@@ -51,12 +51,10 @@ class TeacherController extends Controller
         $teacher = Teacher::find($id);
         if($teacher){
             $request->validate([
-                'cin'=>'required|unique:teachers,user_cin,'.$teacher->user_cin,
                 'first_name'=>'required',
                 'last_name'=>'required'
             ]);
-            $teacher->user->update(array_merge($request->only(['first_name','last_name']),['cin'=>$request->cin]));
-            $teacher->update(['user_cin'=>$request->cin]);
+            $teacher->user->update($request->only(['first_name','last_name']));
         }
         return redirect(route('teacher.index'));
     }

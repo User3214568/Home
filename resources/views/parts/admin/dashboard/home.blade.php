@@ -38,7 +38,7 @@
                     @endforeach
                 @else
                     <div class="d-flex justify-content-center align-items-center">
-                        <p>Acune Notification à afficher.</p>
+                        <p>Aucune Notification à afficher.</p>
                     </div>
                 @endif
             </div>

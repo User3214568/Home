@@ -6,6 +6,7 @@ use App\Critere;
 use App\Etudiant;
 use App\Evaluation;
 use App\Formation;
+use App\Graduated;
 use App\Module;
 use App\Promotion;
 use App\Semestre;
@@ -160,6 +161,9 @@ class FormationController extends Controller
                 foreach ($promo->etudiants as  $etudiant) {
                     Etudiant::destroy($etudiant->cin);
                 }
+                foreach($promo->histories as $history){
+                    $history->delete();
+                }
                 Promotion::destroy($promo->id);
             }
             foreach ($formation->semestres as $sem) {
@@ -206,5 +210,10 @@ class FormationController extends Controller
         $formation = Formation::find($formation_id);
         if ($formation)
             return view('parts.admin.etudiant.delib-result', compact(['formation']));
+    }
+    public function laureat(){
+        $au = Graduated::get()->groupBy('au');
+        $content = 'formations.laureat';
+        return view('admin',compact(['au','content']));
     }
 }

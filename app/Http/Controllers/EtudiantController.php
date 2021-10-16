@@ -6,6 +6,7 @@ use App\Etudiant;
 use App\Evaluation;
 use App\Exceptions\CustomException;
 use App\Formation;
+use App\Graduated;
 use App\Hisresult;
 use App\History;
 use App\Module;
@@ -76,7 +77,6 @@ class EtudiantController extends Controller
         $is_valid = $request->validate([
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'cin' => 'required|max:15',
             'email' => 'required|max:30',
             'formation_id' => 'required',
             'promotion_id' => 'required',
@@ -99,7 +99,7 @@ class EtudiantController extends Controller
             $old_promo = $etudiant->promotion_id;
             $old_formation = $etudiant->formation_id;
 
-            $etudiant->update($request->only(['first_name', 'last_name', 'cin', 'cne', 'email', 'born_place', 'phone', 'formation_id', 'born_date', 'promotion_id']));
+            $etudiant->update($request->only(['first_name', 'last_name', 'email', 'born_place', 'phone', 'formation_id', 'born_date', 'promotion_id']));
             if (!($old_formation == $request->formation_id && $old_promo == $request->promotion_id)) {
                 foreach ($etudiant->evaluations as  $evaluation) {
                     Evaluation::destroy($evaluation->id);
@@ -203,6 +203,58 @@ class EtudiantController extends Controller
             }
         }
     }
+    private function saveHistories($promotion){
+        foreach ($promotion->etudiants as $etudiant) {
+            $history = History::create(['etudiant_cin'=>$etudiant->cin,
+                                        'promotion_id'=>$promotion->id,'au'=>(date('Y')-1)."-".date('Y')]);
+            foreach($promotion->semestres as $semestre){
+                foreach($semestre->modules as $module){
+                    Hisresult::create(['module_id'=>$module->id,
+                        'history_id'=>$history->id,
+                        'semestre'=>$semestre->numero,
+                        'note_final'=> Validation::FinalModuleNote($etudiant->cin,$module->id)
+                    ]);
+
+                }
+            }
+
+
+
+        }
+    }
+    private function transitEtudiant($etudiants,$promotion,$next_promo){
+        foreach ($etudiants as  $e_res) {
+            $etudiant  = Etudiant::find($e_res['e']);
+            if($e_res['r'] == 0 && $etudiant){
+                $etudiant->promotion()->dissociate($promotion->id);
+                if($next_promo){
+                    $etudiant->promotion()->associate($next_promo->id);
+                    foreach($next_promo->semestres as $sem){
+                        foreach ($sem->modules as  $mod) {
+                            foreach($mod->devoirs as $dev){
+                                Evaluation::create(['devoir_id'=>$dev->id,'etudiant_cin' => $e_res['e']]);
+                            }
+                        }
+                    }
+                }else{
+                    // Assign etudiant to graduateds
+                    Graduated::create(['au'=>(date('Y')-1)."-".date('Y'),'formation_id'=>$etudiant->formation->id,'etudiant_cin'=>$etudiant->cin]);
+                }
+                $etudiant->save();
+                foreach ($etudiant->evaluations as $evaluation) {
+                    $evaluation->delete();
+                }
+
+            }elseif($etudiant && $e_res['r'] == 1 && $promotion){
+                foreach ($etudiant->evaluations as $evaluation) {
+                    if($evaluation->devoir->session == 2){
+                        $evaluation->delete();
+                    }
+                    $evaluation->update(['note'=>null]);
+                }
+            }
+        }
+    }
     public function finAnnee(Request $request){
         if($request->results){
             $results = json_decode($request->results,true);
@@ -210,49 +262,8 @@ class EtudiantController extends Controller
                 $promotion =   Promotion::find($promo);
                 if($promotion){
                     $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
-                    foreach ($promotion->etudiants as $etudiant) {
-                        $history = History::create(['etudiant_cin'=>$etudiant->cin,
-                                                    'promotion_id'=>$promotion->id,'au'=>(date('Y')-1)."-".date('Y')]);
-                        foreach($promotion->semestres as $semestre){
-                            foreach($semestre->modules as $module){
-                                Hisresult::create(['module_id'=>$module->id,
-                                    'history_id'=>$history->id,
-                                    'semestre'=>$semestre->numero,
-                                    'note_final'=> Validation::FinalModuleNote($etudiant->cin,$module->id)
-                                ]);
-
-                            }
-                        }
-
-
-
-                    }
-                    foreach ($etudiants as  $e_res) {
-                        $etudiant  = Etudiant::find($e_res['e']);
-                        if($e_res['r'] == 0 && $etudiant && $next_promo){
-                            $etudiant->promotion()->dissociate($promotion->id);
-                            $etudiant->promotion()->associate($next_promo->id);
-                            $etudiant->save();
-                            foreach ($etudiant->evaluations as $evaluation) {
-                                $evaluation->delete();
-                            }
-                            foreach($next_promo->semestres as $sem){
-                                foreach ($sem->modules as  $mod) {
-                                    foreach($mod->devoirs as $dev){
-                                        Evaluation::create(['devoir_id'=>$dev->id,'etudiant_cin' => $e_res['e']]);
-                                    }
-                                }
-                            }
-                        }elseif($etudiant && $e_res['r'] == 1 && $promotion){
-                            foreach ($etudiant->evaluations as $evaluation) {
-                                if($evaluation->devoir->session == 2){
-                                    $evaluation->delete();
-                                }
-                                $evaluation->update(['note'=>null]);
-                            }
-                        }
-                    }
-
+                    $this->saveHistories($promotion);
+                    $this->transitEtudiant($etudiants,$promotion,$next_promo);
 
                 }
 

@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class=" d-flex justify-content-start flex-column   mt-4">
-            <div class="w-100"  >
+            <div class="w-100">
                 <p class="text-reset"><h5>Répartion des Semestres</h5></p>
                 <p><hr class="dropdown-divider"></p>
             </div>

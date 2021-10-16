@@ -52,9 +52,13 @@
                                                 {{ $evaluation->note ?: 0 }}
                                             </td>
                                         @else
-                                            <td class="border" contenteditable="false">
-                                                Non Rattrappant
-                                            </td>
+                                            @if($session == 2)
+                                                <td class="border" contenteditable="false">
+                                                    Non Rattrappant
+                                                </td>
+                                            @else
+                                                <td class="border">-</td>
+                                            @endif
                                         @endif
                                     @endif
                                 @endforeach

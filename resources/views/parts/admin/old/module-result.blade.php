@@ -14,10 +14,10 @@
             <td>{{$history->etudiant_cin}}</td>
             <td>{{$history->etudiant->name()}}</td>
             <td>
-                @php
+                    @php
                     $result =  $history->hisresults->where('module_id',$module->id)->first()->note_final;
-                    $moy+= $result;
-                    $count++;
+
+
                     @endphp
                {{number_format($result,2)}}
             </td>

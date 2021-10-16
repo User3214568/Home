@@ -35,6 +35,7 @@ use App\Module;
 use App\Promotion;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
@@ -93,8 +94,13 @@ class UploadController extends Controller
     {
         $import_module =  new ImportModule($sem_id, $module_id, $session);
         $import_module->import($request->file('file'));
+        if(Auth::user()->type == 0){
+            return redirect(route('etudiant.evaluation'));
+        }
+        if(Auth::user()->type == 1){
+            return redirect(route('enseignant.notes'));
+        }
 
-        return redirect(route('etudiant.evaluation'));
     }
 
     public function exportFinanceFormation($id, $type)
@@ -165,9 +171,7 @@ class UploadController extends Controller
         }
         return redirect(route('paiement.index'));
     }
-    public function testDrop(){
-        return Excel::download(new ExportTest ,"test-drop.xlsx");
-    }
+
     public function importDepenses(Request $request){
         Excel::import(new ImportDepenses , $request->file('file'));
         $d =  new DepensesController;
