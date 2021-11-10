@@ -2,6 +2,7 @@
     <?php $count_columns = 0; ?>
     <thead>
         <tr>
+
             @if(!isset($auth_modules) || (isset($auth_modules) && in_array($mymodule->id,$auth_modules)))
             <td rowspan="1"></td>
             @foreach ($mymodule->devoirs as $devoir)
@@ -28,7 +29,7 @@
                 @if ($etudiant->hasSession($mymodule->id, $session))
                     <?php $empty_set++; ?>
                     <tr>
-                        <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
+                        <th scope="row">{{ $etudiant->user->name() }}</th>
                         @if (sizeof($mymodule->devoirs) > 0)
                             @foreach ($mymodule->devoirs as $devoir)
                                 @if ($devoir->session == $session)

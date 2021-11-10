@@ -14,13 +14,12 @@ class CreateEtudiantTable extends Migration
     public function up()
     {
         Schema::create('etudiants', function (Blueprint $table) {
-            $table->string('cin')->primary();
-            $table->string('email');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->increments('cin');
+            $table->string('born_place');
             $table->date('born_date');
             $table->timestamps();
-            $table->foreignId('formation_id')->constrained();
+            $table->string('user_cin');
+            $table->foreign('user_cin')->references('cin')->on('users')->onDelete('cascade');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateEtudiantTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etudiant');
+        Schema::dropIfExists('etudiants');
     }
 }

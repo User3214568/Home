@@ -6,6 +6,7 @@ use App\Etudiant;
 use App\Exceptions\ImportException;
 use App\Paiement;
 use App\Tranche;
+use App\User;
 use Exception;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -21,12 +22,19 @@ class ImportPaiementEtudiant implements ToModel, WithHeadingRow, WithHeadings, W
     {
         $cin = $row['cin'];
         $count = 1;
-        $etudiant = Etudiant::find($cin);
+        $etudiant = User::find($cin);
+        if($etudiant){
+            $etudiant = $etudiant->etudiant;
+        }
         if ($etudiant) {
             try {
                 for ($i = 3; $i + 2 < sizeof($row); $i += 3) {
-                    if (isset($row["vers$count"])) {
-                        $date = Date::excelToDateTimeObject($row["date" . ($count)])->format('Y-m-d');
+                    if (isset($row["vers$count"]) ) {
+                        if(!is_numeric(($row["date$count"]))){
+                            $date = $row["date$count"];
+                        }else{
+                            $date = Date::excelToDateTimeObject($row["date" . ($count)])->format('Y-m-d');
+                        }
                         foreach ($etudiant->tranches as  $tranche) {
                             Tranche::destroy($tranche->id);
                         }
@@ -36,7 +44,7 @@ class ImportPaiementEtudiant implements ToModel, WithHeadingRow, WithHeadings, W
                         } else {
                             $prove = (stripos($row["ref$count"], "rien") === false ? false : true);
                         }
-                        Tranche::create(['vers' => $row["vers$count"], 'proved' => !$prove, 'ref' => $row["ref" . ($count)], 'date_vers' => $date, 'etudiant_cin' => $cin]);
+                        Tranche::create(['vers' => $row["vers$count"], 'proved' => !$prove, 'ref' => $row["ref" . ($count)], 'date_vers' => $date, 'etudiant_cin' => $etudiant->cin]);
                         $count++;
                     }
                 }

@@ -51,7 +51,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
         if($exception instanceof QueryException){
             return response()->view('error-db-off',compact(['exception']));
         }
@@ -61,5 +60,7 @@ class Handler extends ExceptionHandler
         if($exception instanceof CustomException){
             return response()->view('exception',['error'=>$exception->getMessage()]);
         }
+        return response()->view('error-db-off',['error'=>"L'application a racontré un problème",'disableNav'=>true]);
+        //return parent::render($request, $exception);
     }
 }

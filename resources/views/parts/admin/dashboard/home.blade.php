@@ -11,15 +11,15 @@
 </div>
 <div class=" mt-1 text-left h5 lead">
 </div>
-<div class="row">
+<div class="row p-2">
+    <div class="p-2 bg-primary border  rounded-top text-light  d-flex ">
+        <span class="me-2"><i class="fas fa-bell"></i></span>
+        <span>Vos Notifications</span>
+    </div>
         <div class="col-md-12 limit">
-            <div class=" p-2 bg-primary border  rounded-top text-light  d-flex ">
-                <span class="me-2"><i class="fas fa-bell"></i></span>
-                <span>Vos Notifications</span>
-            </div>
 
             <div class="p-2 border rounded-bottom">
-                @if(sizeof(\Auth::user()->notifications) > 0)
+                @if(sizeof(\Auth::user()->notifications->where('pivot.seen',0)) > 0)
                     @foreach (\Auth::user()->notifications as $notif )
                     @if($notif->pivot->seen == 0)
                     <div class="row justify-content-between">
@@ -32,6 +32,9 @@
                                 {{ \App\Utilities\Calculation::time_diff($notif->created_at,now())}}
                             </strong>
                         </div>
+                        @php
+                            $notif->pivot->seen = 1 ; $notif->pivot->save();
+                        @endphp
                     </div>
 
                     @endif
@@ -43,43 +46,42 @@
                 @endif
             </div>
         </div>
-
 </div>
 <div class="row mt-4 border-bottom border-top justify-content-around text-dark">
     <div class="col-md-3 border-end  bg-transparent">
-        <div class="col p-3 d-flex justify-content-between border-bottom">
-            <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="row p-3 d-flex justify-content-between border-bottom">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-user-graduate fa-2x"></i>
-                <span>Etudiants</span>
+                <span >Etudiants</span>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-center">
                 <p class="h4">{{ $total_etudiants }}</p>
             </div>
         </div>
-        <div class="col p-3 d-flex justify-content-between border-bottom">
-            <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="row p-3 d-flex justify-content-between border-bottom">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-code-branch fa-2x"></i>
                 <span>Formations</span>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-center">
                 <p class="h4">{{ $total_formations }}</p>
             </div>
         </div>
-        <div class="col p-3 d-flex justify-content-between border-bottom">
-            <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="row p-3 d-flex justify-content-between border-bottom">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-th fa-2x"></i>
                 <span>Modules</span>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-center">
                 <p class="h4">{{ $total_modules }}</p>
             </div>
         </div>
-        <div class="col p-3 d-flex justify-content-between ">
-            <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="row p-3 d-flex justify-content-between ">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
                 <i class="fas fa-chalkboard-teacher fa-2x"></i>
                 <span>Professeurs</span>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-center">
                 <p class="h4">{{ $total_profs }}</p>
             </div>
         </div>

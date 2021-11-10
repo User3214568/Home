@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Depenses;
 use App\Formation;
+use App\Teacher;
 use App\Token;
 use App\User;
 use App\Utilities\MailSender;
@@ -76,20 +77,21 @@ class MainController extends Controller
         $total_etudiants  = 0 ;
         $total_formations  = 0 ;
         $total_modules = 0 ;
-        $total_profs = 0;
+        $total_profs = sizeof(Teacher::get());
         $total_paiements = 0;
         $total_versments = 0;
         $total_avers = 0;
         $total_deps = 0;
         $stats = [];
         $fin_stats = [];
+
         foreach(Depenses::get() as $dep){
             $total_deps += $dep->somme;
         }
         foreach (Formation::get() as $formation) {
             $size_etudiant = sizeof($formation->etudiants);
             $size_profs = sizeof($formation->professeurs);
-            $total_profs += $size_profs;
+
             $size_modules = $formation->getEffectif();
             $paiements = $formation->getPaiements();
             $f_total_paiements = $formation->totalPaiements();

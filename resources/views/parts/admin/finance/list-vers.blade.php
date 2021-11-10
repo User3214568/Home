@@ -2,7 +2,7 @@
 @extends('parts.admin.common.list-payement-tranche')
 @section('title-list','Versements des Etudiants')
 @section('route-import',route('finance.import.versement'))
-@section('route-create','tranche.create')
+@section('route-create',route('tranche.create'))
 @section('route-export',route('finance.export.formation', ['id' => 0, 'type' => 'false']))
 @section('route-export-empty',route('finance.export.formation', ['id' => 0, 'type' => 'true']))
 @section('table')
@@ -16,7 +16,7 @@
         <th rowspan="3">Total Versé</th>
         <th rowspan="3">Rest</th>
     </tr>
-    <th>
+    <tr>
         <th colspan="4">Versement 1</th>
         <th colspan="4">Versement 2</th>
         <th colspan="4">Versement 3</th>
@@ -43,9 +43,9 @@
     @foreach ($etudiants as $etudiant)
         <tr name="versement">
             <td>{{ $etudiant->formation->name }}</td>
-            <td>{{ $etudiant->first_name }}</td>
-            <td>{{ $etudiant->last_name }}</td>
-            <td>{{ $etudiant->cin }}</td>
+            <td>{{ $etudiant->user->first_name }}</td>
+            <td>{{ $etudiant->user->last_name }}</td>
+            <td>{{ $etudiant->user->cin }}</td>
             <?php $sum = 0; ?>
             @foreach ($etudiant->tranches->sortBy('date_vers') as $tranche)
                 <td class="{{ $tranche->proved ? 'text-success' : 'text-danger' }}">{{ $tranche->vers }}</td>
@@ -75,7 +75,7 @@
                 <td></td>
             @endfor
             <td>{{ $sum }}</td>
-            <td>{{ 16000 - $sum }}</td>
+            <td>{{ $etudiant->formation->prix - $sum }}</td>
         </tr>
     @endforeach
 @else

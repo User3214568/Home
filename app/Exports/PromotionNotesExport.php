@@ -92,9 +92,9 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
     public function map($etudiant): array
     {
         $row = [
-            $etudiant->first_name,
-            $etudiant->last_name,
-            $etudiant->cin,
+            $etudiant->user->first_name,
+            $etudiant->user->last_name,
+            $etudiant->user->cin,
             $etudiant->born_date,
             $etudiant->born_place,
         ];
@@ -106,22 +106,25 @@ class PromotionNotesExport extends TemplateExport implements FromCollection,With
                 $moy += $mavg;
                 $count++;
 
-                array_push($row, $mavg >= 10 ? " ".number_format($mavg,2)." ":"0".number_format($mavg,2));
-
+                array_push($row,number_format($mavg,2));
             }
         }
         $moy = ($count > 0) ? $moy / $count : '-';
         $mention = "Très Bien";
-        if ($moy < 16) {
-            $mention = "Bien";
-            if ($moy < 14) {
-                $mention = 'Assez Bien';
+        if(is_numeric($moy)){
+
+            if ($moy < 16) {
+                $mention = "Bien";
+                if ($moy < 14) {
+                    $mention = 'Assez Bien';
+                }
+                if ($moy < 12) {
+                    $mention = "Faible";
+                }
             }
-            if ($moy < 12) {
-                $mention = "Faible";
-            }
+
+            array_push($row, number_format($moy,2), Validation::resultDesc($this->promotion->formation,$moy,1), $mention);
         }
-        array_push($row, $moy >= 10 ? " ".number_format($moy,2)." ":"0".number_format($moy,2), $moy >= 12 ? 'admis' : 'non admis', $mention);
         return $row;
     }
     public function title(): string

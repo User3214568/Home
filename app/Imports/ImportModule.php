@@ -6,6 +6,7 @@ use App\Evaluation;
 use App\Exceptions\ImportException;
 use App\Module;
 use App\Semestre;
+use App\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -46,7 +47,8 @@ class ImportModule implements ToModel,WithHeadingRow,SkipsOnError,WithValidation
                 $col = strtolower($devoir->name);
                 $col = str_replace(' ','_',$col);
                 if(isset($array[$col])){
-                    $evaluation_id = Evaluation::eems($array['cin'],$devoir->id,$this->session);
+                    $etudiant_cin = User::find($array['cin'])->etudiant->cin;
+                    $evaluation_id = Evaluation::eems($etudiant_cin,$devoir->id,$this->session);
                     if(! ($evaluation_id instanceof  Builder)){
                         Evaluation::find($evaluation_id)->update(['note'=> ($array[$col])]);
                     }

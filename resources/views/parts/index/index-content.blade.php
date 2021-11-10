@@ -1,11 +1,10 @@
 <div class="container p-3">
-    <p class="mt-4">
-    <h2>Gestionnaire Pédagogique et Financière des Formations</h2>
-    </p>
+
     <div class="row  justify-content-center">
         <div class="col-lg-6  d-flex justify-content-center align-items-center flex-column">
             <p>
-                <span class="h3 lead">
+                <h1>Gestionnaire Pédagogique et Financière des Formations</h1>
+                <span class="h3 lead mt-4">
                     Bonjour et Bienvenu dans votre Gestionnaire des Formations, Vous etes un Professeur ou un
                     Administrateur, On vous invite à se connecter à votre compte pour acceder à nos fonctionnalitées
                 </span>

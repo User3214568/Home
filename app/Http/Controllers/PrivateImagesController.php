@@ -11,10 +11,8 @@ class PrivateImagesController extends Controller
         if($user){
             $image_name = $user->image;
             $image  = storage_path("app/avatars/$image_name");
-
         }
         else{
-            dd($user);die();
             $image  = storage_path("app/avatars/default.jpg");
         }
         return response()->file($image);

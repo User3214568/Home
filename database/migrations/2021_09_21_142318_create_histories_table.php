@@ -15,11 +15,15 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->string('etudiant_cin');
+            $table->unsignedInteger('etudiant_cin');
             $table->string('au');
+            $table->string('result')->nullable();
             $table->timestamps();
             $table->foreign('etudiant_cin')->references('cin')->on('etudiants')->onDelete('cascade');
-            $table->foreignId('promotion_id')->constrained();
+            $table->unsignedInteger('promotion_id');
+            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');
+
+            
         });
     }
 

@@ -16,10 +16,10 @@ class CreateHisresultsTable extends Migration
         Schema::create('hisresults', function (Blueprint $table) {
             $table->id();
             $table->string('semestre');
-            $table->bigInteger('module_id');
+            $table->unsignedInteger('module_id');
             $table->float('note_final');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-            $table->bigInteger('history_id');
+            $table->unsignedBigInteger('history_id');
             $table->foreign('history_id')->references('id')->on('histories')->onDelete('cascade');
             $table->timestamps();
         });

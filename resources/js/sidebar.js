@@ -1,10 +1,5 @@
-var sideSlim = {
-    width : -1,
-    isToggled : false,
-    first : true
-}
+
 $(document).ready(function(){
-    sideSlim.width =  $("#mysidebar").width();
 
     $("#sidebarHideToggler").click(function(){
         $("#side").attr('hidden',function(index,value){
@@ -31,3 +26,4 @@ $(document).ready(function(){
 
 
 });
+

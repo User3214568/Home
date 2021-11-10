@@ -18,7 +18,9 @@ class CreateDevoirsTable extends Migration
             $table->string('name');
             $table->float('ratio');
             $table->timestamps();
-            $table->foreignId('module_id')->constrained();
+            $table->unsignedInteger('module_id');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+          
         });
     }
 

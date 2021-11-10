@@ -1,6 +1,6 @@
 <!-- Tabs navs -->
 <script src="/javascript/module-note.js"></script>
-<script src="/javascript/notes.js"></script>
+<script type="module" src="/javascript/notes.js"></script>
 <script src="/javascript/evaluation.js"></script>
 <ul class="nav nav-tabs nav-pills nav-justified mb-3" id="ex1" role="tablist">
     @php $done  = false; @endphp
@@ -33,6 +33,6 @@
             @php $done  = true; @endphp
         @endif
     @endforeach
-
 </div>
+@include('parts.admin.common.modal')
 <!-- Tabs content -->

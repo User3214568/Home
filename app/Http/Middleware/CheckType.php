@@ -23,6 +23,9 @@ class CheckType
             if(Auth::user()->type == 1){
                 return redirect('/enseignant');
             }
+            if(Auth::user()->type == 2){
+                return redirect('/etudiant');
+            }
             return redirect('/');
         }
 

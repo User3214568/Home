@@ -10,7 +10,7 @@
             </ul>
         </div>
     @endif
-    <form class="row container p-5 needs-validation" method="post" action="{{isset($formation)?route('formation.update',$formation):route('formation.store')}}" novalidate>
+    <form class="row container pl-5 pr-5 needs-validation" method="post" action="{{isset($formation)?route('formation.update',$formation):route('formation.store')}}" novalidate>
         @csrf
         @if(isset($formation))
             @method('put')
@@ -74,7 +74,7 @@
 
     @if(isset($formation))
     <script>
-        var semestres = {!! json_encode($formation->semestres->ids) !!};
+        var semestres = {!! json_encode($formation->semestres->ids) !!}
 
     </script>
     @endif

@@ -16,7 +16,8 @@ use App\Exports\ExportFormations;
 use App\Exports\ExportPaiementProf;
 use App\Exports\ExportProfesseur;
 use App\Exports\ExportResultatModule;
-use App\Exports\ExportTest;
+use App\Exports\ExportTeachers;
+
 use App\Exports\ExportVersementALL;
 use App\Exports\FormationFinanceExport;
 use App\Exports\FormationVersementsExport;
@@ -31,8 +32,10 @@ use App\Imports\ImportModule;
 use App\Imports\ImportPaiementEtudiant;
 use App\Imports\ImportPaiementFormation;
 use App\Imports\ImportProfesseur;
+use App\Imports\ImportTeachers;
 use App\Module;
 use App\Promotion;
+use App\Semestre;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,9 +88,11 @@ class UploadController extends Controller
     public function exportModule($sem_id, $module_id, $session, $type)
     {
         if (is_numeric($sem_id) && is_numeric($module_id) && is_numeric($session)) {
-            return Excel::download(new ModuleExport($sem_id, $module_id, $session, $type), 'modules.xlsx');
-        } else {
-            return redirect(route('etudiant.evaluation'));
+            $module = Module::find($module_id);
+            $semestre = Semestre::find($sem_id);
+            if($module && $semestre){
+                return Excel::download(new ModuleExport($semestre, $module, $session, $type), 'module_'.$module->name.'_session_'.($session==1?'Ord_':'RATT_').date('d-m-y').'.xlsx');
+            }
         }
     }
     public function importNoteModule($sem_id, $module_id, $session, Request $request)
@@ -125,14 +130,14 @@ class UploadController extends Controller
 
     public function exportProfesseur($id,$type){
         if ($id == 0) {
-            return Excel::download(new ExportAllProfesseurs(), "all-profs-somme-" . date('d-m-Y') . ".xlsx");
+            return Excel::download(new ExportAllProfesseurs(), "all_affectation_professeurs_" . date('d-m-Y') . ".xlsx");
         } else {
 
             $formation = Formation::find($id);
             if ($type == "true") $type = true;
             else $type = false;
             if ($formation) {
-                return Excel::download(new ExportProfesseur($formation, $type), "professeurs-" . $formation->name . "-somme.xlsx");
+                return Excel::download(new ExportProfesseur($formation, $type), "affectation_professeurs_" . $formation->name . "-somme.xlsx");
             }
         }
     }
@@ -158,7 +163,7 @@ class UploadController extends Controller
                 if($type){
                     return Excel::download(new ExportEmptyFormationPaiement($formation),"list_prof_empty_paiement" . $formation->name . ".xlsx");
                 }else{
-                    return Excel::download(new ExportFormationPaiement($formation, $type), "list_prof_" . $formation->name . ".xlsx");
+                    return Excel::download(new ExportFormationPaiement($formation, $type), "list_prof_paiement_" . $formation->name . ".xlsx");
                 }
             }
         }
@@ -190,5 +195,15 @@ class UploadController extends Controller
         if($module && $promotion && in_array($session,[1,2])){
             return Excel::download(new ExportResultatModule($promotion,$session,$module),"resultat_".$promotion->formation->name."_".$module->name."_session_".($session==1?"Ordinaire":"Ratt").".xlsx");
         }
+    }
+
+    public function exportTeachers($type){
+        if($type==="true") $type=true;
+        else $type = false;
+        return Excel::download(new ExportTeachers($type),"list_".($type?'vide_':'')."professeurs.xlsx");
+    }
+    public function importTeachers(Request $request){
+        Excel::import(new ImportTeachers(), $request->file('file'));
+        return redirect(route('teacher.edit'));
     }
 }

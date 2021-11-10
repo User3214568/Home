@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/.scannerwork
 /public/storage
 /storage/*.key
 /vendor

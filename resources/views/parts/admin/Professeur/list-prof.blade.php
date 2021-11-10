@@ -16,14 +16,11 @@
     </tr>
     @if(sizeof($allprofs) > 0 )
         @foreach ($allprofs as $formation_name => $profs)
-        <?php $passed = false;?>
+
             @foreach ($profs as $prof)
                 <tr name="versement">
-                    @if(!$passed)
-                    <?php $passed = true; ?>
-                    <td  rowspan="{{ sizeof($profs) }}">{{ $formation_name }}</td>
-                    @endif
-                    <td hidden>{{ $formation_name }}</td>
+
+                    <td>{{ $formation_name }}</td>
                     <td>{{ $prof->module->name }}</td>
                     <td>{{ $prof->teacher->user->first_name." ".$prof->teacher->user->last_name }}</td>
                     <td>{{ $prof->somme }}</td>

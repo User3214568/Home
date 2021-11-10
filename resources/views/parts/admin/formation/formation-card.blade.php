@@ -1,20 +1,15 @@
-<div class="border  col-md-3  card text-center m-4">
-    <div class="card-body">
-    <div class="card-header text-muted">{{App\Utilities\Calculation::time_diff($formation->updated_at)}}</div>
-    <h5 class="card-title">{{$formation->name}}</h5>
-    <p class=" card-text">
-       {{$formation->description}}
-    </p>
-    <hr class="dropdown-divider">
-    <div class="card-text row">
-        @foreach ($formation->semestres as $sem)
-            @foreach ($sem->modules as  $module)
-                <span class="col m-1 card-formation-module">{{$module->name}}</span>
-            @endforeach
-        @endforeach
-    </div>
+<div class="border  col-md-3 rounded-0 shadow-5 card text-center m-md-4  text-white" style="{{App\Utilities\Generate::background_color()}}" >
+    <div class="card-body d-flex justify-content-between flex-column aling-items-center">
+        <div>
+            <div class="card-header text-reset">{{App\Utilities\Calculation::time_diff($formation->updated_at)}}</div>
+            <h5  class="card-title h4 mt-1 text-wrap">{{$formation->name}}</h5>
+            <textarea hidden name="sems">{{$formation}}</textarea>
+        </div>
+        <button type="button" class="btn btn-primary rounded-0" name="card-formation">Plus d'informations</button>
+
     </div>
     <div class="card-footer text-muted">
+
         <a class="btn btn-success btn-lg btn-floating" href="{{route('formation.edit',$formation->id)}}">
             <i class="fas fa-pen-nib"></i>
         </a>

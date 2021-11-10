@@ -1,9 +1,15 @@
-<form method="POST" action="{{route('etudiant.finaliser')}}" class="row justify-content-end">
-    @csrf
-    <input type="text" value="" id="results-obj" name="results" hidden>
-    <button type="submit" id="submit-result"></button>
-    <button type="button" id="syn-submit" class="btn btn-primary ">Confirmer les Résultats du Fin d'Année</button>
-</form>
+@if(!$pass)
+    <form method="POST" action="{{route('etudiant.finaliser')}}" class="row justify-content-end">
+        @csrf
+        <input type="text" value="" id="results-obj" name="results" hidden>
+        <button type="submit" id="submit-result" hidden></button>
+        <button type="button" id="syn-submit" class="btn btn-primary ">Confirmer les Résultats du Fin d'Année</button>
+    </form>
+@else
+    <div class="row border p-5">
+        Vous avez déja fait la délibration des résultats des étudiants de cet formation.
+    </div>
+@endif
 <div class="row  p-1 mt-1">
     <!-- Tabs navs -->
     <ul class="nav  nav-tabs nav-justified mb-3 " id="ex1" role="tablist">

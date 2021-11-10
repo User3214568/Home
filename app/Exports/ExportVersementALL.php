@@ -16,7 +16,7 @@ class ExportVersementALL implements WithMultipleSheets
         $sheets = [];
         $formations = Formation::get();
         foreach ($formations as $formation) {
-            $sheets [] = new FormationFinanceExport($formation);
+            $sheets [] = new FormationVersementsExport($formation);
         }
         return $sheets;
     }

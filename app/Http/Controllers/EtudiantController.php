@@ -12,6 +12,8 @@ use App\History;
 use App\Module;
 use App\Promotion;
 use App\Semestre;
+
+use App\Utilities\Notificator;
 use App\Utilities\Validation;
 use Exception;
 use Illuminate\Http\Request;
@@ -37,50 +39,59 @@ class EtudiantController extends Controller
         $is_valid = $request->validate([
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'cin' => 'required|unique:etudiants,cin|max:15',
-            'email' => 'required|max:30',
-            'formation_id' => 'required',
-            'born_date' => 'required',
+            'cin' => 'required|unique:users,cin|max:15',
+            'email' => 'required|email|unique:users,email|max:100',
+            'formation_id' => 'required|numeric',
+            'born_date' => 'required|date',
             'born_place' => 'required',
             'phone' => 'required'
         ]);
 
         if ($is_valid) {
-            if (isset($request->promotion_id)) {
-                $promo = $request->promotion_id;
-            } else {
-                $promo = Promotion::premier($request->formation_id);
-            }
-            $etudiant = Etudiant::create(array_merge($request->only(['first_name', 'last_name', 'cin', 'cne', 'email', 'formation_id', 'born_date', 'born_place', 'phone']), ['promotion_id' => $promo->id]));
-            foreach ($promo->semestres as $semestre) {
-                foreach ($semestre->modules as $module) {
-                    foreach ($module->devoirs as $devoir) {
-                        if ($devoir->session == 1)
-                            Evaluation::create(['devoir_id' => $devoir->id, 'etudiant_cin' => $etudiant->cin]);
+
+                $formation = Formation::find($request->formation_id);
+                if(!$formation) throw new CustomException("La fonction dans laquelle vous essayez enregistrer l'etudiant est inexistante");
+                if(sizeof($formation->promotions)< 1) throw new CustomException("Vous devez avoir au moins une promotion dans cette formation");
+                if (isset($request->promotion_id)) {
+                    $promo = $request->promotion_id;
+                } else {
+                    $promo = Promotion::premier($request->formation_id);
+                }
+                if($promo){
+                    $etudiant = Etudiant::rcreate($request->all(),$promo);
+                    foreach ($promo->semestres as $semestre) {
+                        foreach ($semestre->modules as $module) {
+                            foreach ($module->devoirs as $devoir) {
+                                if ($devoir->session == 1)
+                                Evaluation::create(['devoir_id' => $devoir->id, 'etudiant_cin' => $etudiant->cin]);
+                            }
+                        }
                     }
                 }
-            }
+
         }
 
-        if (!isset($request->ajax)) return $this->index();
+        return redirect(route('etudiant.index'));
     }
     public function edit($id)
     {
         $etudiant = Etudiant::find($id);
-        $formations = Formation::get();
-        $promotions = Formation::find($etudiant->formation_id)->promotions;
-        $content = 'etudiant.update';
-        return view('admin', compact(['etudiant', 'content', 'formations', 'promotions']));
+        if($etudiant){
+            $formations = Formation::get();
+            $promotions = Formation::find($etudiant->formation->id)->promotions;
+            $content = 'etudiant.update';
+            return view('admin', compact(['etudiant', 'content', 'formations', 'promotions']));
+        }
     }
     public function update($id, Request $request)
     {
         $is_valid = $request->validate([
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'email' => 'required|max:30',
-            'formation_id' => 'required',
-            'promotion_id' => 'required',
-            'born_date' => 'required',
+            'email' => 'required|email|max:100',
+            'formation_id' => 'required|numeric',
+            'promotion_id' => 'required|numeric',
+            'born_date' => 'required|date',
             'born_place' => 'required',
             'phone' => 'required'
         ]);
@@ -97,10 +108,11 @@ class EtudiantController extends Controller
             $etudiant = Etudiant::find($id);
             if(!$etudiant) throw new CustomException("L'Etudiant objectif de cette modification n'existe pas !");
             $old_promo = $etudiant->promotion_id;
-            $old_formation = $etudiant->formation_id;
+            $old_formation = $etudiant->formation->id;
 
-            $etudiant->update($request->only(['first_name', 'last_name', 'email', 'born_place', 'phone', 'formation_id', 'born_date', 'promotion_id']));
-            if (!($old_formation == $request->formation_id && $old_promo == $request->promotion_id)) {
+            $etudiant->user->update($request->only(['first_name', 'last_name', 'email', 'phone']));
+            $etudiant->update($request->only(['born_place', 'born_date', 'promotion_id']));
+            if (!($old_formation === $request->formation_id && $old_promo === $request->promotion_id)) {
                 foreach ($etudiant->evaluations as  $evaluation) {
                     Evaluation::destroy($evaluation->id);
                 }
@@ -116,10 +128,8 @@ class EtudiantController extends Controller
                 }
             }
         }
-        if (isset($request->ajax)) {
-            return response("success");
-        }
-        return $this->index();
+
+        return redirect(route('etudiant.index'));
     }
     public function show($id)
     {
@@ -127,8 +137,15 @@ class EtudiantController extends Controller
     }
     public function destroy($id)
     {
+        $etudiant = Etudiant::find($id);
+        if($etudiant){
+            foreach ($etudiant->evaluations as $evaluation) {
+                $evaluation->delete();
+            }
+        }
         Etudiant::destroy($id);
-        return $this->index();
+
+        return redirect(route('etudiant.index'));
     }
     public function evaluation()
     {
@@ -154,12 +171,12 @@ class EtudiantController extends Controller
                 } else array_push($fails, 'Evaluation n\'a pas été trouvé');
             }
             if (sizeof($fails) == 0) {
-                return response("Success");
+                return response()->json(['message'=>'Les Notes ont été bien Modifiées']);
             } else {
                 return response(json_encode(['message' => 'Valeur non valide', 'content' => $fails]));
             }
         } else {
-            return "Data Invalides";
+            return response(400)->json(['message'=>'La mise a jour a été echoué. Votre ']);
         }
     }
     public function results()
@@ -217,14 +234,14 @@ class EtudiantController extends Controller
 
                 }
             }
-
-
-
         }
     }
     private function transitEtudiant($etudiants,$promotion,$next_promo){
         foreach ($etudiants as  $e_res) {
             $etudiant  = Etudiant::find($e_res['e']);
+            $history = $etudiant->histories->where('promotion_id',$promotion->id)->where('au',(date('Y')-1)."-".date('Y'))->first();
+            $history->result = $e_res['r'] == 0 ? 'Admis':'Ajourné';
+            $history->save();
             if($e_res['r'] == 0 && $etudiant){
                 $etudiant->promotion()->dissociate($promotion->id);
                 if($next_promo){
@@ -238,6 +255,7 @@ class EtudiantController extends Controller
                     }
                 }else{
                     // Assign etudiant to graduateds
+                    $etudiant->promotion_id = 0 ;
                     Graduated::create(['au'=>(date('Y')-1)."-".date('Y'),'formation_id'=>$etudiant->formation->id,'etudiant_cin'=>$etudiant->cin]);
                 }
                 $etudiant->save();
@@ -256,21 +274,60 @@ class EtudiantController extends Controller
         }
     }
     public function finAnnee(Request $request){
+        $notif = [];
         if($request->results){
             $results = json_decode($request->results,true);
             foreach($results as $promo=>$etudiants){
+                $his = History::where('au',(date('Y')-1)."-".date('Y'))->where('promotion_id',$promo)->get();
+                if(sizeof($his)>0) continue;
                 $promotion =   Promotion::find($promo);
                 if($promotion){
                     $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
                     $this->saveHistories($promotion);
                     $this->transitEtudiant($etudiants,$promotion,$next_promo);
-
+                    array_push($notif,$promotion);
                 }
 
             }
 
         }
+        if($notif) {
+            $notificator = new Notificator();
+
+            $message = "L'utilisateur ".Auth::user()->name()." a fait la délibration des résultat des promotion";
+            foreach ($notif as  $promo) {
+                $message += " ".$promo->nom;
+            }
+            $notificator->notificate($message);
+        }
         return redirect(route('etudiant.index'));
+    }
+    public function homepage(){
+        $content = 'parts.etudiant.home';
+        $etudiant = Auth::user()->etudiant;
+        $histories = $etudiant->histories->sortBy('au');
+        return view('etudiant',compact(['content','histories']));
+    }
+    public function resultsPage(){
+        $content = ('parts.etudiant.results');
+        $etudiant = Auth::user()->etudiant;
+        $modules_results  = [];
+        foreach ($etudiant->promotion->semestres as $sem) {
+            foreach ($sem->modules as $module) {
+                $results = [];
+                for($session = 1 ; $session <= 2 ; $session++){
+                    $results[$session] = Validation::validateSessionModule($etudiant->cin,$module->id,$session,false,true);
+                }
+                $modules_results[] = array('name'=>$module->name,'result'=>$results);
+            }
+        }
+        return view('etudiant',compact(['content','modules_results']));
+    }
+    public function versements(){
+        $content = 'parts.etudiant.versements';
+        $versements = Auth::user()->etudiant->tranches;
+        $etudiant = Auth::user()->etudiant;
+        return view('etudiant',compact(['content','versements','etudiant']));
     }
 
 }

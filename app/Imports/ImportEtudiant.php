@@ -8,7 +8,10 @@ use App\Exceptions\ImportException;
 use App\Promotion;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -27,7 +30,8 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
 
         $promo = Promotion::premier($this->formation->id);
         if($promo instanceof Builder) throw new ImportException("Verifier que vous avez des Promotions dans la formation ".$this->formation->name);
-        $etudiant =  Etudiant::create([
+        try{
+            $etudiant =  Etudiant::rcreate([
                 'cin'=>$row['cin'],
                 'first_name'=>$row['nom'],
                 'last_name'=>$row['prenom'],
@@ -37,7 +41,11 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
                 'phone'=>$row['telephone'],
                 'formation_id'=>$this->formation->id,
                 'promotion_id'=>$promo->id
-        ]);
+            ],$promo);
+
+        }catch(QueryException $e){
+            throw new ImportException($e->getMessage());
+        }
         foreach ($promo->semestres as $semestre) {
             foreach ($semestre->modules as $module) {
                 foreach ($module->devoirs as $devoir) {
@@ -58,11 +66,11 @@ class ImportEtudiant implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            '*.cin'=>['required','unique:etudiants'],
+            '*.cin'=>['required','unique:users,cin'],
             '*.nom'=>['required'],
             '*.date_de_naissance'=>['required','numeric'],
             '*.lieu_de_naissance'=>['required'],
-            '*.email'=>['email','required'],
+            '*.email'=>['email','required','unique:users,email'],
             '*.telephone'=>['required']
         ];
     }

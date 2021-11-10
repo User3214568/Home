@@ -16,9 +16,9 @@ class CreateGraduatedsTable extends Migration
         Schema::create('graduateds', function (Blueprint $table) {
             $table->id();
             $table->string('au');
-            $table->bigInteger('formation_id');
+            $table->unsignedInteger('formation_id');
             $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
-            $table->string('etudiant_cin');
+            $table->unsignedInteger('etudiant_cin');
             $table->foreign('etudiant_cin')->references('cin')->on('etudiants')->onDelete('cascade');
             $table->timestamps();
         });

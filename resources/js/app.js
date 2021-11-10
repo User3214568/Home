@@ -4,12 +4,7 @@
 $(document).ready(function(){
 
 
-    $("#test-login").click(function(){
-        $("#email").val('hamza@gmail.com');
-        $("#email").focus();
-        $("#pass").val('hashed');
-        $("#pass").focus();
-    })
+
     $("#etudiants-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         setTimeout(function(){
@@ -24,7 +19,12 @@ $(document).ready(function(){
             $(this).toggle($(this).text().indexOf(value) > -1)
         });
     });
-
+    $("#au-formation").on('change',function(){
+        var value = $(this).val();
+        $("#etudiants-table ").filter(function() {
+            $(this).toggle($(this).text().indexOf(value) > -1)
+        });
+    })
     $("#search-module").focus(function(){
         $("#search-result").slideDown('slow');
     });
@@ -58,16 +58,3 @@ window.onload = function (){
     });
   })();
 }
-
-
-
-$(window).scroll(function(){
-    if($(window).scrollTop() == 0){
-        $("#navbar").removeClass('bg-light shadow-5')
-        $("#navbar").addClass('transparent')
-    }else{
-        $("#navbar").removeClass('transparent')
-        $("#navbar").addClass('bg-light shadow-5')
-    }
-})
-

@@ -35,6 +35,10 @@ class UserController extends Controller
                 $content = 'parts.admin.user.user';
                 return view('enseignant', compact(['content', 'user']));
             }
+            if(Auth::user()->type == 2){
+                $content = 'parts.admin.user.user';
+                return view('etudiant', compact(['content', 'user']));
+            }
         }
     }
     public function store(Request $request)
@@ -66,7 +70,7 @@ class UserController extends Controller
                 User::create(array_merge($request->only(['first_name', 'last_name', 'cin', 'email', 'phone']), ['password' => $pass_hashed, 'image' => $image]));
             }
             if (!isset($request->ajax))
-                return redirect(route('user.create'));
+                return redirect(route('user.index'));
         }
     }
     public function update($id, Request $request)
@@ -93,9 +97,14 @@ class UserController extends Controller
                 $image = "default.jpg";
             }
             $user->update(array_merge($request->only(['first_name', 'last_name', 'email', 'phone']), ['password' => Hash::make($request->password), 'image' => $image]));
-
         }
-        return redirect(route('user.index'));
+        if(Auth::user()->type == 0){
+            return redirect(route('user.index'));
+        }elseif (Auth::user()->type == 1) {
+            return redirect(route('enseignant.index'));
+        }elseif(Auth::user()->type ==  2){
+            return redirect(route('etudiant.home'));
+        }
     }
     public function login(Request $request)
     {
@@ -106,6 +115,8 @@ class UserController extends Controller
                 return redirect(route('admin'));
             } elseif (Auth::user()->type == 1) {
                 return redirect(route('enseignant.index'));
+            }elseif(Auth::user()->type ==  2){
+                return redirect(route('etudiant.home'));
             } else {
                 return redirect('/');
             }

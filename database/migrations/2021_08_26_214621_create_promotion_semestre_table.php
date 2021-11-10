@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePromotionSemestreTable extends Migration
@@ -14,7 +15,9 @@ class CreatePromotionSemestreTable extends Migration
     public function up()
     {
         Schema::table('semestres', function (Blueprint $table) {
-           $table->foreignId('promotion_id')->constrained();
+            $table->unsignedInteger('promotion_id');
+            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');
+      
         });
     }
 
@@ -25,6 +28,9 @@ class CreatePromotionSemestreTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promotion_semestre');
+        Schema::table('semestres',function(Blueprint $table){
+
+            $table->dropForeign('promotion_id');
+        });
     }
 }

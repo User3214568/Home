@@ -20,8 +20,8 @@
                     @php $counter++; @endphp
                     <tr>
                         <th>{{ $key + 1 }}</th>
-                        <th scope="row">{{ $etudiant->cin }}</th>
-                        <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
+                        <th scope="row">{{ $etudiant->user->cin }}</th>
+                        <th scope="row">{{ $etudiant->user->name() }}</th>
                         @if (sizeof($mymodule->devoirs) > 0)
                             <?php
                                 if($session == 1){
@@ -31,7 +31,7 @@
                                 }
                             ?>
                             <th scope="row">{{ $note }}</th>
-                            <td>{{ $note >= $etudiant->formation->critere->note_validation ? 'Validé' : ($session == 2 ? (($note >= $etudiant->formation->critere->note_aj ? 'Non Validé' : 'Ajourné')):'Rattrappage') }}</td>
+                            <td>{{App\Utilities\Validation::resultDesc($etudiant->formation,$note,$session == 1 ? 1:0)}}</td>
                         @else
                             <td>Aucune Note</td>
                         @endif
@@ -43,7 +43,6 @@
                 les notes du session Ordinaire.</td>
             @endif
         @else
-
             <td colspan="5">Aucun Etudiant appartient à cette Promotion</td>
         @endif
 

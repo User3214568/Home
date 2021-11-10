@@ -64,13 +64,13 @@ class EtudiantsExport Extends TemplateExport implements FromCollection,WithTitle
         $this->auto_incremental++;
         return [
             $this->auto_incremental,
-            $etudiant->first_name,
-            $etudiant->last_name,
-            $etudiant->cin,
+            $etudiant->user->first_name,
+            $etudiant->user->last_name,
+            $etudiant->user->cin,
             $etudiant->born_date,
             $etudiant->born_place,
-            $etudiant->phone,
-            $etudiant->email,
+            $etudiant->user->phone,
+            $etudiant->user->email,
         ];
     }
 

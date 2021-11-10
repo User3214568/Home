@@ -18,7 +18,7 @@ class CreateTranchesTable extends Migration
             $table->float("vers");
             $table->date('date_vers');
             $table->string('ref')->nullable();
-            $table->string('etudiant_cin');
+            $table->unsignedInteger('etudiant_cin');
             $table->boolean('proved')->default(false);
             $table->foreign('etudiant_cin')->references('cin')->on('etudiants')->onDelete('cascade');
             $table->timestamps();

@@ -16,12 +16,16 @@ class CreateProfesseursTable extends Migration
         Schema::create('professeurs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->float('somme');
-            $table->foreignId('formation_id');
-            $table->foreignId('module_id');
 
-            $table->integer('teacher_id');
+
+            $table->unsignedInteger('formation_id');
+            $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
+
+            $table->unsignedInteger('module_id');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+
+            $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
         });
     }

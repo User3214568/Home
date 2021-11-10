@@ -1,4 +1,4 @@
-<div class="border  col-md-3  card text-center m-4">
+<div class="border  col-md-3  card text-center m-md-4" >
     <div class="card-body">
     <div class="card-header text-muted">{{$passed}}</div>
     <h5 class="card-title">{{$name}}</h5>

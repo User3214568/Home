@@ -1,4 +1,4 @@
-<script src="/javascript/notes.js"></script>
+<script type="module" src="/javascript/notes.js"></script>
 
 <div class="row mt-4 ">
     <h2>
@@ -46,12 +46,10 @@
         <p class="text-danger"><i class="fas fa-info  fa-5x"></i></p>
         <p>
             Aucune Donnée à afficher. Veuillez verifier que vous avez sélectionner une formation.
-            Si cette zone est toujours vide on vous invite à crée des nouveaux modules , formations, étudiant
+            Si vous n'avez pas encore créer des formations on vous invite à les créées.
         </p>
         <div class="d-flex justify-content-center align-items-center">
-            <a href="{{route('etudiant.create')}}" class="btn btn-secondary m-3"><span class="h6">Ajouter des Etudiants</span></a>
             <a href="{{route('formation.create')}}" class="btn btn-success m-3"><span class="h6">Ajouter des Formations</span></a>
-            <a href="{{route('module.create')}}" class="btn btn-info m-3"><span class="h6">Ajouter des Modules</span></a>
         </div>
     </div>
 </div>

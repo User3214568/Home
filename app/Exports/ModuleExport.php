@@ -23,10 +23,10 @@ class ModuleExport extends TemplateExport implements FromCollection,WithTitle,Wi
     private $header_size;
     private $session;
     private $isEmpty;
-    public function __construct($sem_id,$id,$session,$empty = true){
+    public function __construct($semestre,$module,$session,$empty = true){
 
-        $this->promotion = Semestre::find($sem_id)->promotion;
-        $this->module = Semestre::find($sem_id)->modules->where('id',$id)->first();
+        $this->promotion = $semestre->promotion;
+        $this->module = $module;
         $this->session = $session;
         $this->header_size = $this->module->getSessionDevoirsCount($session)+5;
         parent::__construct($this->promotion->formation->name,'Notes du Module '.$this->module->name,$this->header_size,15);
@@ -106,11 +106,11 @@ class ModuleExport extends TemplateExport implements FromCollection,WithTitle,Wi
     {
         $flag = 0;
         $row = [
-            $etudiant->first_name,
-            $etudiant->last_name,
-            $etudiant->cin,
+            $etudiant->user->first_name,
+            $etudiant->user->last_name,
+            $etudiant->user->cin,
             $etudiant->born_date,
-            $etudiant->cne,
+            $etudiant->born_place,
         ];
         foreach ($this->module->devoirs as $devoir) {
             if($devoir->session == $this->session){

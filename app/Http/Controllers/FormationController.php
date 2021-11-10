@@ -7,9 +7,12 @@ use App\Etudiant;
 use App\Evaluation;
 use App\Formation;
 use App\Graduated;
+use App\History;
 use App\Module;
+use App\Professeur;
 use App\Promotion;
 use App\Semestre;
+use Exception;
 use Illuminate\Http\Request;
 
 class FormationController extends Controller
@@ -18,6 +21,25 @@ class FormationController extends Controller
     {
         $content = 'formation.index';
         $formations = Formation::get();
+        foreach($formations as $formation){
+            $semestres = [];
+            $sems =  Semestre::orderBy('numero','ASC')->with('modules')->get()->where('promotion.formation_id',$formation->id);
+            foreach($sems as $s){
+                array_push($semestres,$s);
+                foreach($s->modules as $key=>$module){
+                    $prof =  Professeur::orderBy('created_at','DESC')->where('module_id',$module->id)->where('formation_id',$formation->id)->first();
+                    if($prof){
+                        $prof = $prof->teacher->user->name();
+                    }else{
+                        $prof = "Aucun Professeur";
+                    }
+                    $module->teacher  = $prof;
+                    $s->modules[$key] = $module;
+                }
+            }
+            $formation->semes = $semestres;
+        }
+
         return view('admin', compact(['formations', 'content']));
     }
 
@@ -44,13 +66,13 @@ class FormationController extends Controller
             $semestres = json_decode($request->semestres, true);
 
             $critere = Critere::create($request->only(['note_validation', 'note_aj', 'number_aj', 'number_nv']));
-            $formation = Formation::create(array_merge($request->only(['name', 'description']), ['critere_id' => $critere->id]));
+            $formation = Formation::create(array_merge($request->only(['name','prix' ,'description']), ['critere_id' => $critere->id]));
             if (sizeof($semestres) > 0) {
                 foreach ($semestres as $semestre => $modules) {
                     if ($semestre % 2 != 0) {
                         $promo = Promotion::create(['numero' => (1 + (($semestre - 1) / 2)), 'nom' => (1 + (($semestre - 1) / 2)) . "" . ((1 + (($semestre - 1) / 2) == 1) ? 'ére' : 'ème') . ' Année', 'formation_id' => $formation->id]);
                     }
-                    $create_sem  = Semestre::create(['numero' => $semestre, 'formation_id' => $formation->id, 'promotion_id' => $promo->id]);
+                    $create_sem  = Semestre::create(['numero' => $semestre , 'promotion_id' => $promo->id]);
                     $create_sem->modules()->attach($modules);
                 }
             }
@@ -96,7 +118,7 @@ class FormationController extends Controller
                     }
                 } else {
 
-                    $my_sem  = Semestre::create(['numero' => $semestre, 'formation_id' => $formation->id, 'promotion_id' => $promo->id]);
+                    $my_sem  = Semestre::create(['numero' => $semestre, 'promotion_id' => $promo->id]);
                     $my_sem->modules()->attach($modules);
                     if (($semestre % 2 == 0) && isset($semestres[($semestre + 1) . ''])) {
                         $promo = Promotion::create(['numero' => (1 + (($semestre) / 2)), 'nom' => (1 + (($semestre) / 2)) . 'ére Année', 'formation_id' => $formation->id]);
@@ -131,7 +153,7 @@ class FormationController extends Controller
             $formation = Formation::with('semestres')->find($id);
             if($formation){
 
-                $formation->update($request->only(['name', 'description']));
+                $formation->update($request->only(['name','prix','description']));
                 Critere::find($formation->critere_id)->update($request->only(['note_validation', 'note_aj', 'number_aj', 'number_nv']));
                 # find out if semestre already has some promotions
                 if (!(sizeof($formation->promotions) > 0)) {
@@ -154,24 +176,28 @@ class FormationController extends Controller
     public function destroy($id)
     {
         $formation = Formation::with('semestres')->find($id);
+        try{
 
-        if ($formation) {
+            if ($formation) {
 
-            foreach ($formation->promotions as $promo) {
-                foreach ($promo->etudiants as  $etudiant) {
-                    Etudiant::destroy($etudiant->cin);
+                foreach ($formation->promotions as $promo) {
+                    foreach ($promo->etudiants as  $etudiant) {
+                        foreach($etudiant->histories as $history){
+                            $history->delete();
+                        }
+                        Etudiant::destroy($etudiant->cin);
+                    }
+                    Promotion::destroy($promo->id);
                 }
-                foreach($promo->histories as $history){
-                    $history->delete();
+                foreach ($formation->semestres as $sem) {
+                    Semestre::destroy($sem->id);
                 }
-                Promotion::destroy($promo->id);
             }
-            foreach ($formation->semestres as $sem) {
-                Semestre::destroy($sem->id);
-            }
+            Formation::destroy($id);
+            if ($formation) Critere::destroy($formation->critere_id);
+        }catch(Exception $e){
+            dd($e);
         }
-        Formation::destroy($id);
-        if ($formation) Critere::destroy($formation->critere_id);
         return redirect(route('formation.index'));
     }
     public function notes(Request $request)
@@ -188,13 +214,12 @@ class FormationController extends Controller
     public function getModules($id)
     {
         $formation = Formation::find($id);
-        $modules = [];
-        if ($formation) {
-            foreach ($formation->semestres as   $s) {
-                $modules  = array_merge($modules, $s->modules->toArray());
-            }
+        if($formation){
+            $modules = $formation->modules();
+            return json_encode($modules);
+        }else{
+            return json_encode([]);
         }
-        return json_encode($modules);
     }
     public function getProfesseurs($id)
     {
@@ -209,7 +234,10 @@ class FormationController extends Controller
     {
         $formation = Formation::find($formation_id);
         if ($formation)
-            return view('parts.admin.etudiant.delib-result', compact(['formation']));
+            $pass = false;
+            $his = History::with('promotion')->get()->where('au',(date('Y')-1)."-".date('Y'))->where('promotion.formation_id',$formation_id);
+            if(sizeof($his)>0) $pass = true;
+            return view('parts.admin.etudiant.delib-result', compact(['formation','pass']));
     }
     public function laureat(){
         $au = Graduated::get()->groupBy('au');

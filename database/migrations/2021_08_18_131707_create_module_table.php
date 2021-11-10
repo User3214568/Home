@@ -17,7 +17,7 @@ class CreateModuleTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('index')->nullable();
-            $table->string('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateModuleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module');
+        Schema::dropIfExists('modules');
     }
 }

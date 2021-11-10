@@ -18,7 +18,7 @@ class FormationObserver
     public function created(Formation $formation)
     {
         $notif = new Notificator();
-        $notif->notificate($formation,' a crée une nouvell formation : ' . $formation->name);
+        $notif->notificate(' a crée une nouvell formation : ' . $formation->name);
     }
 
     /**
@@ -30,7 +30,7 @@ class FormationObserver
     public function updated(Formation $formation)
     {
         $notif = new Notificator();
-        $notif->notificate($formation,' a modifié la Formation : ' . $formation->name);
+        $notif->notificate(' a modifié la Formation : ' . $formation->name);
     }
 
     /**
@@ -42,7 +42,7 @@ class FormationObserver
     public function deleted(Formation $formation)
     {
         $notif = new Notificator();
-        $notif->notificate($formation,' a supprimé la Formation : ' . $formation->name);
+        $notif->notificate(' a supprimé la Formation : ' . $formation->name);
     }
 
     /**

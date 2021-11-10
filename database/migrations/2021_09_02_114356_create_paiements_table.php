@@ -16,9 +16,12 @@ class CreatePaiementsTable extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->float('montant');
-            $table->foreignId('formation_id');
+
+            $table->unsignedInteger('formation_id');
+            $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
+
             $table->date('date_payement');
-            $table->integer("teacher_id");
+            $table->unsignedBigInteger("teacher_id");
             $table->foreign("teacher_id")->references("id")->on("teachers")->onDelete("cascade");
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class Notificator
         $current_user = Auth::user();
         $notif = Notification::create(['message' =>'L\'utilisateur ' . $current_user->first_name .' '. $message]);
         foreach (User::get() as $user) {
-            if ($user->cin != $current_user->cin) {
+            if ($user->cin != $current_user->cin && $user->type === 0) {
                 $notif->users()->attach($user->cin);
             }
         }

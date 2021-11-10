@@ -1,6 +1,6 @@
-<nav id='navbar' class="navbar navbar-expand-md navbar-light transparent  sticky-top ">
+<nav id='navbar' class="navbar navbar-expand-md navbar-light bg-light   sticky-top shadow-2">
 
-    <a href="#" class="d-flex">
+    <a href="/" class="d-flex">
         <img class="border-end p-2" src="/images/logo.png" height="70"/>
         <div class="d-none d-sm-flex justify-content-start flex-column ms-2">
             <span class=" navbar-brand" >Gestionnaire des Formations</span>
@@ -38,6 +38,7 @@
                 </li>
             @else
 
+            <span>{{Auth::user()->name()}}</span>
             <div class="dropstart ">
                 <li class="nav-item dropdown">
                     <a
@@ -64,7 +65,7 @@
                                 alt=""
                         />
 
-                        <h5 class=""><strong>{{Auth::user()->first_name}} {{" "}} {{Auth::user()->last_name}}</strong></h5>
+                        <h5 class=""><strong>{{Auth::user()->name()}}</strong></h5>
                         <p class="text-muted">{{Auth::user()->email}}</p>
                         <li><a class="dropdown-item" href="{{route('user.edit',Auth::user()->cin)}}">Mon Profile</a></li>
                         <li><a class="dropdown-item" href="{{route('admin')}}">Table de Bord</a></li>

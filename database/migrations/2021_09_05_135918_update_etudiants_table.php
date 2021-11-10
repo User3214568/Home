@@ -14,12 +14,9 @@ class UpdateEtudiantsTable extends Migration
     public function up()
     {
         Schema::table('etudiants',function(Blueprint $table){
-            $table->string('born_place');
-            $table->string('phone');
-            $table->foreignId('promotion_id')->constrained();
-
+            $table->unsignedInteger('promotion_id');
+            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');
         });
-
     }
 
     /**
@@ -30,9 +27,7 @@ class UpdateEtudiantsTable extends Migration
     public function down()
     {
         Schema::table('etudiants',function(Blueprint $table){
-            $table->removeColumn('cne');
-            $table->removeColumn('born_place');
-            $table->removeColumn('phone');
+            $table->dropForeign('promotion_id');
         });
     }
 }

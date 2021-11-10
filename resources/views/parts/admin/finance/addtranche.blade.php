@@ -1,6 +1,6 @@
 
 <?php
-    $route = route('tranche.create');
+    $route = route('tranche.store');
     $target = 'Tranche';
     $adj = 'Une Nouvelle';
     $fields = [

@@ -8,7 +8,7 @@
         <input type="text" id="etudiants-search" value="" name="name" class="form-control form-icon-trailing" />
         <label class="form-label" for="etudiants-search">Rechercher un Lauréat</label>
     </div>
-    <select id="etudiant-formation" class="col-12 col-sm-4 p-2">
+    <select id="etudiant-formation " class="col-12 col-sm-4 p-2">
         <option value="" selected disabled>Selectionner une Formation</option>
         @foreach ($au as $annee => $grads)
             @foreach ($grads as $g)
@@ -16,7 +16,7 @@
             @endforeach
         @endforeach
     </select>
-    <select id="au-formation" class="col-12 col-sm-4 p-2">
+    <select id="au-formation " class="col-12 col-sm-4 p-2">
         <option value="" selected disabled>Selectionner une Année Universitaire</option>
         @foreach ($au as $annee => $g)
             <option value="{{ $annee }}">{{ $annee }}</option>
@@ -41,11 +41,11 @@
                     @foreach ($grads as $g)
                         <tr name='filter' scope="row">
                             <th scope="col">{{ $g->formation->name }}</th>
-                            <td scope="col">{{ $g->etudiant->first_name }}</td>
-                            <td scope="col">{{ $g->etudiant->last_name }}</td>
-                            <td scope="col">{{ $g->etudiant->email }}</td>
+                            <td scope="col">{{ $g->etudiant->user->first_name }}</td>
+                            <td scope="col">{{ $g->etudiant->user->last_name }}</td>
+                            <td scope="col">{{ $g->etudiant->user->email }}</td>
                             <td scope="col">{{ $g->au }} </td>
-                            <td scope="col">{{ $g->etudiant->phone }}</td>
+                            <td scope="col">{{ $g->etudiant->user->phone }}</td>
                         </tr>
                     @endforeach
                 @endforeach

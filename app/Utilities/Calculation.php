@@ -36,6 +36,7 @@ class Calculation {
         }
         return $diff_y. " année(s)";
     }
+
 }
 
 ?>

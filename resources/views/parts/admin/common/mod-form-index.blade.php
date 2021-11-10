@@ -1,9 +1,9 @@
 <div class="row">
     <h2>Vos {{ucwords($target)."s"}}</h2>
 </div>
-<div class="row ">
+<div class="row justify-content-center">
     <div class="dropdown-divider"></div>
-    <div class="border  col-md-3   card text-center m-4">
+    <div class="border  col-md-3   card text-center m-md-4">
         <div class="card-body ">
         <a class="card-text text-primary" href="{{route("$target".'.create')}}">
             <i class="fas fa-plus fa-9x"></i>
@@ -31,9 +31,6 @@
             @include('parts.admin.common.card')
         @endforeach
     @else
-        <div class="text-reset">Aucun{{isset($formations)?'e formation':' module'}} n'existe pour le moment. Essayer d'ajouter des nouvelles formations</div>
+        <div class="text-reset text-center">Aucun{{isset($formations)?'e formation':' module'}} n'existe pour le moment. Essayer d'ajouter des {{isset($formations)?' nouvelles formations':' nouveaux modules'}}</div>
     @endif
-
-
-
 </div>

@@ -7,6 +7,7 @@ use App\Module;
 use App\Paiement;
 use App\Professeur;
 use App\Teacher;
+use App\User;
 use Exception;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -29,6 +30,7 @@ class ImportPaiementFormation implements ToModel,WithStartRow,WithValidation
     */
     public function model(array $row)
     {
+
         if($this->count == 0 ){
             if($row[0] == "Date" && $row[2] !== null ){
                 try{
@@ -36,14 +38,19 @@ class ImportPaiementFormation implements ToModel,WithStartRow,WithValidation
                 }catch(Exception $e){
                     throw new ImportException($e->getMessage());
                 }
+            }else{
+                throw new ImportException("Vous avez tentez d'importer un fichier des paiement sans Saisir la Date.");
             }
         }elseif($this->count>1 && $this->date !== null && $row [0] !== null && $row [1] !== null && $row [2] != null){
-            $teacher = Teacher::find($row[0]);
-            if($teacher){
-                try{
-                    Paiement::create(['formation_id'=>$this->formation->id,'teacher_id'=>$teacher->id,'montant'=>$row[2],'date_payement'=>$this->date]);
-                }catch(Exception $e){
-                    throw new ImportException($e->getMessage());
+            $user = User::find($row[0]);
+            if($user){
+                $teacher = $user->teacher;
+                if($teacher){
+                    try{
+                        Paiement::create(['formation_id'=>$this->formation->id,'teacher_id'=>$teacher->id,'montant'=>$row[2],'date_payement'=>$this->date]);
+                    }catch(Exception $e){
+                        throw new ImportException($e->getMessage());
+                    }
                 }
             }
 

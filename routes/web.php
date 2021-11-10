@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EtudiantController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -49,6 +50,7 @@ Route::middleware((['auth', 'type:0']))->group(function () {
     #EXPORT-Import PROFESSEURS------------------------------------------------------------
     Route::post('/admin/professeur/import/{id}', 'UploadController@importProfesseurs')->name('professeur.import');
     Route::get('/admin/professeur/export/{id}-{type}', 'UploadController@exportProfesseur')->name('professeur.export');
+    Route::get('/admin/professeur/history','ProfesseurController@history')->name('professeur.history');
     #------------------------------------------------------------------------------
     Route::get('/admin/formation/modules/{id}', 'FormationController@getModules')->name('formation.modules');
     Route::get('/admin/formation/professeurs/{id}', 'FormationController@getProfesseurs')->name('formation.professeurs');
@@ -70,7 +72,9 @@ Route::middleware((['auth', 'type:0']))->group(function () {
 
     #--------------------------------------------------------------------------------
 
-    #------------------Avatars routes ----------------------------------------
+    #------------------TEACHER import export routes ----------------------------------------
+    Route::get('/admin/teacher/export-{type}','UploadController@exportTeachers')->name('teacher.export');
+    Route::post('/admin/teacher/import','UploadController@importTeachers')->name('teacher.import');
     #-----------------------------------------------------------------------
 
 
@@ -118,8 +122,14 @@ Route::middleware(['auth','limitation'])->group(function () {
     Route::get('/admin/export-module-notes/{sem_id}-{module_id}-{session}-{type}', 'UploadController@exportModule')->name('etudiant.notes.module.export');
 });
 
-
 Route::middleware((['auth', 'type:1']))->group(function () {
     Route::get('/enseignant', 'TeacherController@homepage')->name('enseignant.index');
     Route::get('/enseignant/notes', 'TeacherController@teacherNotes')->name('enseignant.notes');
+    Route::get('/enseignant/paiements','TeacherController@paiements')->name('enseignant.paiements');
+});
+
+Route::middleware((['auth','type:2']))->group(function(){
+    Route::get('/etudiant','EtudiantController@homepage')->name('etudiant.home');
+    Route::get('/etudiant/results','EtudiantController@resultsPage')->name('etudiant.resultspage');
+    Route::get('etudiant/versements','etudiantController@versements')->name('etudiant.versements');
 });

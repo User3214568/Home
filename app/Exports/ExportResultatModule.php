@@ -90,9 +90,9 @@ class ExportResultatModule extends TemplateExport implements FromCollection,With
     public function map($etudiant): array
     {
         return [
-            $etudiant->first_name,
-            $etudiant->last_name,
-            $etudiant->cin,
+            $etudiant->user->first_name,
+            $etudiant->user->last_name,
+            $etudiant->user->cin,
             $etudiant->born_date,
             Validation::validateSessionModule($etudiant->cin,$this->module->id,$this->session)
         ];

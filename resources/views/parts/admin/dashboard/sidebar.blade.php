@@ -1,5 +1,5 @@
-<div class="col-md-3 " id="mysidebar">
-    <div class="position-fixed d-flex justify-content-center align-items-center" style="width : 60px" id="sidebartoggler">
+<div class="col-md-3 " id="mysidebar" style="font-size: 13px">
+    <div class="row position-fixed d-flex justify-content-center align-items-center"  id="sidebartoggler">
         <button class="d-none d-md-block btn btn-primary btn-floating ">
             <i name="icon-sidebar" class="fas fa-bars"></i>
         </button>
@@ -7,7 +7,7 @@
             <i class="fas fa-angle-up"></i>
         </button>
     </div>
-    <div id="side">
+    <div class="row" id="side">
 
         <div class="mt-5 d-flex align-items-center flex-column">
             <img name="side-item-label" src="{{ url(route('avatar', ['cin' => Auth::user()->cin])) }}" class="rounded-circle p-3" height="150"
@@ -26,14 +26,13 @@
                 </div>
             @else
                 @if ($item['expanded'])
-                    <a href="#" class="row text-reset p-2 sidebar-item " data-mdb-toggle="collapse"
+                    <a href="#" class="row text-reset p-2 sidebar-item justify-content-between " data-mdb-toggle="collapse"
                         data-mdb-target="{{ '#' . $item['title'] }}" aria-expanded="false">
-                        <div class="col-10">
+                        <div class="col">
                             <i name="icon-sidebar" class="{{ $item['icon'] }}"></i>
                             <span class="ms-2" name="side-item-label">{{ $item['title'] }}</span>
                         </div>
-                        <i class="col-2 fas fa-angle-right align-self-center" name="side-item-label"
-                            onclick="sidebarArrowToggle(this)"></i>
+                        <i class="col-1 d-flex justify-content-between fas fa-angle-right align-self-center" ></i>
                     </a>
                     <div class="collapse ms-3" id="{{ $item['title'] }}">
                         @foreach ($item['sub_items'] as $sub_item)

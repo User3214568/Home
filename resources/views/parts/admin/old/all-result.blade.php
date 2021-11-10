@@ -19,13 +19,13 @@
         @endphp
     @endforeach
     <tr>
-        <td>{{$history->etudiant_cin}}</td>
-        <td>{{$history->etudiant->name()}}</td>
+        <td>{{$history->etudiant->user->cin}}</td>
+        <td>{{$history->etudiant->user->name()}}</td>
         <td>
             {{number_format(($count != 0)?$moy/$count:0,2)}}
         </td>
         <td>
-            {{\App\Utilities\Validation::resultDesc($history->etudiant->formation,$moy,1)}}
+            {{\App\Utilities\Validation::resultDesc($history->etudiant->formation,($count === 0 ) ?20 :$moy/$count,2)}}
         </td>
     </tr>
     @endif

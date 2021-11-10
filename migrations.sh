@@ -5,6 +5,7 @@ php artisan migrate:refresh --path=/database/migrations/2019_08_19_000000_create
 php artisan migrate:refresh --path=/database/migrations/2021_08_18_131031_create_formation_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_08_18_131707_create_module_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_08_21_175003_create_semestres_table.php
+php artisan migrate:refresh --path=/database/migrations/2021_08_21_175122_create_semestre_module_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_08_22_215136_create_promotions_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_08_26_214621_create_promotion_semestre_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_08_18_114053_create_etudiant_table.php
@@ -22,7 +23,9 @@ php artisan migrate:refresh --path=/database/migrations/2021_09_13_151303_create
 php artisan migrate:refresh --path=/database/migrations/2021_09_21_142318_create_histories_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_21_143019_create_hisresults_table.php
 php artisan migrate:refresh --path=/database/migrations/2021_09_22_235638_create_tokens_table.php
-
+php artisan migrate:refresh --path=/database/migrations/2021_10_10_163306_add_formation_price.php
+php artisan migrate:refresh --path=/database/migrations/2021_10_14_202542_create_graduateds_table.php
+php artisan migrate:refresh --path=/database/migrations/2021_10_29_190809_update_professeur_table.php
 #User::create(['first_name'=>'Mahfoud','last_name'=>'Hamza','cin'=>'A1000','email'=>'hamza@gmail.com','password'=>bcrypt('hashed'),'type'=>0])
 
 

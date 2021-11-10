@@ -26,8 +26,8 @@
                     @php $done = true; @endphp
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li  name="triggers" class="nav-item" role="presentation">
-                            <a class="nav-link active" id="{{ $sem->id . '-' . $promotion->name }}-modules-all"
-                                data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $promotion->name }}-modules-all"
+                            <a class="nav-link active" id="{{ $sem->id . '-' . $promotion->numero }}-modules-all"
+                                data-mdb-toggle="tab" href="#tab-{{ $sem->id . '-' . $promotion->numero }}-modules-all"
                                 role="tab" aria-controls="ex1-tabs-1"
                                 aria-selected="true">{{ isset($result) ? 'Résultat du Semestre' : 'Tous Les Modules' }}</a>
                         </li>
@@ -35,9 +35,9 @@
                         @if(!isset($auth_modules) || (isset($auth_modules) && in_array($module->id,$auth_modules)))
                             <li  name="triggers" class="nav-item tab-item" role="presentation">
                                 <a class="nav-link "
-                                    id="{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}"
+                                    id="{{ $sem->id . '-' . $promotion->numero . '-' . $module->id }}"
                                     data-mdb-toggle="tab"
-                                    href="#tab-{{ $sem->id . '-' . $promotion->name . '-' . $module->id }}" role="tab"
+                                    href="#tab-{{ $sem->id . '-' . $promotion->numero . '-' . $module->id }}" role="tab"
                                     aria-controls="ex1-tabs-1" aria-selected="true">{{ $module->name }}</a>
                             </li>
                             @endif
@@ -46,22 +46,22 @@
                     <!-- Tabs navs -->
                     <div class="tab-content" id="ex1-content">
                         <div class="tab-pane fade show active"
-                            id="tab-{{ $sem->id . '-' . $promotion->name }}-modules-all" role="tabpanel"
+                            id="tab-{{ $sem->id . '-' . $promotion->numero }}-modules-all" role="tabpanel"
                             aria-labelledby="ex1-tab-1">
 
                             <!--  TABS FOR ALL MODULES  -->
                             <!-- Tabs navs -->
                             <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                                 <li  name="triggers-session" class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="ord-{{ $sem->id . '-' . $promotion->name }}"
-                                        data-mdb-toggle="tab" href="#tab-ord-{{ $sem->id . '-' . $promotion->name }}"
-                                        role="tab" aria-controls="tab-ord-{{ $sem->id . '-' . $promotion->name }}"
+                                    <a class="nav-link active" id="ord-{{ $sem->id . '-' . $promotion->numero }}"
+                                        data-mdb-toggle="tab" href="#tab-ord-{{ $sem->id . '-' . $promotion->numero }}"
+                                        role="tab" aria-controls="tab-ord-{{ $sem->id . '-' . $promotion->numero }}"
                                         aria-selected="true">Session
                                         Ordinaire</a>
                                 </li>
                                 <li  name="triggers-session" class="nav-item" role="presentation">
-                                    <a class="nav-link" id="rat-{{ $sem->id . '-' . $promotion->name }}"
-                                        data-mdb-toggle="tab" href="#tab-rat-{{ $sem->id . '-' . $promotion->name }}"
+                                    <a class="nav-link" id="rat-{{ $sem->id . '-' . $promotion->numero }}"
+                                        data-mdb-toggle="tab" href="#tab-rat-{{ $sem->id . '-' . $promotion->numero }}"
                                         role="tab" aria-controls="" aria-selected="false">Session Rattrappage</a>
                                 </li>
 
@@ -72,8 +72,8 @@
                             <div class="tab-content" id="ex1-content">
 
                                 <div name="notes" semestre="{{$sem->id}}" session="1" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
-                                    id="tab-ord-{{ $sem->id . '-' . $promotion->name }}" role="tabpanel"
-                                    aria-labelledby="ord-{{ $sem->id . '-' . $promotion->name }}">
+                                    id="tab-ord-{{ $sem->id . '-' . $promotion->numero }}" role="tabpanel"
+                                    aria-labelledby="ord-{{ $sem->id . '-' . $promotion->numero }}">
                                     <?php $session = 1; ?>
                                     @if (!isset($result))
                                         <div class="row justify-content-end">
@@ -105,7 +105,7 @@
                                     @endif
                                     @php $render = false;  @endphp
                                 </div>
-                                <div name="notes" semestre="{{$sem->id}}" session="2" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade" id="tab-rat-{{ $sem->id . '-' . $promotion->name }}"
+                                <div name="notes" semestre="{{$sem->id}}" session="2" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade" id="tab-rat-{{ $sem->id . '-' . $promotion->numero }}"
                                     role="tabpanel" aria-labelledby="ex1-tab-2">
                                     <?php $session = 2; ?>
                                     @if (!isset($result))
@@ -134,28 +134,28 @@
                         </div>
                         @php $showModule = false; @endphp
                         @foreach ($sem->modules as $mymodule)
-                        @if(!isset($auth_modules) || (isset($auth_modules) && in_array($module->id,$auth_modules)))
+                        @if(!isset($auth_modules) || (isset($auth_modules) && in_array($mymodule->id,$auth_modules)))
 
                             <div class="tab-pane fade"
-                                id="tab-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}" role="tabpanel"
+                                id="tab-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}" role="tabpanel"
                                 aria-labelledby="ex1-tab-2">
                                 <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                                     <li  name="triggers-session-module" class="nav-item" role="presentation">
                                         <a class="nav-link active"
-                                            id="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            id="sord-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
-                                            href="#tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            href="#tab-sord-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             role="tab"
-                                            aria-controls="sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            aria-controls="sord-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             aria-selected="true">Session Ordinaire</a>
                                     </li>
                                     <li  name="triggers-session-module" class="nav-item" role="presentation">
                                         <a class="nav-link"
-                                            id="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            id="srat-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             data-mdb-toggle="tab"
-                                            href="#tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            href="#tab-srat-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             role="tab"
-                                            aria-controls="tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                            aria-controls="tab-srat-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                             aria-selected="false">Session Rattrappage</a>
                                     </li>
 
@@ -163,11 +163,12 @@
                                 <!-- Tabs navs -->
 
                                 <!-- Tabs content -->
+
                                 <div class="tab-content p-2" id="ex1-content">
                                     <div name="notes-module" session="1" module="{{$mymodule->id}}" semestre="{{$sem->id}}" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class="tab-pane fade show active"
-                                        id="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                        id="tab-sord-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                         role="tabpanel"
-                                        aria-labelledby="tab-sord-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
+                                        aria-labelledby="tab-sord-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}">
                                         <div class="row justify-content-end">
                                             @if (!isset($result))
                                                 <form class="row justify-content-end"
@@ -223,9 +224,9 @@
                                         </div>
                                     </div>
                                     <div name="notes-module" session="2"  module="{{$mymodule->id}}" semestre="{{$sem->id}}" result="{{isset($result)?'true':'false'}}" promotion="{{$promotion->id}}" class=" tab-pane fade"
-                                        id="tab-srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}"
+                                        id="tab-srat-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}"
                                         role="tabpanel"
-                                        aria-labelledby="srat-{{ $sem->id . '-' . $promotion->name . '-' . $mymodule->id }}">
+                                        aria-labelledby="srat-{{ $sem->id . '-' . $promotion->numero . '-' . $mymodule->id }}">
                                         @if (!isset($result))
                                             <form class="row justify-content-end"
                                                 action="{{ route('etudiant.notes.import', ['sem_id' => $sem->id, 'module_id' => $mymodule->id, 'session' => 2]) }}"

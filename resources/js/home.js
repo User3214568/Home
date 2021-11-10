@@ -71,6 +71,7 @@ $(document).ready(function () {
 
     formations.forEach(formation=>{
         total_vsed += fin_stats[formation].total_vers;
+        console.log('tot : ',fin_stats[formation].total_vers)
         total_pai += fin_stats[formation].paiements;
         data.push({
             x: formation,

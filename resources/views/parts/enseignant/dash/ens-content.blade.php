@@ -3,7 +3,7 @@
     <div class="col-md-9 " id="admin-content">
 
         @if(!isset($content))
-
+            @include('parts.enseignant.home')
         @else
             @include($content)
         @endif

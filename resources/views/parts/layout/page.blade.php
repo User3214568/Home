@@ -26,6 +26,7 @@
 
     <!-- My Css -->
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/timeline.css">
 
     <!-- My Js -->
 

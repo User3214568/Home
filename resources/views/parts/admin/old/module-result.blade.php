@@ -12,7 +12,7 @@
         @if(isset($history->etudiant))
         <tr>
             <td>{{$history->etudiant_cin}}</td>
-            <td>{{$history->etudiant->name()}}</td>
+            <td>{{$history->etudiant->user->name()}}</td>
             <td>
                     @php
                     $result =  $history->hisresults->where('module_id',$module->id)->first()->note_final;

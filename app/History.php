@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class History extends Model
 {
-    protected $fillable = ['etudiant_cin','promotion_id','au'];
+    protected $fillable = ['etudiant_cin','promotion_id','au','result'];
     public function etudiant(){
         return $this->belongsTo(Etudiant::class);
     }
@@ -25,5 +25,6 @@ class History extends Model
         }
         return $modules;
     }
+
 
 }

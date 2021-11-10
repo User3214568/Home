@@ -51,8 +51,8 @@ class ExportDepenses extends TemplateExport implements FromView,WithColumnWidths
     public function columnWidths(): array
     {
         return [
-            'A'=>40,
-            'B'=>25,
+            'A'=>50,
+            'B'=>35,
             'C'=>20
         ];
     }

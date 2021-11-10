@@ -26,7 +26,7 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
         $this->start_row = 11;
         $this->header_size = 0;
         foreach ($this->etudiants->all() as $etudiant) {
-            if ($etudiant->tranches && sizeof($etudiant->tranches) > 0) {
+            if ($etudiant->tranches && sizeof($etudiant->tranches) > $this->header_size) {
                 $this->header_size = sizeof($etudiant->tranches);
             }
         }
@@ -66,7 +66,7 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
             $cell_last = $verified['cell']['column'];
             $cell_last++;
             $cell_last++;
-            $styles[$verified['cell']['column'] . "" . $verified['cell']['row'].":".($cell_last) . "" . $verified['cell']['row']]['fill'] = [
+            $styles[$verified['cell']['column'] . "" . $verified['cell']['row'] . ":" . ($cell_last) . "" . $verified['cell']['row']]['fill'] = [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                 'color' => ['rgb' => $color]
             ];
@@ -74,10 +74,10 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
         if (!$this->empty) {
             $i = 0;
             $total = 0;
-            $styles = $this->makeLegend($sheet,$styles,66,$this->start_row,"ffbb00","TOTAL VERSEMENTS");
-            $styles = $this->makeLegend($sheet,$styles,69,$this->start_row,"ffbb00","LEGEND");
-            $styles = $this->makeLegend($sheet,$styles,69,$this->start_row+1,"118f4a","Versement Verifier");
-            $styles = $this->makeLegend($sheet,$styles,69,$this->start_row+2,"32a6a8","Versement Non Verifier");
+            $styles = $this->makeLegend($sheet, $styles, 66, $this->start_row, "ffbb00", "TOTAL VERSEMENTS");
+            $styles = $this->makeLegend($sheet, $styles, 69, $this->start_row, "ffbb00", "LEGEND");
+            $styles = $this->makeLegend($sheet, $styles, 69, $this->start_row + 1, "118f4a", "Versement Verifier");
+            $styles = $this->makeLegend($sheet, $styles, 69, $this->start_row + 2, "32a6a8", "Versement Non Verifier");
             foreach ($this->versements as $key => $vers) {
                 $sheet->getCell('B' . ($this->count + 3 + $this->start_row + 1 + $key))->setValue('Total Versement ' . ($key + 1));
                 $sheet->getCell('C' . ($this->count + 3 + $this->start_row + 1 + $key))->setValue(($vers));
@@ -115,57 +115,59 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
         }
         return $styles;
     }
-    public function makeLegend($sheet,$styles,$index1,$index2,$color,$value){
-        $sheet->mergeCells(chr($index1) . '' . ($this->count + 3 + $index2) . ":" . chr($index1+1) . ($this->count + 3 + $index2));
-                $sheet->getCell(chr($index1) . '' . ($this->count + 3 + $index2))->setValue($value);
-                $styles[chr($index1) . '' . ($this->count + 3 + $index2) . ":" . chr($index1+1) . ($this->count + 3 + $index2)] = [
-                    'font' => ['size' => 14, 'bold' => true],
-                    'borders' => [
-                        'outline' => [
-                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
-                        ],
-                    ],
-                    'fill' => [
-                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'color' => ['rgb' => $color]
-                    ]
-                ];
-                return $styles;
+    public function makeLegend($sheet, $styles, $index1, $index2, $color, $value)
+    {
+        $sheet->mergeCells(chr($index1) . '' . ($this->count + 3 + $index2) . ":" . chr($index1 + 1) . ($this->count + 3 + $index2));
+        $sheet->getCell(chr($index1) . '' . ($this->count + 3 + $index2))->setValue($value);
+        $styles[chr($index1) . '' . ($this->count + 3 + $index2) . ":" . chr($index1 + 1) . ($this->count + 3 + $index2)] = [
+            'font' => ['size' => 14, 'bold' => true],
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'color' => ['rgb' => $color]
+            ]
+        ];
+        return $styles;
     }
     public function map($etudiant): array
     {
         $this->count++;
         $somme = 0;
-        $row = [$etudiant->first_name, $etudiant->last_name, $etudiant->cin];
-        if (!$this->empty) {
-            $i = 0;
-            foreach ($etudiant->tranches as $key => $tranche) {
-                if (!isset($this->versements[$key])) {
-                    $this->versements[$key] = $tranche->vers;
-                } else {
-                    $this->versements[$key] += $tranche->vers;
-                }
-                array_push($row, $tranche->vers, $tranche->ref, $tranche->date_vers);
-                array_push(
-                    $this->verificated,
-                    [
-                        'verified' => $tranche->proved,
-                        'cell' => [
-                            'column' => chr(68 + $key * 3),
-                            'row' => ($this->start_row + $this->count)
-                        ]
-                    ]
-                );
-                $somme += $tranche->vers;
-                $i++;
-            }
-            while (($this->header_size - 3 - (!$this->empty ? 2 : 0) - $i) > 0) {
-                array_push($row, "", "", "");
-                $i++;
-            }
+        $row = [$etudiant->user->first_name, $etudiant->user->last_name, $etudiant->user->cin];
 
-            array_push($row, $somme, 16000 - $somme);
+        $i = 0;
+        foreach ($etudiant->tranches as $key => $tranche) {
+            if (!isset($this->versements[$key])) {
+                $this->versements[$key] = $tranche->vers;
+            } else {
+                $this->versements[$key] += $tranche->vers;
+            }
+            array_push($row, $tranche->vers, $tranche->ref, $tranche->date_vers);
+            array_push(
+                $this->verificated,
+                [
+                    'verified' => $tranche->proved,
+                    'cell' => [
+                        'column' => chr(68 + $key * 3),
+                        'row' => ($this->start_row + $this->count)
+                    ]
+                ]
+            );
+            $somme += $tranche->vers;
+            $i++;
         }
+        while (($this->header_size - 3 - (!$this->empty ? 2 : 0) - $i) > 0) {
+            array_push($row, "", "", "");
+            $i++;
+        }
+        if(!$this->empty){
+            array_push($row, $somme, $this->formation->prix - $somme);
+        }
+
 
         return $row;
     }

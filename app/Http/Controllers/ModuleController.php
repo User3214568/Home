@@ -52,7 +52,7 @@ class ModuleController extends Controller
                 }
 
             }
-            return $this->index();
+            return redirect(route('module.index'));
         }
 
     }
@@ -80,7 +80,7 @@ class ModuleController extends Controller
 
             }
         }
-        return $this->create();
+        return redirect(route('module.index'));
     }
     public function destroy($id){
         $module = Module::find($id);
@@ -94,7 +94,7 @@ class ModuleController extends Controller
         }
             Module::destroy($id);
 
-            return $this->index();
+            return redirect(route('module.index'));
         }
     public function commitOrdinaireSession($promo_id,$sem_id,$module_id){
         $promotion = Promotion::find($promo_id);

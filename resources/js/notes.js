@@ -1,20 +1,21 @@
-
+import popup from './popup.js'
 
 $(document).ready(function(){
     $("#formation-select").on('change',function(){
-        id = $(this).val()
+        var id = $(this).val()
         var target = $(this).attr('target');
         var empty = $("#etudiants-notes").text();
         $("#empty-notes").remove();
         $("#etudiants-notes").addClass('border mt-5');
         $("#etudiants-notes").html('<div class="d-flex justify-content-center align-items-center m-5 p-5 flex-column "><div class="spinner-border text-danger" role="status"><span class="visually-hidden">Loading...</span></div><div class="ms-4">Chargement du Contenue depuis le serveur ...</div></div>')
-        token = $('meta[name="csrf-token"]').attr('content');
+        var token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url : '/admin/formation/notes',
             method : "POST",
             data : {
                 id : id,
                 target : target,
+                ajax : true,
                 _token : token
             },
             success : function(response){
@@ -32,12 +33,13 @@ $(document).ready(function(){
         }
         );
     });
+    setupsave()
 });
 function setupsave(){
-    evaluation = {};
     $("button").each(function(){
         $(this).click(function(){
             if($(this).attr('name')=="savenote"){
+                var evaluation = {};
                 var fails = [];
                 $(this).parent().parent().parent().find(".table-responsive").find("td[name='note']").each(function(e){
 
@@ -64,21 +66,20 @@ function setupsave(){
 function editNote(evaluation){
 
     var token = $('meta[name="csrf-token"]').attr('content');
+    console.log('ev : ',evaluation)
     $.ajax({
         url : '/admin/etudiant/update-note',
         method : 'POST',
         data : {
             evaluations : JSON.stringify(evaluation),
+            ajax : true,
             _token : token
         },
         success : function(response){
-            console.log(response)
-            if(!response.message){
-                alert('Enregistrement Terminé');
-            }
+            popup("Enregistrement Terminé", response.message,'bg-success','fas fa-check-circle')
         },
         error : function(response){
-            alert('Enregistrement Echoué');
+            popup("Enregistrement Echoué",response.responseJSON.message,'bg-danger','fas fa-times-circle')
         }
     });
 }

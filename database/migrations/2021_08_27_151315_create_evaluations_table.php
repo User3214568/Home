@@ -17,9 +17,10 @@ class CreateEvaluationsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->float('note')->nullable();
-            $table->string('etudiant_cin');
+            $table->integer('etudiant_cin')->unsigned();
             $table->foreign('etudiant_cin')->references('cin')->on('etudiants')->onDelete('cascade');
-            $table->foreignId('devoir_id');
+            $table->unsignedBigInteger('devoir_id');
+            $table->foreign('devoir_id')->references('id')->on('devoirs')->onDelete('cascade');
         });
     }
 

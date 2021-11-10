@@ -24,9 +24,9 @@
             @endphp
             <tr name="versement">
                 <td>{{ $etudiant->formation->name }}</td>
-                <td>{{ $etudiant->first_name }}</td>
-                <td>{{ $etudiant->last_name }}</td>
-                <td>{{ $etudiant->cin }}</td>
+                <td>{{ $etudiant->user->first_name }}</td>
+                <td>{{ $etudiant->user->last_name }}</td>
+                <td>{{ $etudiant->user->cin }}</td>
                 <td>{{ $etudiant->promotion ? $etudiant->promotion->nom : 'Sans Promotion' }}</td>
                 <td class="d-flex justify-content-center  align-items-center">
                     <form action="{{ route('etudiant.destroy', ['etudiant' => $etudiant->cin]) }}" method="POST">

@@ -17,14 +17,9 @@ class CreateSemestresTable extends Migration
             $table->increments('id');
             $table->integer('numero')->unsigned();
             $table->timestamps();
-            $table->foreignId('formation_id')->constrained();
+
         });
-        Schema::create('module_semestre', function (Blueprint $table) {
-            $table->unsignedBigInteger('semestre_id');
-            $table->unsignedBigInteger('module_id');
-            $table->foreign('semestre_id')->references('id')->on('semestres')->onDelete('cascade');
-            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-        });
+        
     }
 
     /**

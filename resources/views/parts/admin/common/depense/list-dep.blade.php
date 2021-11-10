@@ -38,8 +38,8 @@
             </div>
             @endif
         </div>
-        <div class="row justify-content-end">
-            <form action="{{ route('depense.import') }}" method="post" enctype="multipart/form-data">
+        <div class="">
+            <form class="d-flex justify-content-end" action="{{ route('depense.import') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <button id="submit" type="submit" hidden></button>
                 <input id="upload-input" type="file" name="file" hidden>
@@ -59,16 +59,7 @@
 
         </div>
         <div class="table-responsive mt-4">
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
-            <tr></tr>
+
             <table class="table table-bordered table-sm align-middle text-center text-nowrap ">
                 <thead>
                     <tr>

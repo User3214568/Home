@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
@@ -34,14 +35,18 @@ class Teacher extends Model
         return $this->hasMany(Professeur::class);
     }
     public function authModules(){
-        $res = Professeur::where('teacher_id',$this->id)->get()->groupBy(['formation_id','module_id']);
+        $res = $this->professeurs->sortBy('created_at')->groupBy(['formation_id','module_id']);
         $auth_formations = [];
         foreach($res as $formation => $modules){
             $auth_formations[$formation]= [];
             foreach ($modules as $module => $profs) {
-                array_push($auth_formations[$formation],$module);
+                $current_prof = Professeur::where('module_id',$module)->get()->sortBy('created_at')->first();
+                if($current_prof->teacher_id == $this->id){
+                    array_push($auth_formations[$formation],$module);
+                }
             }
         }
         return $auth_formations;
     }
+
 }

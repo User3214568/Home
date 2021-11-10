@@ -94,11 +94,17 @@
         @case('professeur.create')
         @include('parts.admin.Professeur.add-prof')
         @break
+
         @case('professeur.update')
         @include('parts.admin.Professeur.edit-prof')
         @break
+
         @case('list-prof')
         @include('parts.admin.Professeur.list-prof')
+        @break
+
+        @case('history-prof')
+        @include('parts.admin.Professeur.history')
         @break
 
         @case('depense.list')

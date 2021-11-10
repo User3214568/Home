@@ -18,7 +18,8 @@ class CreatePromotionsTable extends Migration
             $table->string('nom')->nullable();
             $table->integer('numero');
             $table->timestamps();
-            $table->foreignId('formation_id')->constrained();
+            $table->unsignedInteger('formation_id');
+            $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
         });
 
 

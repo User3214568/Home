@@ -21,16 +21,44 @@ class AccessLimitations
             return $next($request);
         }
         else{
-            if(preg_match('/user\/?$/',$request->route()->uri())){
-                return redirect(route('user.edit',['user'=>Auth::user()->cin]));
+            $cin = Auth::user()->cin;
+            if(preg_match('/logout/',$request->route()->uri(),$matched)){
+                return $next($request);
             }
 
-            if($this->treatURL($request,Auth::user()->teacher->authModules())){
-                return $next($request);
+            if(preg_match('/^users\/avatars\/{cin}/',$request->route()->uri(),$matched)){
+                if($request->route('cin') === $cin){
+                    return $next($request);
+                }else{
+                    return response("Error : Unauthorized",400);
+                }
+            }
+
+            if(preg_match('/admin\/user\/{user}\/edit/',$request->route()->uri())){
+                    return $next($request);
+            }
+            if(preg_match('/admin\/user(\/{user})?\/?$/',$request->route()->uri())){
+                if($request->method() === 'PUT'){
+                    return $next($request);
+                }
+            }
+            if(Auth::user()->type === 1){
+                $check = $this->treatURL($request,Auth::user()->teacher->authModules());
+                if($check){
+                    return $next($request);
+                }else{
+                    $error = "Désolé. Vous n'etes pas autorisé d'acceder à ces ressources.";
+                    if(preg_match('/update-note/',$request->route()->uri()) && $check === null){
+                        $error = "Désolé. Il n'existe aucune note à modifier";
+                    }
+                    if($request->ajax){
+                        return response(['message'=>$error],400);
+                    }else{
+                        return response()->view('parts.admin.common.error',compact(['error']));
+                    }
+                }
             }else{
 
-                $error = "Vous n'avez pas d'acces à ces ressources";
-                return response()->view('parts.admin.common.error',compact(['error']));
             }
         }
     }

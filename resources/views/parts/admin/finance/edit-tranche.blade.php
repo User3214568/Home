@@ -1,6 +1,9 @@
 
 <?php
-$route = route('tranche.update',['tranche'=>$tranche->id]);
+$route = route('tranche.store');
+if(isset($tranche)){
+    $route = route('tranche.update',['tranche'=>$tranche->id]);
+}
 $target = 'Tranche';
 
 $fields = [

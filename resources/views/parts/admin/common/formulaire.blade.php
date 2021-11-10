@@ -24,7 +24,7 @@
         <div class="d-flex justify-content center align-items-center flex-column">
             <div class="align-self-right">
                 <button  id="image_button" type="button" class="btn btn-light btn-floating">
-                    <i class="far fa-edit"></i>
+                    <i class="fas fa-edit"></i>
                 </button>
                 <input type="file" onchange="readImage(this)" name="image" id="image_input" hidden>
             </div>
@@ -43,7 +43,7 @@
                 @foreach ($field['items'] as $item)
                     <option value="{{ $item->id ?: $item->cin }}"
                         {{ isset($etudiant) || (isset($prof) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
-                        {{ $item->name ?: ($item->nom ?: $item->user->first_name . ' ' . $item->user->last_name) }}
+                        {{ $item->name ?: ($item->nom ?: $item->user->name()) }}
                     </option>
                 @endforeach
             </select>
@@ -174,7 +174,7 @@
             </script>
         @endif
     @endif
-    <div class="row mt-4 mb-4">
+    <div class=" mt-4 mb-4">
         <hr class="dropdown-divider">
     </div>
     <div class=" d-flex justify-content-end">

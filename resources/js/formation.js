@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
     setTimeout(init, 200);
+
     $("#add-semestre").click(function () {
         var newSem = $("#sem-template").clone();
         semestres[semestres.last] = []
@@ -33,6 +34,7 @@ $(document).ready(function () {
                 $(item).prop('checked', false)
             }
         })
+        syncsemestres()
     })
 })
 function updateSemestre(element) {

@@ -25,6 +25,7 @@
             [
                 ['title'=>'Professeurs','link'=>route('teacher.index'),'icon'=>'fas fa-chalkboard-teacher'],
                 ['title'=>'Affectation des Modules','link'=>route('professeur.index') , 'icon'=>'fas fa-clipboard-list'],
+                ['title'=>'Historique des Affectations','link'=>route('professeur.history') , 'icon'=>'fas fa-history'],
             ]
         ],
 

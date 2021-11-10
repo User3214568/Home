@@ -23,7 +23,9 @@ class CreateNotificationsTable extends Migration
             $table->boolean('seen')->default(false);
             $table->string('user_cin');
             $table->foreign('user_cin')->references('cin')->on('users')->onDelete('cascade');
-            $table->foreignId('notification_id');
+
+            $table->unsignedBigInteger('notification_id');
+            $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade');
         });
     }
 

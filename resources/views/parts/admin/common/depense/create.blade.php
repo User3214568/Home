@@ -9,15 +9,9 @@
     $fields = [
         ['type'=>'text', 'name'=>'name' ,'value' => isset($dep)?$dep->name:'' , 'label'=>'Motif'],
         ['type'=>'text', 'name'=>'somme' ,'value' => isset($dep)?$dep->somme:'', 'label'=>'Somme'],
-
     ];
 
 
     $target = "Dépense";
-    ?>
-@include('parts.admin.common.formulaire')
-
-
-
-
 ?>
+@include('parts.admin.common.formulaire')

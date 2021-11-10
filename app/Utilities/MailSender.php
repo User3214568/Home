@@ -14,5 +14,6 @@ class MailSender{
         $message->from('gest.formations@stage.pfa','Gestionnaire des Formations');
 
         });
+
     }
 }

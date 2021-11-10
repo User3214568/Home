@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Evaluation;
 use App\Formation;
 use App\Paiement;
 use App\Professeur;
+use App\Scopes\ProfesseurScope;
 use App\Teacher;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+
 
 class TeacherController extends Controller
 {
@@ -61,14 +64,14 @@ class TeacherController extends Controller
     public function destroy($id){
         $teacher = Teacher::find($id);
         if($teacher){
-            if($teacher->professeurs != null){
+            $profs = Professeur::withoutGlobalScope(ProfesseurScope::class)->where('teacher_id',$teacher->id);
+            if($profs != null){
 
-                foreach($teacher->professeurs as $prof){
+                foreach($profs as $prof){
                     Professeur::destroy($prof->id);
                 }
             }
             if($teacher->paiements != null){
-
                 foreach($teacher->paiements as $paiement){
                     Paiement::destroy($paiement->id);
                 }
@@ -80,8 +83,12 @@ class TeacherController extends Controller
     }
 
     public function homepage(){
-        return view('enseignant');
+        $affectations = Professeur::withoutGlobalScope(ProfesseurScope::class)->where('teacher_id',Auth::user()->teacher->id)->get()->sortBy('created_at')->groupBy(function($val) {
+            return Carbon::parse($val->created_at)->format('Y');
+        });;
+        return view('enseignant',compact(['affectations']));
     }
+
     public function teacherNotes(){
         $auth_formations = Auth::user()->teacher->authModules();
 
@@ -89,5 +96,11 @@ class TeacherController extends Controller
         $formations = Formation::get();
         return view('enseignant',compact(['formations','auth_formations','content']));
 
+    }
+    public function paiements(){
+        $paiements = Auth::user()->teacher->paiements;
+        $content = 'parts.enseignant.paiements.paiements';
+
+        return view('enseignant',compact(['paiements','content','affectations']));
     }
 }

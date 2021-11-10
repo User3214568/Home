@@ -6,23 +6,22 @@ use App\Scopes\GraduatedScope;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Etudiant extends Model
+class Etudiant extends User
 {
     protected $primaryKey='cin';
-    public $incrementing  = false;
+    protected $fillable = ['formation_id','user_cin','born_date','born_place','promotion_id'];
+    public $incrementing = true;
 
-    protected $fillable = ['formation_id','first_name','last_name','cin','cne','born_date','born_place','phone','email','promotion_id'];
 
-    public function name(){
-        return $this->first_name." ".$this->last_name;
-    }
     public function formation(){
-        return $this->belongsTo(Formation::class);
+        return $this->promotion->formation();
     }
     public function graduations(){
         return $this->hasMany(Graduated::class);
     }
-
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
     public function promotion(){
         return $this->belongsTo(Promotion::class);
     }
@@ -32,6 +31,9 @@ class Etudiant extends Model
     }
     public function tranches(){
         return $this->hasMany(Tranche::class);
+    }
+    public function histories(){
+        return $this->hasMany(History::class);
     }
     public function totalVersements(){
         $total = 0 ;
@@ -70,6 +72,12 @@ class Etudiant extends Model
     }
     public static function booted(){
         static::addGlobalScope(new GraduatedScope);
+    }
+
+    public static function rcreate(array $arr,$promo){
+        $user = User::create(['first_name'=>$arr['first_name'], 'last_name'=>$arr['last_name'], 'cin'=>$arr['cin'] , 'email'=>$arr['email'],'phone'=>$arr['phone'],'password'=>bcrypt(strtoupper($arr['first_name'])."@".strtoupper($arr['last_name'])),'type'=>2]);
+        $etudiant = Etudiant::create([ 'born_date' =>$arr['born_date'], 'born_place'=>$arr['born_place'], 'promotion_id' => $promo->id,'user_cin'=>$arr['cin']]);
+        return $etudiant;
     }
 
 }

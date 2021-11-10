@@ -38,7 +38,7 @@
         @foreach ($sem->promotion->etudiants as $etudiant)
             @if ($etudiant->hasSessionSemestre($sem->id, $session))
                 <tr>
-                    <th scope="row">{{ $etudiant->first_name . ' ' . $etudiant->last_name }}</th>
+                    <th scope="row">{{ $etudiant->user->name() }}</th>
                     @foreach ($sem->modules as $module)
                         @if (!isset($auth_modules) || (isset($auth_modules) && in_array($module->id, $auth_modules)))
 

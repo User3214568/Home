@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Formation;
 use App\Professeur;
+use App\Scopes\ProfesseurScope;
 use App\Teacher;
+use App\Utilities\Validation;
 use Illuminate\Http\Request;
 
 class ProfesseurController extends Controller
@@ -30,9 +32,11 @@ class ProfesseurController extends Controller
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
+        Validation::disableOld($request->module_id,$request->formation_id);
         Professeur::create($request->all());
         return redirect(route('professeur.index'));
     }
+
     public function edit($id){
         $content = "professeur.update";
         $formations = Formation::get();
@@ -49,6 +53,7 @@ class ProfesseurController extends Controller
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
+        Validation::disableOld($request->module_id,$request->formation_id);
         $prof = Professeur::find($id);
         if($prof){
             $prof->update($request->all());
@@ -58,5 +63,13 @@ class ProfesseurController extends Controller
     public function destroy($id){
         Professeur::destroy($id);
         return redirect(route('professeur.index'));
+    }
+    public function history(){
+        $content = "history-prof";
+        $formations = Formation::get();
+        $allprofs = Professeur::withoutGlobalScope(ProfesseurScope::class)->with('formation')
+        ->get()
+        ->groupBy('formation.name')->sortBy('created_at');
+        return view('admin',compact(['content','formations','allprofs']));
     }
 }
