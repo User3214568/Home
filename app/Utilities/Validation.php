@@ -95,7 +95,8 @@ class Validation
                 }
             }
             if ($count != 0) $moy /= $count;
-            return ['note' => number_format($moy, 2), 'nv' => $nv, 'aj' => $aj, 'final' => Validation::decisionFinal($e, $e->formation, $nv, $aj)];
+            $decision = ($moy >= $note_validation) ? Validation::decisionFinal($e, $e->formation, $nv, $aj) : 0;
+            return ['note' => number_format($moy, 2), 'nv' => $nv, 'aj' => $aj, 'final' => $decision];
         }
     }
     public static function decisionFinal($etudiant, $formation, $nnv, $naj)

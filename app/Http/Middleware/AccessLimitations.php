@@ -45,6 +45,7 @@ class AccessLimitations
             if(Auth::user()->type === 1){
                 $check = $this->treatURL($request,Auth::user()->teacher->authModules());
                 if($check){
+                   
                     return $next($request);
                 }else{
                     $error = "Désolé. Vous n'etes pas autorisé d'acceder à ces ressources.";

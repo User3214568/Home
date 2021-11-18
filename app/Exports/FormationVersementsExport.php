@@ -96,7 +96,7 @@ class FormationVersementsExport extends TemplateExport  implements FromCollectio
                 ];
                 $styles['C' . ($this->count + 3 + $this->start_row + 1 + $key)] = $styles['B' . ($this->count + 3 + $this->start_row + 1 + $key)];
             }
-            $key++;
+            $key = sizeof($this->versements);
             $sheet->getCell('B' . ($this->count + 3 + $this->start_row + 1 + $key))->setValue('Total Vesements');
             $sheet->getCell('C' . ($this->count + 3 + $this->start_row + 1 + $key))->setValue($total);
             $styles['B' . ($this->count + 3 + $this->start_row + 1 + $key)] = [

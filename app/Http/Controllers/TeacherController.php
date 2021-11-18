@@ -101,6 +101,6 @@ class TeacherController extends Controller
         $paiements = Auth::user()->teacher->paiements;
         $content = 'parts.enseignant.paiements.paiements';
 
-        return view('enseignant',compact(['paiements','content','affectations']));
+        return view('enseignant',compact(['paiements','content']));
     }
 }

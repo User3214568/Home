@@ -16,8 +16,7 @@ class CreatePromotionSemestreTable extends Migration
     {
         Schema::table('semestres', function (Blueprint $table) {
             $table->unsignedInteger('promotion_id');
-            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');
-      
+            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');      
         });
     }
 
@@ -29,7 +28,6 @@ class CreatePromotionSemestreTable extends Migration
     public function down()
     {
         Schema::table('semestres',function(Blueprint $table){
-
             $table->dropForeign('promotion_id');
         });
     }

@@ -17,7 +17,7 @@ class ProfesseurController extends Controller
         $allprofs = Professeur::with('formation')
         ->get()
         ->groupBy('formation.name');
-        return view('admin',compact(['profs','content','formations','allprofs']));
+        return view('admin',compact(['content','formations','allprofs']));
     }
     public function create(){
         $content = "professeur.create";
@@ -53,10 +53,11 @@ class ProfesseurController extends Controller
             'formation_id'=>'required|numeric',
             'somme'=>'required|numeric'
         ]);
-        Validation::disableOld($request->module_id,$request->formation_id);
+        
         $prof = Professeur::find($id);
         if($prof){
             $prof->update($request->all());
+            
         }
         return redirect(route('professeur.index'));
     }

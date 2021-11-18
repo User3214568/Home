@@ -11,6 +11,7 @@ use App\History;
 use App\Module;
 use App\Professeur;
 use App\Promotion;
+use App\Scopes\GraduatedScope;
 use App\Semestre;
 use Exception;
 use Illuminate\Http\Request;
@@ -240,7 +241,12 @@ class FormationController extends Controller
             return view('parts.admin.etudiant.delib-result', compact(['formation','pass']));
     }
     public function laureat(){
-        $au = Graduated::get()->groupBy('au');
+        $au = Graduated::with('etudiant','formation')->get()->groupBy('au');
+        foreach ($au as  $a) {
+            foreach ($a as  $g) {
+                $g->etudiant =  Etudiant::withoutGlobalScope(GraduatedScope::class)->find($g->etudiant_cin);
+            }
+        }
         $content = 'formations.laureat';
         return view('admin',compact(['au','content']));
     }

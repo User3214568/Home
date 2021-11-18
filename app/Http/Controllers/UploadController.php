@@ -204,6 +204,6 @@ class UploadController extends Controller
     }
     public function importTeachers(Request $request){
         Excel::import(new ImportTeachers(), $request->file('file'));
-        return redirect(route('teacher.edit'));
+        return redirect(route('teacher.index'));
     }
 }

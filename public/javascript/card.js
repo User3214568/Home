@@ -106,7 +106,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\card.js */"./resources/js/card.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/card.js */"./resources/js/card.js");
 
 
 /***/ })

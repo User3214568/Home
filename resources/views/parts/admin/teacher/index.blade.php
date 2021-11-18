@@ -40,7 +40,20 @@
         </a>
     </form>
 </div>
+<div class="row ">
+    @if (isset($errors) && sizeof($errors->all())>0)
+    <div class="col p-3 alert alert-danger">
+        <ul>
 
+            @foreach ($errors->all() as $err)
+            <li>
+                {{$err}}
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+</div>
 <div class="row table-responsive mt-4 p-2">
     <table class="table align-middle table-hover" id="etudiants-table">
         <thead class="table-dark align-middle">

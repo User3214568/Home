@@ -120,7 +120,7 @@ function popup(title, content, bg) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\popup.js */"./resources/js/popup.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/popup.js */"./resources/js/popup.js");
 
 
 /***/ })

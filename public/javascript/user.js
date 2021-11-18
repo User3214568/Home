@@ -120,7 +120,7 @@ function readImage(e) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\user.js */"./resources/js/user.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/user.js */"./resources/js/user.js");
 
 
 /***/ })

@@ -12,7 +12,7 @@ use App\History;
 use App\Module;
 use App\Promotion;
 use App\Semestre;
-
+use App\User;
 use App\Utilities\Notificator;
 use App\Utilities\Validation;
 use Exception;
@@ -143,6 +143,7 @@ class EtudiantController extends Controller
                 $evaluation->delete();
             }
         }
+        User::destroy($etudiant->user_cin);
         Etudiant::destroy($id);
 
         return redirect(route('etudiant.index'));
@@ -207,7 +208,6 @@ class EtudiantController extends Controller
             }else{
                 $mymodule = Module::find($module);
                 return view("parts.admin.etudiant.table-module-note",compact(['sem','mymodule','session']));
-
             }
         }else{
             $sem = Semestre::find($semestre);
@@ -216,7 +216,6 @@ class EtudiantController extends Controller
             }else{
                 $mymodule = Module::find($module);
                 return view("parts.admin.etudiant.result-table",compact(['sem','mymodule','session']));
-
             }
         }
     }
@@ -240,11 +239,15 @@ class EtudiantController extends Controller
         foreach ($etudiants as  $e_res) {
             $etudiant  = Etudiant::find($e_res['e']);
             $history = $etudiant->histories->where('promotion_id',$promotion->id)->where('au',(date('Y')-1)."-".date('Y'))->first();
+
             $history->result = $e_res['r'] == 0 ? 'Admis':'Ajourné';
             $history->save();
             if($e_res['r'] == 0 && $etudiant){
-                $etudiant->promotion()->dissociate($promotion->id);
+                foreach ($etudiant->evaluations as $evaluation) {
+                    $evaluation->delete();
+                }
                 if($next_promo){
+                    $etudiant->promotion()->dissociate($promotion->id);
                     $etudiant->promotion()->associate($next_promo->id);
                     foreach($next_promo->semestres as $sem){
                         foreach ($sem->modules as  $mod) {
@@ -255,13 +258,11 @@ class EtudiantController extends Controller
                     }
                 }else{
                     // Assign etudiant to graduateds
-                    $etudiant->promotion_id = 0 ;
                     Graduated::create(['au'=>(date('Y')-1)."-".date('Y'),'formation_id'=>$etudiant->formation->id,'etudiant_cin'=>$etudiant->cin]);
+                    //$etudiant->promotion_id = null ;
                 }
                 $etudiant->save();
-                foreach ($etudiant->evaluations as $evaluation) {
-                    $evaluation->delete();
-                }
+                
 
             }elseif($etudiant && $e_res['r'] == 1 && $promotion){
                 foreach ($etudiant->evaluations as $evaluation) {
@@ -274,32 +275,24 @@ class EtudiantController extends Controller
         }
     }
     public function finAnnee(Request $request){
-        $notif = [];
+
         if($request->results){
             $results = json_decode($request->results,true);
+
             foreach($results as $promo=>$etudiants){
                 $his = History::where('au',(date('Y')-1)."-".date('Y'))->where('promotion_id',$promo)->get();
                 if(sizeof($his)>0) continue;
-                $promotion =   Promotion::find($promo);
+                $promotion =  Promotion::find($promo);
                 if($promotion){
                     $next_promo = $promotion->formation->promotions->where('numero',$promotion->numero+1)->first();
                     $this->saveHistories($promotion);
                     $this->transitEtudiant($etudiants,$promotion,$next_promo);
-                    array_push($notif,$promotion);
                 }
 
             }
 
         }
-        if($notif) {
-            $notificator = new Notificator();
 
-            $message = "L'utilisateur ".Auth::user()->name()." a fait la délibration des résultat des promotion";
-            foreach ($notif as  $promo) {
-                $message += " ".$promo->nom;
-            }
-            $notificator->notificate($message);
-        }
         return redirect(route('etudiant.index'));
     }
     public function homepage(){

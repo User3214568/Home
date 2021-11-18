@@ -149,7 +149,7 @@ function synInput() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\delibration.js */"./resources/js/delibration.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/delibration.js */"./resources/js/delibration.js");
 
 
 /***/ })

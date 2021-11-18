@@ -1,11 +1,11 @@
 <div class="container p-3">
 
-    <div class="row  justify-content-center">
+    <div class="row  justify-content-center" style="min-height: 75vh">
         <div class="col-lg-6  d-flex justify-content-center align-items-center flex-column">
             <p>
                 <h1>Gestionnaire Pédagogique et Financière des Formations</h1>
                 <span class="h3 lead mt-4">
-                    Bonjour et Bienvenu dans votre Gestionnaire des Formations, Vous etes un Professeur ou un
+                    Bonjour et Bienvenu dans votre Gestionnaire des Formations, Vous etes un Professeur, Etudiant ou un
                     Administrateur, On vous invite à se connecter à votre compte pour acceder à nos fonctionnalitées
                 </span>
             </p>
@@ -24,11 +24,10 @@
             @endif
         </div>
         <div class="col-lg-6 justify-content-center align-items-center">
-            <img src="/images/homelogo.png" class="img-fit" alt="">
+            <img src="/images/homelogo.png"   alt="">
         </div>
     </div>
-
-    <div class="row mt-4" id="func">
+    <div class="row mt-5" id="func">
         <p>
         <h3>Nos Fonctionnalitées</h3>
         </p>

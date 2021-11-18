@@ -14,4 +14,5 @@ class Graduated extends Model
     public function etudiant(){
         return $this->belongsTo(Etudiant::class);
     }
+
 }

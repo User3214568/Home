@@ -22,7 +22,7 @@
                {{number_format($result,2)}}
             </td>
             <td>
-                {{\App\Utilities\Validation::resultDesc($history->etudiant->formation,$result)}}
+                {{\App\Utilities\Validation::resultDesc($history->promotion->formation,$result)}}
             </td>
         </tr>
         @endif

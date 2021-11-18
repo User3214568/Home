@@ -131,7 +131,7 @@ $(document).ready(function () {
   });
 });
 
-function updateSemestre(element) {
+updateSemestre = function updateSemestre(element) {
   var sem = $("#" + $(element).attr('target'));
   semestres[$(element).attr('target').substring(3)] = [];
   sem.find("input:checkbox ").each(function (index, item) {
@@ -140,9 +140,9 @@ function updateSemestre(element) {
     }
   });
   syncsemestres();
-}
+};
 
-function deleteSemestre(element) {
+deleteSemestre = function deleteSemestre(element) {
   var index = $(element).attr('target').substring(3);
 
   if (semestres.last - 1 == index) {
@@ -153,7 +153,7 @@ function deleteSemestre(element) {
     semestres.last--;
     syncsemestres();
   }
-}
+};
 
 function syncsemestres() {
   var keys = Object.keys(semestres);
@@ -195,7 +195,7 @@ function init() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\formation.js */"./resources/js/formation.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/formation.js */"./resources/js/formation.js");
 
 
 /***/ })

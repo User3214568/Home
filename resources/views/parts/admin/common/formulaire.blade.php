@@ -37,12 +37,12 @@
 
             <select class="mt-4 border rounded-2 p-2 text-reset" name="{{ $field['name'] }}"
                 id="input_{{ $field['name'] }}" required>
-                <option value="{{ $field['value'] }}" {{ !isset($etudiant) || !isset($prof) ? 'selected' : '' }}
+                <option value="{{ $field['value'] }}" {{ (!isset($etudiant) && !isset($prof)) ? 'selected' : '' }}
                     disabled>
                     {{ $field['label'] }}</option>
                 @foreach ($field['items'] as $item)
                     <option value="{{ $item->id ?: $item->cin }}"
-                        {{ isset($etudiant) || (isset($prof) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
+                        {{ isset($etudiant) || (isset($prof) && isset($field['selected']) && $field['selected'] == ($item->id ?: $item->cin)) ? 'selected' : '' }}>
                         {{ $item->name ?: ($item->nom ?: $item->user->name()) }}
                     </option>
                 @endforeach

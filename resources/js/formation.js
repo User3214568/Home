@@ -37,50 +37,52 @@ $(document).ready(function () {
         syncsemestres()
     })
 })
-function updateSemestre(element) {
-    var sem = $("#" + $(element).attr('target'))
-    semestres[($(element).attr('target')).substring(3)] = []
+updateSemestre = function (element) {
+    var sem = $("#" + $(element).attr('target'));
+    semestres[$(element).attr('target').substring(3)] = [];
     sem.find("input:checkbox ").each(function (index, item) {
         if ($(item).prop('checked')) {
-            semestres[($(element).attr('target')).substring(3)].push($(item).val())
+            semestres[$(element).attr('target').substring(3)].push($(item).val());
         }
-    })
-    syncsemestres()
+    });
+    syncsemestres();
 }
-function deleteSemestre(element) {
-    var index = ($(element).attr('target')).substring(3)
-    if(semestres.last - 1 == index){
-        delete semestres[index]
-        $("#"+($(element).attr('target'))).slideUp(100,function(){
-            $("#"+($(element).attr('target'))).remove();
-        })
-        semestres.last--
-        syncsemestres()
+
+deleteSemestre = function (element) {
+    var index = $(element).attr('target').substring(3);
+
+    if (semestres.last - 1 == index) {
+        delete semestres[index];
+        $("#" + $(element).attr('target')).slideUp(100, function () {
+            $("#" + $(element).attr('target')).remove();
+        });
+        semestres.last--;
+        syncsemestres();
     }
 }
-function syncsemestres(){
+function syncsemestres() {
     var keys = Object.keys(semestres)
     var results = {}
-    keys.forEach(function(key){
-        if(key !== 'last'){
+    keys.forEach(function (key) {
+        if (key !== 'last') {
             results[key] = semestres[key]
         }
     })
     $("#semestres-data").val(JSON.stringify(results))
 }
-function init(){
+function init() {
 
     var keys = Object.keys(semestres)
-    if(keys.length == 0){
+    if (keys.length == 0) {
         semestres.last = 1
-    }else{
+    } else {
 
-        keys.forEach(function(key){
-            if(key !== 'last'){
+        keys.forEach(function (key) {
+            if (key !== 'last') {
                 var sem = $("#sem-template")
-                sem.find('input:checkbox').each(function(index,item){
-                    if(semestres[key].includes($(item).val())){
-                        $(item).prop('checked',true)
+                sem.find('input:checkbox').each(function (index, item) {
+                    if (semestres[key].includes($(item).val())) {
+                        $(item).prop('checked', true)
                     }
                 })
                 $("#add-semestre").click()

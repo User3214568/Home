@@ -8,6 +8,7 @@
             <th>Lieu de Naissance</th>
             <th>Numéro de Téléphone</th>
         </tr>
+        
         @foreach ($histories as $history)
         @if(isset($history->etudiant))
         <tr>
@@ -18,7 +19,13 @@
             <td>{{$history->etudiant->born_place}}</td>
             <td>{{$history->etudiant->user->phone}}</td>
         </tr>
+        @else
+        @php
+            dd($history)
+            
+        @endphp
         @endif
+
         @endforeach
     </table>
 

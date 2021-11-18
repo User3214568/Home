@@ -131,5 +131,5 @@ Route::middleware((['auth', 'type:1']))->group(function () {
 Route::middleware((['auth','type:2']))->group(function(){
     Route::get('/etudiant','EtudiantController@homepage')->name('etudiant.home');
     Route::get('/etudiant/results','EtudiantController@resultsPage')->name('etudiant.resultspage');
-    Route::get('etudiant/versements','etudiantController@versements')->name('etudiant.versements');
+    Route::get('etudiant/versements','EtudiantController@versements')->name('etudiant.versements');
 });

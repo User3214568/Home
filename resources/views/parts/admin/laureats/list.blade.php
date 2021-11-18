@@ -8,15 +8,15 @@
         <input type="text" id="etudiants-search" value="" name="name" class="form-control form-icon-trailing" />
         <label class="form-label" for="etudiants-search">Rechercher un Lauréat</label>
     </div>
-    <select id="etudiant-formation " class="col-12 col-sm-4 p-2">
+    <select id="etudiant-formation " class="col-12 col-sm-4  border rounded-2 p-2 text-reset">
         <option value="" selected disabled>Selectionner une Formation</option>
         @foreach ($au as $annee => $grads)
-            @foreach ($grads as $g)
-                <option value="{{ $g->formation->name }}">{{ $g->formation->name }}</option>
+            @foreach ($grads->groupBy('formation.name') as $name=>$g)
+                <option value="{{ $name }}">{{ $name }}</option>
             @endforeach
         @endforeach
     </select>
-    <select id="au-formation " class="col-12 col-sm-4 p-2">
+    <select id="au-formation " class="col-12 col-sm-4  border rounded-2 p-2 text-reset">
         <option value="" selected disabled>Selectionner une Année Universitaire</option>
         @foreach ($au as $annee => $g)
             <option value="{{ $annee }}">{{ $annee }}</option>

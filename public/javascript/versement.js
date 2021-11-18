@@ -156,7 +156,7 @@ var ListGesionnaire = function ListGesionnaire(routeExport, routeImport) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\versement.js */"./resources/js/versement.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/versement.js */"./resources/js/versement.js");
 
 
 /***/ })

@@ -45,8 +45,9 @@ class TrancheController extends Controller
     }
     public function update($id,Request $request){
         $tranche = Tranche::find($id);
-        if($tranche){
-            $tranche->update(array_merge($request->only(['etudiant_cin','date_vers','vers','ref']),['proved'=>isset($request['proved'])]));
+        $user = User::find($request->etudiant_cin);
+        if($tranche && $user){
+            $tranche->update(array_merge($request->only(['date_vers','vers','ref']),['etudiant_cin'=>$user->etudiant->cin,'proved'=>isset($request['proved'])]));
         }
         return Redirect::route('tranche.index');
     }

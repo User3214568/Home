@@ -113,7 +113,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\module-note.js */"./resources/js/module-note.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/module-note.js */"./resources/js/module-note.js");
 
 
 /***/ })

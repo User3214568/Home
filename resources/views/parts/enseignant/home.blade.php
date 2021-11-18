@@ -21,6 +21,12 @@
 </div>
 <div class="table-responsive mt-4">
     <h5>Mon Historique</h5>
+    @if (sizeof($affectations) <= 0)
+        <div class="p-3 mt-2 justify-content-center">
+            <div class="alert alert-info">Rien à afficher dans votre historique.</div>
+        </div>
+    @else
+        
     <div class="container">
         <ul class="timeline">
             @foreach ($affectations as $au=>$items)
@@ -40,14 +46,15 @@
                                     <td>{{$item->formation->name}}</td>
                                     <td>{{$item->somme}}</td>
                                 </tr>
-                              @endforeach
+                                @endforeach
                             </table>
                         </div>
                     </div>
                 </li>
-            @endforeach
-        </ul>
+                @endforeach
+            </ul>
     </div>
+    @endif
 </div>
 
 

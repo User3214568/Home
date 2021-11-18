@@ -89,13 +89,18 @@ class ExportResultatModule extends TemplateExport implements FromCollection,With
     }
     public function map($etudiant): array
     {
-        return [
-            $etudiant->user->first_name,
-            $etudiant->user->last_name,
-            $etudiant->user->cin,
-            $etudiant->born_date,
-            Validation::validateSessionModule($etudiant->cin,$this->module->id,$this->session)
-        ];
+        if($etudiant->hasSession($this->module->id,$this->session)){
+
+            return [
+                $etudiant->user->first_name,
+                $etudiant->user->last_name,
+                $etudiant->user->cin,
+                $etudiant->born_date,
+                Validation::validateSessionModule($etudiant->cin,$this->module->id,$this->session)
+            ];
+        }else{
+            return [];
+        }
     }
     public function columnWidths(): array
     {

@@ -143,7 +143,7 @@ function renderChart() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\asus\Desktop\Home\resources\js\depenses.js */"./resources/js/depenses.js");
+module.exports = __webpack_require__(/*! /home/fedorauser/pfa/resources/js/depenses.js */"./resources/js/depenses.js");
 
 
 /***/ })
