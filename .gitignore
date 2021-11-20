@@ -3,7 +3,6 @@
 /.scannerwork
 /public/storage
 /storage/*.key
-/vendor
 .env
 .env.backup
 .phpunit.result.cache
