@@ -60,7 +60,6 @@ class Handler extends ExceptionHandler
         if($exception instanceof CustomException){
             return response()->view('exception',['error'=>$exception->getMessage()]);
         }
-        return response()->view('error-db-off',['error'=>"L'application a racontré un problème",'disableNav'=>true]);
-        //return parent::render($request, $exception);
+        return response()->view('exception',['error'=>"Une Erreur à été survenu ".$exception->getMessage()]);        //return parent::render($request, $exception);
     }
 }
